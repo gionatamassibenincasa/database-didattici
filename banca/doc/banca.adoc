@@ -1,0 +1,98 @@
+`settore` (
+  **settore_id**: INTEGER
+, nome: varchar(20)
+)
+
+`filiale` (
+  **filiale_id**: INTEGER
+, nome: varchar(20)
+, indirizzo: varchar(30)
+, citta: varchar(20)
+, stato: varchar(2)
+, cap: varchar(12)
+)
+
+`dipendente` (
+  **dipendente_id**: INTEGER
+, nome: varchar(20)
+, cognome: varchar(20)
+, data_assunzione: date
+, data_fine_rapporto: date
+, __superiore_id__: INTEGER -> dipendente(dipendente_id)
+, __settore_id__: INTEGER -> settore(settore_id)
+, titolo: varchar(20)
+, __filiale_id__: INTEGER -> filiale(filiale_id)
+)
+
+`tipo_prodotto` (
+  **tipo_prodotto_cd**: varchar(10)
+, nome: varchar(50)
+)
+
+`prodotto` (
+  **prodotto_cd**: varchar(10)
+, nome: varchar(50)
+, __tipo_prodotto_cd__: varchar(10) -> tipo_prodotto(tipo_prodotto_cd)
+, data_proposta: date
+, data_cessazione: date
+)
+
+`cliente` (
+  **cliente_id**: INTEGER
+, codice_fiscale: varchar(12)
+, tipo_cliente: TEXT
+, indirizzo: varchar(30)
+, citta: varchar(20)
+, stato: varchar(20)
+, codice_postale: varchar(10)
+)
+
+`privato` (
+  **__cliente_id__**: INTEGER -> cliente(cliente_id)
+, nome: varchar(30)
+, cognome: varchar(30)
+, data_nascita: date
+)
+
+`societa` (
+  **__cliente_id__**: INTEGER -> cliente(cliente_id)
+, nome: varchar(40)
+, stato_id: varchar(10)
+, data_costituzione: date
+)
+
+`funzionario` (
+  **funzionario_id**: INTEGER
+, __cliente_id__: INTEGER -> societa(cliente_id)
+, nome: varchar(30)
+, cognome: varchar(30)
+, titolo: varchar(20)
+, data_assunzione: date
+, data_fine_rapporto: date
+)
+
+`conto` (
+  **conto_id**: INTEGER
+, __prodotto_cd__: varchar(10) -> prodotto(prodotto_cd)
+, __cliente_id__: INTEGER -> cliente(cliente_id)
+, data_apertura: date
+, data_chiusura: date
+, data_ultima_attivita: date
+, stato: TEXT
+, __filiale_apertura_id__: INTEGER -> filiale(filiale_id)
+, __dipedente_apertura_id__: INTEGER -> dipendente(dipendente_id)
+, saldo_disponibile: float(10,2)
+, saldo_contabile: float(10,2)
+)
+
+`movimento` (
+  **movimento_id**: INTEGER
+, data_movimento: datetime
+, __conto_id__: INTEGER -> conto(conto_id)
+, tipo_movimento_cd: TEXT
+, importo: REAL
+, __cassiere_dipendente_id__: INTEGER -> dipendente(dipendente_id)
+, __filiare_esecuzione_id__: INTEGER -> filiale(filiale_id)
+, data_disponibilita: datetime
+)
+
