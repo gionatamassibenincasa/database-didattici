@@ -1,0 +1,20 @@
+{
+  "name": "chinook-italiano",
+  "version": "1.0.0",
+  "description": "Traduzione in italiano della base di dati Chinook per SQLite",
+  "main": "daSqliteAdocumentazione.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "chinook",
+    "database",
+    "italiano"
+  ],
+  "author": "Gionata Massi",
+  "license": "ISC",
+  "dependencies": {
+    "better-sqlite3": "^7.5.0",
+    "yargs": "^17.4.0"
+  }
+}

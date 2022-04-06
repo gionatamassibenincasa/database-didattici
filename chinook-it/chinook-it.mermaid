@@ -1,0 +1,111 @@
+```mermaid
+classDiagram
+class Album {
+	AlbumId: INTEGER
+	Titolo: NVARCHAR(160)
+	ArtistaId: INTEGER
+}
+
+class Artista {
+	ArtistaId: INTEGER
+	Nome: NVARCHAR(120)
+}
+
+class Cliente {
+	ClienteId: INTEGER
+	Nome: NVARCHAR(40)
+	Cognome: NVARCHAR(20)
+	Societa: NVARCHAR(80)
+	Indirizzo: NVARCHAR(70)
+	Citta: NVARCHAR(40)
+	Stato: NVARCHAR(40)
+	Nazione: NVARCHAR(40)
+	CodicePostale: NVARCHAR(10)
+	Telefono: NVARCHAR(24)
+	Fax: NVARCHAR(24)
+	Email: NVARCHAR(60)
+	AssistenteId: INTEGER
+}
+
+class Dipendente {
+	DipendenteId: INTEGER
+	Cognome: NVARCHAR(20)
+	Nome: NVARCHAR(20)
+	Titolo: NVARCHAR(30)
+	Superiore: INTEGER
+	DataNascita: DATETIME
+	DataAssunzione: DATETIME
+	Indirizzo: NVARCHAR(70)
+	Citta: NVARCHAR(40)
+	Stato: NVARCHAR(40)
+	Nazione: NVARCHAR(40)
+	CodicePostale: NVARCHAR(10)
+	Telefono: NVARCHAR(24)
+	Fax: NVARCHAR(24)
+	Email: NVARCHAR(60)
+}
+
+class Genere {
+	GenereId: INTEGER
+	Nome: NVARCHAR(120)
+}
+
+class Fattura {
+	FatturaId: INTEGER
+	ClienteId: INTEGER
+	DataFatturazione: DATETIME
+	IndirizzoFatturazione: NVARCHAR(70)
+	CittaFatturazione: NVARCHAR(40)
+	StatoFatturazione: NVARCHAR(40)
+	NazioneFatturazione: NVARCHAR(40)
+	CodicePostaleFatturazione: NVARCHAR(10)
+	Totale: NUMERIC(10,2)
+}
+
+class LineaFattura {
+	LineaFatturaId: INTEGER
+	FatturaId: INTEGER
+	TracciaId: INTEGER
+	PrezzoUnitario: NUMERIC(10,2)
+	Quantita: INTEGER
+}
+
+class FormatoMultimediale {
+	FormatoMultimedialeId: INTEGER
+	Nome: NVARCHAR(120)
+}
+
+class Playlist {
+	PlaylistId: INTEGER
+	Nome: NVARCHAR(120)
+}
+
+class TracciaPlaylist {
+	PlaylistId: INTEGER
+	TracciaId: INTEGER
+}
+
+class Traccia {
+	TracciaId: INTEGER
+	Nome: NVARCHAR(200)
+	AlbumId: INTEGER
+	FormatoMultimedialeId: INTEGER
+	GenereId: INTEGER
+	Compositori: NVARCHAR(220)
+	Millisecondi: INTEGER
+	Byte: INTEGER
+	PrezzoUnitario: NUMERIC(10,2)
+}
+
+Album "*" -- "1" Artista : ArtistaId
+Cliente "*" -- "1" Dipendente : AssistenteId
+Dipendente "*" -- "1" Dipendente : Superiore
+Fattura "*" -- "1" Cliente : ClienteId
+LineaFattura "*" -- "1" Traccia : TracciaId
+LineaFattura "*" -- "1" Fattura : FatturaId
+TracciaPlaylist "*" -- "1" Traccia : TracciaId
+TracciaPlaylist "*" -- "1" Playlist : PlaylistId
+Traccia "*" -- "1" FormatoMultimediale : FormatoMultimedialeId
+Traccia "*" -- "1" Genere : GenereId
+Traccia "*" -- "1" Album : AlbumId
+```
