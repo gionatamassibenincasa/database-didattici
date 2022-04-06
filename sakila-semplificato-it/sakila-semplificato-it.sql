@@ -1,0 +1,284 @@
+PRAGMA foreign_keys=OFF;
+BEGIN TRANSACTION;
+CREATE TABLE attore (
+  attore_id INTEGER NOT NULL ,
+  nome TEXT NOT NULL,
+  cognome TEXT NOT NULL,
+  PRIMARY KEY (attore_id)
+);
+INSERT INTO attore VALUES(2,'NICK','WAHLBERG');
+INSERT INTO attore VALUES(3,'ED','CHASE');
+INSERT INTO attore VALUES(5,'JOHNNY','LOLLOBRIGIDA');
+INSERT INTO attore VALUES(10,'CHRISTIAN','GABLE');
+INSERT INTO attore VALUES(12,'KARL','BERRY');
+INSERT INTO attore VALUES(13,'UMA','WOOD');
+INSERT INTO attore VALUES(19,'BOB','FAWCETT');
+INSERT INTO attore VALUES(21,'KIRSTEN','PALTROW');
+INSERT INTO attore VALUES(22,'ELVIS','MARX');
+INSERT INTO attore VALUES(23,'SANDRA','KILMER');
+INSERT INTO attore VALUES(24,'CAMERON','STREEP');
+INSERT INTO attore VALUES(25,'KEVIN','BLOOM');
+INSERT INTO attore VALUES(26,'RIP','CRAWFORD');
+INSERT INTO attore VALUES(27,'JULIA','MCQUEEN');
+INSERT INTO attore VALUES(28,'WOODY','HOFFMAN');
+INSERT INTO attore VALUES(29,'ALEC','WAYNE');
+INSERT INTO attore VALUES(35,'JUDY','DEAN');
+INSERT INTO attore VALUES(36,'BURT','DUKAKIS');
+INSERT INTO attore VALUES(37,'VAL','BOLGER');
+INSERT INTO attore VALUES(40,'JOHNNY','CAGE');
+INSERT INTO attore VALUES(41,'JODIE','DEGENERES');
+INSERT INTO attore VALUES(43,'KIRK','JOVOVICH');
+INSERT INTO attore VALUES(45,'REESE','KILMER');
+INSERT INTO attore VALUES(51,'GARY','PHOENIX');
+INSERT INTO attore VALUES(52,'CARMEN','HUNT');
+INSERT INTO attore VALUES(53,'MENA','TEMPLE');
+INSERT INTO attore VALUES(55,'FAY','KILMER');
+INSERT INTO attore VALUES(57,'JUDE','CRUISE');
+INSERT INTO attore VALUES(59,'DUSTIN','TAUTOU');
+INSERT INTO attore VALUES(62,'JAYNE','NEESON');
+INSERT INTO attore VALUES(64,'RAY','JOHANSSON');
+INSERT INTO attore VALUES(68,'RIP','WINSLET');
+INSERT INTO attore VALUES(69,'KENNETH','PALTROW');
+INSERT INTO attore VALUES(75,'BURT','POSEY');
+INSERT INTO attore VALUES(77,'CARY','MCCONAUGHEY');
+INSERT INTO attore VALUES(81,'SCARLETT','DAMON');
+INSERT INTO attore VALUES(82,'WOODY','JOLIE');
+INSERT INTO attore VALUES(84,'JAMES','PITT');
+INSERT INTO attore VALUES(85,'MINNIE','ZELLWEGER');
+INSERT INTO attore VALUES(88,'KENNETH','PESCI');
+INSERT INTO attore VALUES(90,'SEAN','GUINESS');
+INSERT INTO attore VALUES(91,'CHRISTOPHER','BERRY');
+INSERT INTO attore VALUES(94,'KENNETH','TORN');
+INSERT INTO attore VALUES(96,'GENE','WILLIS');
+INSERT INTO attore VALUES(99,'JIM','MOSTEL');
+INSERT INTO attore VALUES(100,'SPENCER','DEPP');
+INSERT INTO attore VALUES(102,'WALTER','TORN');
+INSERT INTO attore VALUES(103,'MATTHEW','LEIGH');
+INSERT INTO attore VALUES(104,'PENELOPE','CRONYN');
+INSERT INTO attore VALUES(105,'SIDNEY','CROWE');
+INSERT INTO attore VALUES(108,'WARREN','NOLTE');
+INSERT INTO attore VALUES(109,'SYLVESTER','DERN');
+INSERT INTO attore VALUES(110,'SUSAN','DAVIS');
+INSERT INTO attore VALUES(114,'MORGAN','MCDORMAND');
+INSERT INTO attore VALUES(117,'RENEE','TRACY');
+INSERT INTO attore VALUES(119,'WARREN','JACKMAN');
+INSERT INTO attore VALUES(123,'JULIANNE','DENCH');
+INSERT INTO attore VALUES(126,'FRANCES','TOMEI');
+INSERT INTO attore VALUES(130,'GRETA','KEITEL');
+INSERT INTO attore VALUES(133,'RICHARD','PENN');
+INSERT INTO attore VALUES(136,'ED','MANSFIELD');
+INSERT INTO attore VALUES(137,'MORGAN','WILLIAMS');
+INSERT INTO attore VALUES(138,'LUCILLE','DEE');
+INSERT INTO attore VALUES(139,'EWAN','GOODING');
+INSERT INTO attore VALUES(142,'JADA','RYDER');
+INSERT INTO attore VALUES(144,'ANGELA','WITHERSPOON');
+INSERT INTO attore VALUES(146,'ALBERT','JOHANSSON');
+INSERT INTO attore VALUES(147,'FAY','WINSLET');
+INSERT INTO attore VALUES(155,'IAN','TANDY');
+INSERT INTO attore VALUES(157,'GRETA','MALDEN');
+INSERT INTO attore VALUES(159,'LAURA','BRODY');
+INSERT INTO attore VALUES(160,'CHRIS','DEPP');
+INSERT INTO attore VALUES(162,'OPRAH','KILMER');
+INSERT INTO attore VALUES(164,'HUMPHREY','WILLIS');
+INSERT INTO attore VALUES(167,'LAURENCE','BULLOCK');
+INSERT INTO attore VALUES(169,'KENNETH','HOFFMAN');
+INSERT INTO attore VALUES(170,'MENA','HOPPER');
+INSERT INTO attore VALUES(174,'MICHAEL','BENING');
+INSERT INTO attore VALUES(175,'WILLIAM','HACKMAN');
+INSERT INTO attore VALUES(176,'JON','CHASE');
+INSERT INTO attore VALUES(177,'GENE','MCKELLEN');
+INSERT INTO attore VALUES(180,'JEFF','SILVERSTONE');
+INSERT INTO attore VALUES(181,'MATTHEW','CARREY');
+INSERT INTO attore VALUES(185,'MICHAEL','BOLGER');
+INSERT INTO attore VALUES(187,'RENEE','BALL');
+INSERT INTO attore VALUES(188,'ROCK','DUKAKIS');
+INSERT INTO attore VALUES(191,'GREGORY','GOODING');
+INSERT INTO attore VALUES(192,'JOHN','SUVARI');
+INSERT INTO attore VALUES(194,'MERYL','ALLEN');
+INSERT INTO attore VALUES(197,'REESE','WEST');
+INSERT INTO attore VALUES(200,'THORA','TEMPLE');
+CREATE TABLE categoria (
+  categoria_id INTEGER NOT NULL,
+  nome TEXT NOT NULL,
+  PRIMARY KEY  (categoria_id)
+);
+INSERT INTO categoria VALUES(1,'Action');
+INSERT INTO categoria VALUES(2,'Animation');
+INSERT INTO categoria VALUES(4,'Classics');
+INSERT INTO categoria VALUES(5,'Comedy');
+INSERT INTO categoria VALUES(6,'Documentary');
+INSERT INTO categoria VALUES(8,'Family');
+INSERT INTO categoria VALUES(9,'Foreign');
+INSERT INTO categoria VALUES(11,'Horror');
+INSERT INTO categoria VALUES(12,'Music');
+INSERT INTO categoria VALUES(15,'Sports');
+CREATE TABLE film (
+  film_id INTEGER NOT NULL,
+  titolo TEXT NOT NULL,
+  descrizione TEXT DEFAULT NULL,
+  anno TEXT DEFAULT NULL,
+  PRIMARY KEY (film_id)
+);
+INSERT INTO film VALUES(2,'ACE GOLDFINGER','A Astounding Epistle of a Database Administrator And a Explorer who must Find a Car in Ancient China','2006');
+INSERT INTO film VALUES(3,'ADAPTATION HOLES','A Astounding Reflection of a Lumberjack And a Car who must Sink a Lumberjack in A Baloon Factory','2006');
+INSERT INTO film VALUES(4,'AFFAIR PREJUDICE','A Fanciful Documentary of a Frisbee And a Lumberjack who must Chase a Monkey in A Shark Tank','2006');
+INSERT INTO film VALUES(5,'AFRICAN EGG','A Fast-Paced Documentary of a Pastry Chef And a Dentist who must Pursue a Forensic Psychologist in The Gulf of Mexico','2006');
+INSERT INTO film VALUES(6,'AGENT TRUMAN','A Intrepid Panorama of a Robot And a Boy who must Escape a Sumo Wrestler in Ancient China','2006');
+INSERT INTO film VALUES(7,'AIRPLANE SIERRA','A Touching Saga of a Hunter And a Butler who must Discover a Butler in A Jet Boat','2006');
+INSERT INTO film VALUES(8,'AIRPORT POLLOCK','A Epic Tale of a Moose And a Girl who must Confront a Monkey in Ancient India','2006');
+INSERT INTO film VALUES(9,'ALABAMA DEVIL','A Thoughtful Panorama of a Database Administrator And a Mad Scientist who must Outgun a Mad Scientist in A Jet Boat','2006');
+INSERT INTO film VALUES(10,'ALADDIN CALENDAR','A Action-Packed Tale of a Man And a Lumberjack who must Reach a Feminist in Ancient China','2006');
+INSERT INTO film VALUES(11,'ALAMO VIDEOTAPE','A Boring Epistle of a Butler And a Cat who must Fight a Pastry Chef in A MySQL Convention','2006');
+INSERT INTO film VALUES(12,'ALASKA PHANTOM','A Fanciful Saga of a Hunter And a Pastry Chef who must Vanquish a Boy in Australia','2006');
+INSERT INTO film VALUES(13,'ALI FOREVER','A Action-Packed Drama of a Dentist And a Crocodile who must Battle a Feminist in The Canadian Rockies','2006');
+INSERT INTO film VALUES(14,'ALICE FANTASIA','A Emotional Drama of a A Shark And a Database Administrator who must Vanquish a Pioneer in Soviet Georgia','2006');
+INSERT INTO film VALUES(15,'ALIEN CENTER','A Brilliant Drama of a Cat And a Mad Scientist who must Battle a Feminist in A MySQL Convention','2006');
+INSERT INTO film VALUES(16,'ALLEY EVOLUTION','A Fast-Paced Drama of a Robot And a Composer who must Battle a Astronaut in New Orleans','2006');
+INSERT INTO film VALUES(17,'ALONE TRIP','A Fast-Paced Character Study of a Composer And a Dog who must Outgun a Boat in An Abandoned Fun House','2006');
+INSERT INTO film VALUES(18,'ALTER VICTORY','A Thoughtful Drama of a Composer And a Feminist who must Meet a Secret Agent in The Canadian Rockies','2006');
+INSERT INTO film VALUES(19,'AMADEUS HOLY','A Emotional Display of a Pioneer And a Technical Writer who must Battle a Man in A Baloon','2006');
+INSERT INTO film VALUES(20,'AMELIE HELLFIGHTERS','A Boring Drama of a Woman And a Squirrel who must Conquer a Student in A Baloon','2006');
+INSERT INTO film VALUES(21,'AMERICAN CIRCUS','A Insightful Drama of a Girl And a Astronaut who must Face a Database Administrator in A Shark Tank','2006');
+CREATE TABLE film_attore (
+  attore_id INTEGER NOT NULL,
+  film_id  INTEGER NOT NULL,
+  PRIMARY KEY  (attore_id,film_id),
+  CONSTRAINT fk_film_attore_attore FOREIGN KEY (attore_id) REFERENCES attore (attore_id) ON DELETE NO ACTION ON UPDATE CASCADE,
+  CONSTRAINT fk_film_attore_film FOREIGN KEY (film_id) REFERENCES film (film_id) ON DELETE NO ACTION ON UPDATE CASCADE
+);
+INSERT INTO film_attore VALUES(19,2);
+INSERT INTO film_attore VALUES(85,2);
+INSERT INTO film_attore VALUES(90,2);
+INSERT INTO film_attore VALUES(160,2);
+INSERT INTO film_attore VALUES(2,3);
+INSERT INTO film_attore VALUES(19,3);
+INSERT INTO film_attore VALUES(24,3);
+INSERT INTO film_attore VALUES(64,3);
+INSERT INTO film_attore VALUES(123,3);
+INSERT INTO film_attore VALUES(41,4);
+INSERT INTO film_attore VALUES(81,4);
+INSERT INTO film_attore VALUES(88,4);
+INSERT INTO film_attore VALUES(147,4);
+INSERT INTO film_attore VALUES(162,4);
+INSERT INTO film_attore VALUES(51,5);
+INSERT INTO film_attore VALUES(59,5);
+INSERT INTO film_attore VALUES(103,5);
+INSERT INTO film_attore VALUES(181,5);
+INSERT INTO film_attore VALUES(200,5);
+INSERT INTO film_attore VALUES(21,6);
+INSERT INTO film_attore VALUES(23,6);
+INSERT INTO film_attore VALUES(62,6);
+INSERT INTO film_attore VALUES(108,6);
+INSERT INTO film_attore VALUES(137,6);
+INSERT INTO film_attore VALUES(169,6);
+INSERT INTO film_attore VALUES(197,6);
+INSERT INTO film_attore VALUES(99,7);
+INSERT INTO film_attore VALUES(133,7);
+INSERT INTO film_attore VALUES(162,7);
+INSERT INTO film_attore VALUES(170,7);
+INSERT INTO film_attore VALUES(185,7);
+INSERT INTO film_attore VALUES(55,8);
+INSERT INTO film_attore VALUES(138,8);
+INSERT INTO film_attore VALUES(10,9);
+INSERT INTO film_attore VALUES(22,9);
+INSERT INTO film_attore VALUES(26,9);
+INSERT INTO film_attore VALUES(53,9);
+INSERT INTO film_attore VALUES(68,9);
+INSERT INTO film_attore VALUES(108,9);
+INSERT INTO film_attore VALUES(130,9);
+INSERT INTO film_attore VALUES(175,9);
+INSERT INTO film_attore VALUES(194,9);
+INSERT INTO film_attore VALUES(29,10);
+INSERT INTO film_attore VALUES(35,10);
+INSERT INTO film_attore VALUES(37,10);
+INSERT INTO film_attore VALUES(64,10);
+INSERT INTO film_attore VALUES(117,10);
+INSERT INTO film_attore VALUES(142,10);
+INSERT INTO film_attore VALUES(157,10);
+INSERT INTO film_attore VALUES(188,10);
+INSERT INTO film_attore VALUES(40,11);
+INSERT INTO film_attore VALUES(81,11);
+INSERT INTO film_attore VALUES(90,11);
+INSERT INTO film_attore VALUES(174,11);
+INSERT INTO film_attore VALUES(37,12);
+INSERT INTO film_attore VALUES(75,12);
+INSERT INTO film_attore VALUES(105,12);
+INSERT INTO film_attore VALUES(109,12);
+INSERT INTO film_attore VALUES(146,12);
+INSERT INTO film_attore VALUES(177,12);
+INSERT INTO film_attore VALUES(180,12);
+INSERT INTO film_attore VALUES(77,13);
+INSERT INTO film_attore VALUES(91,13);
+INSERT INTO film_attore VALUES(94,13);
+INSERT INTO film_attore VALUES(114,13);
+INSERT INTO film_attore VALUES(176,13);
+INSERT INTO film_attore VALUES(28,14);
+INSERT INTO film_attore VALUES(85,14);
+INSERT INTO film_attore VALUES(137,14);
+INSERT INTO film_attore VALUES(188,14);
+INSERT INTO film_attore VALUES(36,15);
+INSERT INTO film_attore VALUES(69,15);
+INSERT INTO film_attore VALUES(105,15);
+INSERT INTO film_attore VALUES(117,15);
+INSERT INTO film_attore VALUES(164,15);
+INSERT INTO film_attore VALUES(170,15);
+INSERT INTO film_attore VALUES(12,16);
+INSERT INTO film_attore VALUES(57,16);
+INSERT INTO film_attore VALUES(146,16);
+INSERT INTO film_attore VALUES(191,16);
+INSERT INTO film_attore VALUES(192,16);
+INSERT INTO film_attore VALUES(3,17);
+INSERT INTO film_attore VALUES(12,17);
+INSERT INTO film_attore VALUES(13,17);
+INSERT INTO film_attore VALUES(82,17);
+INSERT INTO film_attore VALUES(100,17);
+INSERT INTO film_attore VALUES(160,17);
+INSERT INTO film_attore VALUES(167,17);
+INSERT INTO film_attore VALUES(187,17);
+INSERT INTO film_attore VALUES(45,18);
+INSERT INTO film_attore VALUES(142,18);
+INSERT INTO film_attore VALUES(144,18);
+INSERT INTO film_attore VALUES(162,18);
+INSERT INTO film_attore VALUES(5,19);
+INSERT INTO film_attore VALUES(27,19);
+INSERT INTO film_attore VALUES(84,19);
+INSERT INTO film_attore VALUES(104,19);
+INSERT INTO film_attore VALUES(52,20);
+INSERT INTO film_attore VALUES(102,20);
+INSERT INTO film_attore VALUES(136,20);
+INSERT INTO film_attore VALUES(139,20);
+INSERT INTO film_attore VALUES(25,21);
+INSERT INTO film_attore VALUES(26,21);
+INSERT INTO film_attore VALUES(105,21);
+INSERT INTO film_attore VALUES(119,21);
+INSERT INTO film_attore VALUES(126,21);
+CREATE TABLE film_categoria (
+  film_id INTEGER NOT NULL,
+  categoria_id INTEGER  NOT NULL,
+  PRIMARY KEY (film_id, categoria_id),
+  CONSTRAINT fk_film_categoria_film FOREIGN KEY (film_id) REFERENCES film (film_id) ON DELETE NO ACTION ON UPDATE CASCADE,
+  CONSTRAINT fk_film_categoria_categoria FOREIGN KEY (categoria_id) REFERENCES categoria (categoria_id) ON DELETE NO ACTION ON UPDATE CASCADE
+);
+INSERT INTO film_categoria VALUES(2,11);
+INSERT INTO film_categoria VALUES(3,6);
+INSERT INTO film_categoria VALUES(4,11);
+INSERT INTO film_categoria VALUES(5,8);
+INSERT INTO film_categoria VALUES(6,9);
+INSERT INTO film_categoria VALUES(7,5);
+INSERT INTO film_categoria VALUES(8,11);
+INSERT INTO film_categoria VALUES(9,11);
+INSERT INTO film_categoria VALUES(10,15);
+INSERT INTO film_categoria VALUES(11,9);
+INSERT INTO film_categoria VALUES(12,12);
+INSERT INTO film_categoria VALUES(13,11);
+INSERT INTO film_categoria VALUES(14,4);
+INSERT INTO film_categoria VALUES(15,9);
+INSERT INTO film_categoria VALUES(16,9);
+INSERT INTO film_categoria VALUES(17,12);
+INSERT INTO film_categoria VALUES(18,2);
+INSERT INTO film_categoria VALUES(19,1);
+INSERT INTO film_categoria VALUES(20,12);
+INSERT INTO film_categoria VALUES(21,1);
+CREATE INDEX 'film_attore_film_id' ON 'film_attore'('film_id');
+CREATE INDEX 'film_categoria_categoria_id' ON 'film_categoria'('categoria_id');
+COMMIT;

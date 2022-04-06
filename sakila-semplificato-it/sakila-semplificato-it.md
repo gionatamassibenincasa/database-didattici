@@ -1,0 +1,5 @@
+**attore** (  **attore_id**: INTEGER, nome: TEXT, cognome: TEXT)
+**categoria** (  **categoria_id**: INTEGER, nome: TEXT)
+**film** (  **film_id**: INTEGER, titolo: TEXT, descrizione: TEXT, anno: TEXT)
+**film_attore** (  ***attore_id***: INTEGER -> attore(attore_id), ***film_id***: INTEGER -> film(film_id))
+**film_categoria** (  ***film_id***: INTEGER -> film(film_id), ***categoria_id***: INTEGER -> categoria(categoria_id))
