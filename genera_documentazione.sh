@@ -1,11 +1,11 @@
 #!/usr/bin/env bash
-SCRIPT=daSqliteAdocumentazione.js
-DB=chinook-it.sqlite
-OUTPUT=chinook-it
+SCRIPT=../daSqliteAdocumentazione.js
+OUTPUT=$1
+DB=${OUTPUT}.sqlite
 declare -a FORMATO=("adoc" "mermaid" "md")
 
 for FMT in "${FORMATO[@]}"; do
-  node ${SCRIPT} --db ${DB} --formato ${FMT} -o ${OUTPUT}.${FMT}
+  node ${SCRIPT} --db ${DB} --formato ${FMT} -o doc/${OUTPUT}.${FMT}
 done
 
 
