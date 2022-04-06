@@ -30,7 +30,7 @@
 , Cognome: NVARCHAR(20)
 , Nome: NVARCHAR(20)
 , Titolo: NVARCHAR(30)
-, __Superiore__: INTEGER -> Dipendente(DipendenteId)
+, __SuperioreId__: INTEGER -> Dipendente(DipendenteId)
 , DataNascita: DATETIME
 , DataAssunzione: DATETIME
 , Indirizzo: NVARCHAR(70)

@@ -32,7 +32,7 @@ class Dipendente {
 	Cognome: NVARCHAR(20)
 	Nome: NVARCHAR(20)
 	Titolo: NVARCHAR(30)
-	Superiore: INTEGER
+	SuperioreId: INTEGER
 	DataNascita: DATETIME
 	DataAssunzione: DATETIME
 	Indirizzo: NVARCHAR(70)
@@ -99,7 +99,7 @@ class Traccia {
 
 Album "*" -- "1" Artista : ArtistaId
 Cliente "*" -- "1" Dipendente : AssistenteId
-Dipendente "*" -- "1" Dipendente : Superiore
+Dipendente "*" -- "1" Dipendente : SuperioreId
 Fattura "*" -- "1" Cliente : ClienteId
 LineaFattura "*" -- "1" Traccia : TracciaId
 LineaFattura "*" -- "1" Fattura : FatturaId

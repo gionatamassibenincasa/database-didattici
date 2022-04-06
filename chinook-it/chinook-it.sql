@@ -106,7 +106,7 @@ CREATE TABLE [Dipendente]
     [Cognome] NVARCHAR(20)  NOT NULL,
     [Nome] NVARCHAR(20)  NOT NULL,
     [Titolo] NVARCHAR(30),
-    [Superiore] INTEGER,
+    [SuperioreId] INTEGER,
     [DataNascita] DATETIME,
     [DataAssunzione] DATETIME,
     [Indirizzo] NVARCHAR(70),
@@ -118,7 +118,7 @@ CREATE TABLE [Dipendente]
     [Fax] NVARCHAR(24),
     [Email] NVARCHAR(60),
     CONSTRAINT [PK_Dipendente] PRIMARY KEY  ([DipendenteId]),
-    FOREIGN KEY ([Superiore]) REFERENCES [Dipendente] ([DipendenteId]) 
+    FOREIGN KEY ([SuperioreId]) REFERENCES [Dipendente] ([DipendenteId]) 
 		ON DELETE NO ACTION ON UPDATE NO ACTION
 );
 
@@ -217,7 +217,7 @@ CREATE INDEX [IFK_AlbumArtistaId] ON [Album] ([ArtistaId]);
 
 CREATE INDEX [IFK_ClienteAssistenteId] ON [Cliente] ([AssistenteId]);
 
-CREATE INDEX [IFK_DipendenteSuperiore] ON [Dipendente] ([Superiore]);
+CREATE INDEX [IFK_DipendenteSuperioreId] ON [Dipendente] ([SuperioreId]);
 
 CREATE INDEX [IFK_FatturaClienteId] ON [Fattura] ([ClienteId]);
 
@@ -4399,13 +4399,13 @@ INSERT INTO [Traccia] ([TracciaId], [Nome], [AlbumId], [FormatoMultimedialeId], 
 INSERT INTO [Traccia] ([TracciaId], [Nome], [AlbumId], [FormatoMultimedialeId], [GenereId], [Compositori], [Millisecondi], [Byte], [PrezzoUnitario]) VALUES (3503, 'Koyaanisqatsi', 347, 2, 10, 'Philip Glass', 206005, 3305164, 0.99);
 
 INSERT INTO [Dipendente] ([DipendenteId], [Cognome], [Nome], [Titolo], [DataNascita], [DataAssunzione], [Indirizzo], [Citta], [Stato], [Nazione], [CodicePostale], [Telefono], [Fax], [Email]) VALUES (1, 'Adams', 'Andrew', 'General Manager', '1962-02-18 00:00:00', '2002-08-14 00:00:00', '11120 Jasper Ave NW', 'Edmonton', 'AB', 'Canada', 'T5K 2N1', '+1 (780) 428-9482', '+1 (780) 428-3457', 'andrew@chinookcorp.com');
-INSERT INTO [Dipendente] ([DipendenteId], [Cognome], [Nome], [Titolo], [Superiore], [DataNascita], [DataAssunzione], [Indirizzo], [Citta], [Stato], [Nazione], [CodicePostale], [Telefono], [Fax], [Email]) VALUES (2, 'Edwards', 'Nancy', 'Sales Manager', 1, '1958-12-08 00:00:00', '2002-05-01 00:00:00', '825 8 Ave SW', 'Calgary', 'AB', 'Canada', 'T2P 2T3', '+1 (403) 262-3443', '+1 (403) 262-3322', 'nancy@chinookcorp.com');
-INSERT INTO [Dipendente] ([DipendenteId], [Cognome], [Nome], [Titolo], [Superiore], [DataNascita], [DataAssunzione], [Indirizzo], [Citta], [Stato], [Nazione], [CodicePostale], [Telefono], [Fax], [Email]) VALUES (3, 'Peacock', 'Jane', 'Sales Support Agent', 2, '1973-08-29 00:00:00', '2002-04-01 00:00:00', '1111 6 Ave SW', 'Calgary', 'AB', 'Canada', 'T2P 5M5', '+1 (403) 262-3443', '+1 (403) 262-6712', 'jane@chinookcorp.com');
-INSERT INTO [Dipendente] ([DipendenteId], [Cognome], [Nome], [Titolo], [Superiore], [DataNascita], [DataAssunzione], [Indirizzo], [Citta], [Stato], [Nazione], [CodicePostale], [Telefono], [Fax], [Email]) VALUES (4, 'Park', 'Margaret', 'Sales Support Agent', 2, '1947-09-19 00:00:00', '2003-05-03 00:00:00', '683 10 Street SW', 'Calgary', 'AB', 'Canada', 'T2P 5G3', '+1 (403) 263-4423', '+1 (403) 263-4289', 'margaret@chinookcorp.com');
-INSERT INTO [Dipendente] ([DipendenteId], [Cognome], [Nome], [Titolo], [Superiore], [DataNascita], [DataAssunzione], [Indirizzo], [Citta], [Stato], [Nazione], [CodicePostale], [Telefono], [Fax], [Email]) VALUES (5, 'Johnson', 'Steve', 'Sales Support Agent', 2, '1965-03-03 00:00:00', '2003-10-17 00:00:00', '7727B 41 Ave', 'Calgary', 'AB', 'Canada', 'T3B 1Y7', '1 (780) 836-9987', '1 (780) 836-9543', 'steve@chinookcorp.com');
-INSERT INTO [Dipendente] ([DipendenteId], [Cognome], [Nome], [Titolo], [Superiore], [DataNascita], [DataAssunzione], [Indirizzo], [Citta], [Stato], [Nazione], [CodicePostale], [Telefono], [Fax], [Email]) VALUES (6, 'Mitchell', 'Michael', 'IT Manager', 1, '1973-07-01 00:00:00', '2003-10-17 00:00:00', '5827 Bowness Road NW', 'Calgary', 'AB', 'Canada', 'T3B 0C5', '+1 (403) 246-9887', '+1 (403) 246-9899', 'michael@chinookcorp.com');
-INSERT INTO [Dipendente] ([DipendenteId], [Cognome], [Nome], [Titolo], [Superiore], [DataNascita], [DataAssunzione], [Indirizzo], [Citta], [Stato], [Nazione], [CodicePostale], [Telefono], [Fax], [Email]) VALUES (7, 'King', 'Robert', 'IT Staff', 6, '1970-05-29 00:00:00', '2004-01-02 00:00:00', '590 Columbia Boulevard West', 'Lethbridge', 'AB', 'Canada', 'T1K 5N8', '+1 (403) 456-9986', '+1 (403) 456-8485', 'robert@chinookcorp.com');
-INSERT INTO [Dipendente] ([DipendenteId], [Cognome], [Nome], [Titolo], [Superiore], [DataNascita], [DataAssunzione], [Indirizzo], [Citta], [Stato], [Nazione], [CodicePostale], [Telefono], [Fax], [Email]) VALUES (8, 'Callahan', 'Laura', 'IT Staff', 6, '1968-01-09 00:00:00', '2004-03-04 00:00:00', '923 7 ST NW', 'Lethbridge', 'AB', 'Canada', 'T1H 1Y8', '+1 (403) 467-3351', '+1 (403) 467-8772', 'laura@chinookcorp.com');
+INSERT INTO [Dipendente] ([DipendenteId], [Cognome], [Nome], [Titolo], [SuperioreId], [DataNascita], [DataAssunzione], [Indirizzo], [Citta], [Stato], [Nazione], [CodicePostale], [Telefono], [Fax], [Email]) VALUES (2, 'Edwards', 'Nancy', 'Sales Manager', 1, '1958-12-08 00:00:00', '2002-05-01 00:00:00', '825 8 Ave SW', 'Calgary', 'AB', 'Canada', 'T2P 2T3', '+1 (403) 262-3443', '+1 (403) 262-3322', 'nancy@chinookcorp.com');
+INSERT INTO [Dipendente] ([DipendenteId], [Cognome], [Nome], [Titolo], [SuperioreId], [DataNascita], [DataAssunzione], [Indirizzo], [Citta], [Stato], [Nazione], [CodicePostale], [Telefono], [Fax], [Email]) VALUES (3, 'Peacock', 'Jane', 'Sales Support Agent', 2, '1973-08-29 00:00:00', '2002-04-01 00:00:00', '1111 6 Ave SW', 'Calgary', 'AB', 'Canada', 'T2P 5M5', '+1 (403) 262-3443', '+1 (403) 262-6712', 'jane@chinookcorp.com');
+INSERT INTO [Dipendente] ([DipendenteId], [Cognome], [Nome], [Titolo], [SuperioreId], [DataNascita], [DataAssunzione], [Indirizzo], [Citta], [Stato], [Nazione], [CodicePostale], [Telefono], [Fax], [Email]) VALUES (4, 'Park', 'Margaret', 'Sales Support Agent', 2, '1947-09-19 00:00:00', '2003-05-03 00:00:00', '683 10 Street SW', 'Calgary', 'AB', 'Canada', 'T2P 5G3', '+1 (403) 263-4423', '+1 (403) 263-4289', 'margaret@chinookcorp.com');
+INSERT INTO [Dipendente] ([DipendenteId], [Cognome], [Nome], [Titolo], [SuperioreId], [DataNascita], [DataAssunzione], [Indirizzo], [Citta], [Stato], [Nazione], [CodicePostale], [Telefono], [Fax], [Email]) VALUES (5, 'Johnson', 'Steve', 'Sales Support Agent', 2, '1965-03-03 00:00:00', '2003-10-17 00:00:00', '7727B 41 Ave', 'Calgary', 'AB', 'Canada', 'T3B 1Y7', '1 (780) 836-9987', '1 (780) 836-9543', 'steve@chinookcorp.com');
+INSERT INTO [Dipendente] ([DipendenteId], [Cognome], [Nome], [Titolo], [SuperioreId], [DataNascita], [DataAssunzione], [Indirizzo], [Citta], [Stato], [Nazione], [CodicePostale], [Telefono], [Fax], [Email]) VALUES (6, 'Mitchell', 'Michael', 'IT Manager', 1, '1973-07-01 00:00:00', '2003-10-17 00:00:00', '5827 Bowness Road NW', 'Calgary', 'AB', 'Canada', 'T3B 0C5', '+1 (403) 246-9887', '+1 (403) 246-9899', 'michael@chinookcorp.com');
+INSERT INTO [Dipendente] ([DipendenteId], [Cognome], [Nome], [Titolo], [SuperioreId], [DataNascita], [DataAssunzione], [Indirizzo], [Citta], [Stato], [Nazione], [CodicePostale], [Telefono], [Fax], [Email]) VALUES (7, 'King', 'Robert', 'IT Staff', 6, '1970-05-29 00:00:00', '2004-01-02 00:00:00', '590 Columbia Boulevard West', 'Lethbridge', 'AB', 'Canada', 'T1K 5N8', '+1 (403) 456-9986', '+1 (403) 456-8485', 'robert@chinookcorp.com');
+INSERT INTO [Dipendente] ([DipendenteId], [Cognome], [Nome], [Titolo], [SuperioreId], [DataNascita], [DataAssunzione], [Indirizzo], [Citta], [Stato], [Nazione], [CodicePostale], [Telefono], [Fax], [Email]) VALUES (8, 'Callahan', 'Laura', 'IT Staff', 6, '1968-01-09 00:00:00', '2004-03-04 00:00:00', '923 7 ST NW', 'Lethbridge', 'AB', 'Canada', 'T1H 1Y8', '+1 (403) 467-3351', '+1 (403) 467-8772', 'laura@chinookcorp.com');
 
 INSERT INTO [Cliente] ([ClienteId], [Nome], [Cognome], [Societa], [Indirizzo], [Citta], [Stato], [Nazione], [CodicePostale], [Telefono], [Fax], [Email], [AssistenteId]) VALUES (1, 'Luís', 'Gonçalves', 'Embraer - Empresa Brasileira de Aeronáutica S.A.', 'Av. Brigadeiro Faria Lima, 2170', 'São José dos Campos', 'SP', 'Brazil', '12227-000', '+55 (12) 3923-5555', '+55 (12) 3923-5566', 'luisg@embraer.com.br', 3);
 INSERT INTO [Cliente] ([ClienteId], [Nome], [Cognome], [Indirizzo], [Citta], [Nazione], [CodicePostale], [Telefono], [Email], [AssistenteId]) VALUES (2, 'Leonie', 'Köhler', 'Theodor-Heuss-Straße 34', 'Stuttgart', 'Germany', '70174', '+49 0711 2842222', 'leonekohler@surfeu.de', 5);
