@@ -1,0 +1,211 @@
+= Simulazione Esame di Stato: Consorzio del formaggio
+Gionata Massi <gionata.massi@savoiabenincasa.it>
+2022-02-15
+:source-highlighter: highlightjs
+
+== Problema
+
+Il Consorzio di un Formaggio Tipico riunisce più di 400 produttori, sparsi nella zona di produzione. Il Consiglio del Consorzio decide di operare un forte rinnovamento tecnologico al duplice scopo di monitorare al meglio la raccolta di latte e la produzione del formaggio, nonché avere un sito di riferimento che permetta al pubblico di cercare, identificare e "visitare" virtualmente i vari caseifici. A tale scopo intende realizzare un sistema informativo automatizzato che, per ogni caseificio, raccolga giornalmente i dati relativi alla quantità di latte lavorata, a quella impiegata nella produzione di formaggio, alla quantità di forme prodotte e al numero di quelle vendute. Per ciascuna forma venduta interessa conoscere la stagionatura raggiunta (12, 24, 30 o 36 mesi), nome e tipo dell'acquirente (grande distribuzione, grossisti, ecc.) e se è di prima o di seconda scelta (forma con difetti di produzione). Tali informazioni vengono inserite direttamente dai caseifici a fine giornata, mediante accesso ad un'area riservata dell'interfaccia Web del sito del consorzio. Ciascun caseificio ha un codice numerico di 4 cifre col quale vengono marchiate le forme, sulle quali viene anche apposta la data di produzione (mese ed anno) ed il numero progressivo all'interno del mese. Il Consorzio è anche interessato a registrare le informazioni relative ai luoghi di produzione, a partire dal nome, indirizzo, dati di geolocalizzazione, nome del titolare, ed una serie di fotografie del caseificio per realizzare un "tour virtuale". 
+
+=== Prima parte
+
+Fatte le opportune ipotesi aggiuntive, si sviluppi:
+
+* un'analisi della realtà di riferimento individuando le possibili soluzioni e si scelga quella più idonea a rispondere alle specifiche indicate;
+* il glossario di progetto;
+* lo schema concettuale della base di dati rappresentato dal diagramma delle classi di analisi indicante tutte le entità, le associazioni, gli attributi e le cardinalità;
+* lo schema logico della base comprensivo della descrizione delle relazioni, del tipo degli attributi, dei vincoli referenziali, di quelli di dominio e quelli intra-relazionali;
+* lo schema logico normalizzato, se diverso da quello sviluppato al punto precedente;
+* la definizione in linguaggio SQL delle relazioni della base di dati comprensive di vincoli di integrità referenziale e vincoli di dominio;
+* le seguenti interrogazioni espresse in linguaggio SQL:
+  1. Visualizzare il numero di forme prodotte da ciascun caseificio tra due date fornite;
+  2. Visualizzare la media del latte lavorato giornalmente nell'anno corrente dai caseifici provincia per provincia;
+  3. Visualizzare i dati del caseificio che ha venduto il maggior numero di forme di prima scelta in un anno impostato dall'utente
+  4. Visualizzare l'elenco dei caseifici che, in un certo periodo individuato da due date fornite dall'utente, hanno venduto meno di 10 forme di seconda scelta;
+* il progetto della Home page dell'interfaccia WEB che si intende proporre per la gestione del DataBase e delle gallerie di immagini dei luoghi di produzione;
+* la codifica in un linguaggio a scelta di un segmento significativo dell'applicazione Web che consente l'interazione con la base di dati.
+
+=== Seconda parte
+
+1. In relazione al tema proposto nella prima parte, si indichi come si intende affrontare la gestione degli accessi riservati agli operatori dei caseifici per lo svolgimento delle loro funzioni.
+2. In relazione al tema proposto nella prima parte, sviluppi la query SQL per calcolare la percentuale di forme di seconda scelta prodotte annualmente da un certo caseificio (sul totale delle forme da lui prodotte annualmente).
+3. Si illustri, anche servendosi di esempi, il concetto di __vista__ in una base di dati.
+4. Si descrivano le tipologie di linguaggi utilizzate in un DBMS.
+
+> Tratto da link:https://online.scuola.zanichelli.it/provatecnici/wp-content/uploads/Zanichelli_Soluzione_Simulazione_2Prova_Informatica.pdf[una simulazione dell'Esame di Stato]
+
+== Soluzione
+
+=== Progettazione concettuale
+
+==== Glossario di progetto
+
+
+==== Schema concettuale - diagramma delle classi
+
+[mermaid, target="class-diagram", format=png]   
+....
+classDiagram
+class Provincia {
+	sigla: TEXT
+	nome: TEXT
+}
+
+class Comune {
+	codice: TEXT
+	comune: TEXT
+	provincia: TEXT
+}
+
+class Caseificio {
+	codice: INTEGER
+	nome: TEXT
+	indirizzo: TEXT
+	comune: TEXT
+	latitudine: REAL
+	longitudine: REAL
+	titolare: TEXT
+}
+
+class Fotografia {
+	codice: INTEGER
+	codiceCaseificio: INTEGER
+	percorso: TEXT
+}
+
+class Raccolta {
+	codice: INTEGER
+	data: TEXT
+	quantita: REAL
+}
+
+class Forma {
+	codice: INTEGER
+	codiceCaseificio: INTEGER
+	data: TEXT
+	quantitaLatte: REAL
+	progressivo: INTEGER
+}
+
+class Acquirente {
+	nome: TEXT
+	tipo: TEXT
+}
+
+class Vendita {
+	codiceForma: INTEGER
+	acquirente: TEXT
+	data: TEXT
+	scelta: INTEGER
+	stagionatura: INTEGER
+}
+
+Comune "*" -- "1" Provincia : provincia
+Caseificio "*" -- "1" Comune : comune
+Fotografia "*" -- "1" Caseificio : codiceCaseificio
+Raccolta "*" -- "1" Caseificio : codice
+Forma "*" -- "1" Caseificio : codiceCaseificio
+Vendita "*" -- "1" Acquirente : acquirente
+Vendita "*" -- "1" Forma : codiceForma
+....
+
+=== Schema logico (relazionale)
+
+`Provincia` (
+  **sigla**: TEXT
+, nome: TEXT
+)
+
+`Comune` (
+  **codice**: TEXT
+, comune: TEXT
+, __provincia__: TEXT -> Provincia(sigla)
+)
+
+`Caseificio` (
+  **codice**: INTEGER
+, nome: TEXT
+, indirizzo: TEXT
+, __comune__: TEXT -> Comune(codice)
+, latitudine: REAL
+, longitudine: REAL
+, titolare: TEXT
+)
+
+`Fotografia` (
+  **codice**: INTEGER
+, __codiceCaseificio__: INTEGER -> Caseificio(codice)
+, percorso: TEXT
+)
+
+`Raccolta` (
+  **__codice__**: INTEGER -> Caseificio(codice)
+, **data**: TEXT
+, quantita: REAL
+)
+
+`Forma` (
+  **codice**: INTEGER
+, __codiceCaseificio__: INTEGER -> Caseificio(codice)
+, data: TEXT
+, quantitaLatte: REAL
+, progressivo: INTEGER
+)
+
+`Acquirente` (
+  **nome**: TEXT
+, tipo: TEXT
+)
+
+`Vendita` (
+  **__codiceForma__**: INTEGER -> Forma(codice)
+, __acquirente__: TEXT -> Acquirente(nome)
+, data: TEXT
+, scelta: INTEGER
+, stagionatura: INTEGER
+)
+
+
+=== SQL
+
+Su link:https://it.khanacademy.org/computer-programming/consorzio-del-formaggio/4627924041908224[Khan Academy]
+
+==== DDL - Creazione dello schema
+
+[source,sql]
+----
+include::01_schema.sql[]
+----
+
+==== DML - Inserimento dei dati di prova
+
+[source,sql]
+----
+include::02_data.sql[]
+----
+
+==== DQL - Query
+
+[source,sql]
+----
+include::03_viste.sql[]
+----
+
+==== Altre query
+
+[source,sql]
+----
+--
+-- Calcolo della stagionatura
+--
+SELECT V.codiceForma, 
+    CASE
+        WHEN julianday(V.data) - julianday(F.data) < 24 * 30 THEN 12
+        WHEN julianday(V.data) - julianday(F.data) < 30 * 30 THEN 24
+        WHEN julianday(V.data) - julianday(F.data) < 36 * 30 THEN 30
+        ELSE 36
+    END AS stagionaturaEffettiva
+FROM Vendita AS V
+    INNER JOIN Forma AS F
+        ON V.codiceForma = F.codice;
+----
