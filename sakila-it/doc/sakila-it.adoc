@@ -1,0 +1,137 @@
+`attore` (
+  **attore_id**: numeric
+, nome: VARCHAR(45)
+, cognome: VARCHAR(45)
+, ultima_modifica: TIMESTAMP
+)
+
+`nazione` (
+  **nazione_id**: SMALLINT
+, nazione: VARCHAR(50)
+, ultima_modifica: TIMESTAMP
+)
+
+`citta` (
+  **citta_id**: INT
+, citta: VARCHAR(50)
+, __nazione_id__: SMALLINT -> nazione(nazione_id)
+, ultima_modifica: TIMESTAMP
+)
+
+`indirizzo` (
+  **indirizzo_id**: INT
+, indirizzo: VARCHAR(50)
+, indirizzo2: VARCHAR(50)
+, quartiere: VARCHAR(20)
+, __citta_id__: INT -> citta(citta_id)
+, codice_postale: VARCHAR(10)
+, telefono: VARCHAR(20)
+, ultima_modifica: TIMESTAMP
+)
+
+`lingua` (
+  **lingua_id**: SMALLINT
+, nome: CHAR(20)
+, ultima_modifica: TIMESTAMP
+)
+
+`categoria` (
+  **categoria_id**: SMALLINT
+, nome: VARCHAR(25)
+, ultima_modifica: TIMESTAMP
+)
+
+`cliente` (
+  **cliente_id**: INT
+, __negozio_id__: INT -> negozio(negozio_id)
+, nome: VARCHAR(45)
+, cognome: VARCHAR(45)
+, email: VARCHAR(50)
+, __indirizzo_id__: INT -> indirizzo(indirizzo_id)
+, attivo: CHAR(1)
+, data_creazione: TIMESTAMP
+, ultima_modifica: TIMESTAMP
+)
+
+`film` (
+  **film_id**: INT
+, titolo: VARCHAR(255)
+, descrizione: BLOB SUB_TYPE TEXT
+, anno_uscita: VARCHAR(4)
+, __lingua_id__: SMALLINT -> lingua(lingua_id)
+, __lingua_originale_id__: SMALLINT -> lingua(lingua_id)
+, durata_noleggio: SMALLINT
+, canone_noleggio: DECIMAL(4,2)
+, durata: SMALLINT
+, costo_rimpiazzo: DECIMAL(5,2)
+, valutazione: VARCHAR(10)
+, caratteristiche_particolari: VARCHAR(100)
+, ultima_modifica: TIMESTAMP
+)
+
+`film_attore` (
+  **__attore_id__**: INT -> attore(attore_id)
+, **__film_id__**: INT -> film(film_id)
+, ultima_modifica: TIMESTAMP
+)
+
+`film_categoria` (
+  **__film_id__**: INT -> film(film_id)
+, **__categoria_id__**: SMALLINT -> categoria(categoria_id)
+, ultima_modifica: TIMESTAMP
+)
+
+`film_testo` (
+  **film_id**: SMALLINT
+, titolo: VARCHAR(255)
+, descrizione: BLOB SUB_TYPE TEXT
+)
+
+`inventario` (
+  **inventario_id**: INT
+, __film_id__: INT -> film(film_id)
+, __negozio_id__: INT -> negozio(negozio_id)
+, ultima_modifica: TIMESTAMP
+)
+
+`personale` (
+  **personale_id**: SMALLINT
+, nome: VARCHAR(45)
+, cognome: VARCHAR(45)
+, __indirizzo_id__: INT -> indirizzo(indirizzo_id)
+, fotografia: BLOB
+, email: VARCHAR(50)
+, __negozio_id__: INT -> negozio(negozio_id)
+, attivo: SMALLINT
+, username: VARCHAR(16)
+, password: VARCHAR(40)
+, ultima_modifica: TIMESTAMP
+)
+
+`negozio` (
+  **negozio_id**: INT
+, __responsabile_personale_id__: SMALLINT -> personale(personale_id)
+, __indirizzo_id__: INT -> indirizzo(indirizzo_id)
+, ultima_modifica: TIMESTAMP
+)
+
+`pagamento` (
+  **pagamento_id**: INT
+, __cliente_id__: INT -> cliente(cliente_id)
+, __personale_id__: SMALLINT -> personale(personale_id)
+, __noleggio_id__: INT -> noleggio(noleggio_id)
+, importo: DECIMAL(5,2)
+, data_pagamento: TIMESTAMP
+, ultima_modifica: TIMESTAMP
+)
+
+`noleggio` (
+  **noleggio_id**: INT
+, data_noleggio: TIMESTAMP
+, __inventario_id__: INT -> inventario(inventario_id)
+, __cliente_id__: INT -> cliente(cliente_id)
+, data_restituzione: TIMESTAMP
+, __personale_id__: SMALLINT -> personale(personale_id)
+, ultima_modifica: TIMESTAMP
+)
+
