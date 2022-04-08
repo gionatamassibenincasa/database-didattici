@@ -1,0 +1,156 @@
+= Chinook
+
+
+== Album
+
+La tabella `Album` memorizza i dati sull'elenco di tracce.
+Ogni album è realizzato da un artista.
+Un artista può realizzare più album.
+
+`Album` (
+  **AlbumId**: INTEGER
+, Titolo: NVARCHAR(160)
+, __ArtistaId__: INTEGER -> Artista(ArtistaId)
+)
+
+== Artista
+
+La tabella `Artista` memorizza i dati degli artisti.
+Essa contiene soltato il nome dell'artista e il suo identificatore.
+
+`Artista` (
+  **ArtistaId**: INTEGER
+, Nome: NVARCHAR(120)
+)
+
+== Cliente
+
+La tabella `Cliente` memorizza i dati dei clienti.
+     
+`Cliente` (
+  **ClienteId**: INTEGER
+, Nome: NVARCHAR(40)
+, Cognome: NVARCHAR(20)
+, Societa: NVARCHAR(80)
+, Indirizzo: NVARCHAR(70)
+, Citta: NVARCHAR(40)
+, Stato: NVARCHAR(40)
+, Nazione: NVARCHAR(40)
+, CodicePostale: NVARCHAR(10)
+, Telefono: NVARCHAR(24)
+, Fax: NVARCHAR(24)
+, Email: NVARCHAR(60)
+, __AssistenteId__: INTEGER -> Dipendente(DipendenteId)
+)
+
+== Dipendente
+
+La tabella `Dipendente` memorizza i dati degli impiegati, come l'identificatore,
+il cognome, il nome, etc.
+Un dipendente può avere un superiore che è memorizzato nella stessa tabella.
+
+`Dipendente` (
+  **DipendenteId**: INTEGER
+, Cognome: NVARCHAR(20)
+, Nome: NVARCHAR(20)
+, Titolo: NVARCHAR(30)
+, __SuperioreId__: INTEGER -> Dipendente(DipendenteId)
+, DataNascita: DATETIME
+, DataAssunzione: DATETIME
+, Indirizzo: NVARCHAR(70)
+, Citta: NVARCHAR(40)
+, Stato: NVARCHAR(40)
+, Nazione: NVARCHAR(40)
+, CodicePostale: NVARCHAR(10)
+, Telefono: NVARCHAR(24)
+, Fax: NVARCHAR(24)
+, Email: NVARCHAR(60)
+)
+
+== Genere
+
+La tabella `Genere` memorizza il tipo di musica come ad esempio rock, jazz, metal, etc.
+
+`Genere` (
+  **GenereId**: INTEGER
+, Nome: NVARCHAR(120)
+)
+
+
+== Fattura
+
+La tabella `Fattura` memorizza la sola intestazione di una fattura.
+I dati tabellari sono invece memorizzati nella tabella `LineaFattura`.
+
+`Fattura` (
+  **FatturaId**: INTEGER
+, __ClienteId__: INTEGER -> Cliente(ClienteId)
+, DataFatturazione: DATETIME
+, IndirizzoFatturazione: NVARCHAR(70)
+, CittaFatturazione: NVARCHAR(40)
+, StatoFatturazione: NVARCHAR(40)
+, NazioneFatturazione: NVARCHAR(40)
+, CodicePostaleFatturazione: NVARCHAR(10)
+, Totale: NUMERIC(10,2)
+)
+
+
+== LineaFattura
+
+La tabella `LineaFattura` contiene i dati tabellari delle fatture.
+
+`LineaFattura` (
+  **LineaFatturaId**: INTEGER
+, __FatturaId__: INTEGER -> Fattura(FatturaId)
+, __TracciaId__: INTEGER -> Traccia(TracciaId)
+, PrezzoUnitario: NUMERIC(10,2)
+, Quantita: INTEGER
+)
+
+== FormatoMultimediale
+
+La tabella `FormatoMultimediale` memorizza i formati dei file multimediali come MPEG audio e AAC audio files.
+
+`FormatoMultimediale` (
+  **FormatoMultimedialeId**: INTEGER
+, Nome: NVARCHAR(120)
+)
+
+== Playlist
+
+La tabella `Playlist` contiene il nome e l'identificatore di una playlist.
+
+`Playlist` (
+  **PlaylistId**: INTEGER
+, Nome: NVARCHAR(120)
+)
+
+== TracciaPlaylist
+
+La playlist contiene un elenco di tracce.
+Ogni traccia può appartenere a più playlist.
+L'associazione tra le playlist e le tracce è del tipo molti a molti.
+La tabella `TracciaPlaylist` riflette questa associazione.
+
+`TracciaPlaylist` (
+  **__PlaylistId__**: INTEGER -> Playlist(PlaylistId)
+, **__TracciaId__**: INTEGER -> Traccia(TracciaId)
+)
+
+== Traccia
+
+La tabella `Traccia` memorizza i dati delle canzoni o comunque delle tracce audio.
+Ogni traccia appartiene ad un album.
+
+`Traccia` (
+  **TracciaId**: INTEGER
+, Nome: NVARCHAR(200)
+, __AlbumId__: INTEGER -> Album(AlbumId)
+, __FormatoMultimedialeId__: INTEGER -> FormatoMultimediale(FormatoMultimedialeId)
+, __GenereId__: INTEGER -> Genere(GenereId)
+, Compositori: NVARCHAR(220)
+, Millisecondi: INTEGER
+, Byte: INTEGER
+, PrezzoUnitario: NUMERIC(10,2)
+)
+
