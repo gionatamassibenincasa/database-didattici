@@ -1,0 +1,65 @@
+`categoria` (
+  **id_categoria**: INTEGER
+, nome: TEXT
+, descrizione: TEXT
+)
+
+`cliente` (
+  **id_cliente**: INTEGER
+, azienda: TEXT
+, referente: TEXT
+, indirizzo: TEXT
+, citta: TEXT
+, cap: TEXT
+, nazione: TEXT
+)
+
+`venditore` (
+  **id_venditore**: INTEGER
+, cognome: TEXT
+, nome: TEXT
+, data: DATE
+, foto: TEXT
+, note: MEMO
+)
+
+`spedizioniere` (
+  **id_spedizioniere**: INTEGER
+, nome: TEXT
+, telefono: TEXT
+)
+
+`ordine` (
+  **id_ordine**: INTEGER
+, __id_cliente__: INT -> cliente(id_cliente)
+, __id_venditore__: INT -> venditore(id_venditore)
+, data_ordine: DATE
+, __id_spedizioniere__: INT -> spedizioniere(id_spedizioniere)
+)
+
+`composizione` (
+  __id_ordine__: INT -> ordine(id_ordine)
+, __id_prodotto__: INT -> prodotto(id_prodotto)
+, quantita: INT
+)
+
+`fornitore` (
+  **id_fornitore**: INTEGER
+, azienda: TEXT
+, referente: TEXT
+, indirizzo: TEXT
+, citta: TEXT
+, cap: TEXT
+, nazione: TEXT
+, telefono: TEXT
+)
+
+`prodotto` (
+  **id_prodotto**: INTEGER
+, nome: TEXT
+, __id_fornitore__: INT -> fornitore(id_fornitore)
+, __id_categoria__: INT -> categoria(id_categoria)
+, formato: TEXT
+, prezzo: MONEY
+)
+

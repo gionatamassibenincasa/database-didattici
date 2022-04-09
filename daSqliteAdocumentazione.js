@@ -25,7 +25,7 @@ const argv = yargs
 console.log("DATABASE: ", argv.database);
 const db = new Database(argv.database, {});
 const tablesStmt = db.prepare(
-  "SELECT * FROM sqlite_schema WHERE type = 'table'"
+  "SELECT * FROM sqlite_schema WHERE type = 'table' AND tbl_name <> 'sqlite_sequence'"
 );
 let tables = [];
 let tableIndex = [];

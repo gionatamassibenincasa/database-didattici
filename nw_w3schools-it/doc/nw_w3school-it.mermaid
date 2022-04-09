@@ -1,0 +1,75 @@
+```mermaid
+classDiagram
+class categoria {
+	id_categoria: INTEGER
+	nome: TEXT
+	descrizione: TEXT
+}
+
+class cliente {
+	id_cliente: INTEGER
+	azienda: TEXT
+	referente: TEXT
+	indirizzo: TEXT
+	citta: TEXT
+	cap: TEXT
+	nazione: TEXT
+}
+
+class venditore {
+	id_venditore: INTEGER
+	cognome: TEXT
+	nome: TEXT
+	data: DATE
+	foto: TEXT
+	note: MEMO
+}
+
+class spedizioniere {
+	id_spedizioniere: INTEGER
+	nome: TEXT
+	telefono: TEXT
+}
+
+class ordine {
+	id_ordine: INTEGER
+	id_cliente: INT
+	id_venditore: INT
+	data_ordine: DATE
+	id_spedizioniere: INT
+}
+
+class composizione {
+	id_ordine: INT
+	id_prodotto: INT
+	quantita: INT
+}
+
+class fornitore {
+	id_fornitore: INTEGER
+	azienda: TEXT
+	referente: TEXT
+	indirizzo: TEXT
+	citta: TEXT
+	cap: TEXT
+	nazione: TEXT
+	telefono: TEXT
+}
+
+class prodotto {
+	id_prodotto: INTEGER
+	nome: TEXT
+	id_fornitore: INT
+	id_categoria: INT
+	formato: TEXT
+	prezzo: MONEY
+}
+
+ordine "*" -- "1" spedizioniere : id_spedizioniere
+ordine "*" -- "1" venditore : id_venditore
+ordine "*" -- "1" cliente : id_cliente
+composizione "*" -- "1" prodotto : id_prodotto
+composizione "*" -- "1" ordine : id_ordine
+prodotto "*" -- "1" categoria : id_categoria
+prodotto "*" -- "1" fornitore : id_fornitore
+```
