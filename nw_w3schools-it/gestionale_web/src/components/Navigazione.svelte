@@ -17,7 +17,7 @@
 
 <Navbar color="light" light expand="md">
   <NavbarBrand href="/">Sistema Informativo Aziendale (SIA)</NavbarBrand>
-  <Collapse navbar expand="md">
+  <!--Collapse navbar expand="md"-->
     <Nav class="ms-auto" navbar>
       <NavItem>
         <Form method="get">
@@ -35,5 +35,5 @@
         </Form>
       </NavItem>
     </Nav>
-  </Collapse>
+  <!--/Collapse-->
 </Navbar>
