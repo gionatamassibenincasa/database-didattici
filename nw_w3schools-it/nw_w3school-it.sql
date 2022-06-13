@@ -189,7 +189,7 @@ INSERT INTO
    cliente (azienda, referente, indirizzo, citta, cap, nazione) 
 VALUES
    (
-      "Bon app\'","Laurence Lebihans","12, rue des Bouchers","Marseille","13008","France");
+      "Bon app'","Laurence Lebihans","12, rue des Bouchers","Marseille","13008","France");
  
       INSERT INTO
          cliente (azienda, referente, indirizzo, citta, cap, nazione) 
@@ -202,7 +202,7 @@ INSERT INTO
    cliente (azienda, referente, indirizzo, citta, cap, nazione) 
 VALUES
    (
-      "B\'s Beverages","Victoria Ashworth","Fauntleroy Circus","London","EC2 5NT","UK");
+      "B's Beverages","Victoria Ashworth","Fauntleroy Circus","London","EC2 5NT","UK");
  
       INSERT INTO
          cliente (azienda, referente, indirizzo, citta, cap, nazione) 
@@ -404,13 +404,13 @@ INSERT INTO
    cliente (azienda, referente, indirizzo, citta, cap, nazione) 
 VALUES
    (
-      "La corne d\'abondance","Daniel Tonini","67, avenue de l\'Europe","Versailles","78000","France");
+      "La corne d'abondance","Daniel Tonini","67, avenue de l'Europe","Versailles","78000","France");
  
       INSERT INTO
          cliente (azienda, referente, indirizzo, citta, cap, nazione) 
       VALUES
          (
-            "La maison d\'Asie","Annette Roulet","1 rue Alsace-Lorraine","Toulouse","31000","France");
+            "La maison d'Asie","Annette Roulet","1 rue Alsace-Lorraine","Toulouse","31000","France");
  
             INSERT INTO
                cliente (azienda, referente, indirizzo, citta, cap, nazione) 
@@ -437,7 +437,7 @@ INSERT INTO
    cliente (azienda, referente, indirizzo, citta, cap, nazione) 
 VALUES
    (
-      "Let\'s Stop N Shop","Jaime Yorres","87 Polk St. Suite 5","San Francisco","94117","USA");
+      "Let's Stop N Shop","Jaime Yorres","87 Polk St. Suite 5","San Francisco","94117","USA");
  
       INSERT INTO
          cliente (azienda, referente, indirizzo, citta, cap, nazione) 
@@ -695,7 +695,7 @@ INSERT INTO
    cliente (azienda, referente, indirizzo, citta, cap, nazione) 
 VALUES
    (
-      "Trail\'s Head Gourmet Provisioners","Helvetius Nagy","722 DaVinci Blvd.","Kirkland","98034","USA");
+      "Trail's Head Gourmet Provisioners","Helvetius Nagy","722 DaVinci Blvd.","Kirkland","98034","USA");
  
       INSERT INTO
          cliente (azienda, referente, indirizzo, citta, cap, nazione) 
@@ -715,7 +715,7 @@ INSERT INTO
    cliente (azienda, referente, indirizzo, citta, cap, nazione) 
 VALUES
    (
-      "Vins et alcools Chevalier", "Paul Henriot", "59 rue de l\'Abbaye","Reims","51100","France");
+      "Vins et alcools Chevalier", "Paul Henriot", "59 rue de l'Abbaye","Reims","51100","France");
  
       INSERT INTO
          cliente (azienda, referente, indirizzo, citta, cap, nazione) 
@@ -766,7 +766,7 @@ VALUES
    (
       "Davolio", "Nancy", "1968 - 12 - 08", "EmpID1.pic", "Education includes a BA in psychology 
    from
-      Colorado State University. She also completed (The Art of the Cold Call). Nancy is a member of \'Toastmasters International\'.");
+      Colorado State University. She also completed (The Art of the Cold Call). Nancy is a member of 'Toastmasters International'.");
  
       INSERT INTO
          venditore (cognome, nome, data, foto, note) 
@@ -819,14 +819,14 @@ VALUES
    then
       returned to his permanent post in London, 
    where
-      he was promoted to sales manager. Mr. Buchanan has completed the courses \'Successful telefonoemarketing\' and \'International Sales Management\'. He is fluent in French.");
+      he was promoted to sales manager. Mr. Buchanan has completed the courses 'Successful telefonoemarketing' and 'International Sales Management'. He is fluent in French.");
  
       INSERT INTO
          venditore (cognome, nome, data, foto, note) 
       VALUES
          (
             "Suyama", "Michael", "1963 - 07 - 02", "EmpID6.pic", "Michael is a graduate of Sussex University (MA, economics) 
-            and the University of California at Los Angeles (MBA, marketing). He has also taken the courses \'Multi-Cultural Selling\' and \'Time Management for the Sales Professional\'. He is fluent in Japanese and can read and write French, Portuguese, and Spanish.");
+            and the University of California at Los Angeles (MBA, marketing). He has also taken the courses 'Multi-Cultural Selling' and 'Time Management for the Sales Professional'. He is fluent in Japanese and can read and write French, Portuguese, and Spanish.");
  
             INSERT INTO
                venditore (cognome, nome, data, foto, note) 
@@ -836,7 +836,7 @@ VALUES
                   and traveled extensively before completing his degree in English at the University of Michigan 
                   and 
                then
-                  joining the company. After completing a course entitled \'Selling in Europe\', he was transferred to the London office.");
+                  joining the company. After completing a course entitled 'Selling in Europe', he was transferred to the London office.");
  
                   INSERT INTO
                      venditore (cognome, nome, data, foto, note) 
@@ -5889,25 +5889,25 @@ INSERT INTO
    prodotto (id_prodotto, nome, id_fornitore, id_categoria, formato, prezzo) 
 VALUES
    (
-      4, "Chef Anton\'s Cajun Seasoning",2,2,"48 - 6 oz jars",22);
+      4, "Chef Anton's Cajun Seasoning",2,2,"48 - 6 oz jars",22);
  
       INSERT INTO
          prodotto (id_prodotto, nome, id_fornitore, id_categoria, formato, prezzo) 
       VALUES
          (
-            5, "Chef Anton\'s Gumbo Mix",2,2,"36 boxes",21.35);
+            5, "Chef Anton's Gumbo Mix",2,2,"36 boxes",21.35);
  
             INSERT INTO
                prodotto (id_prodotto, nome, id_fornitore, id_categoria, formato, prezzo) 
             VALUES
                (
-                  6, "Grandma\'s Boysenberry Spread",3,2,"12 - 8 oz jars",25);
+                  6, "Grandma's Boysenberry Spread",3,2,"12 - 8 oz jars",25);
  
                   INSERT INTO
                      prodotto (id_prodotto, nome, id_fornitore, id_categoria, formato, prezzo) 
                   VALUES
                      (
-                        7, "Uncle Bob\'s Organic Dried Pears",3,7,"12 - 1 lb pkgs.",30);
+                        7, "Uncle Bob's Organic Dried Pears",3,7,"12 - 1 lb pkgs.",30);
  
                         INSERT INTO
                            prodotto (id_prodotto, nome, id_fornitore, id_categoria, formato, prezzo) 
@@ -5997,19 +5997,19 @@ INSERT INTO
    prodotto (id_prodotto, nome, id_fornitore, id_categoria, formato, prezzo) 
 VALUES
    (
-      20, "Sir Rodney\'s Marmalade",8,3,"30 gift boxes",81);
+      20, "Sir Rodney's Marmalade",8,3,"30 gift boxes",81);
  
       INSERT INTO
          prodotto (id_prodotto, nome, id_fornitore, id_categoria, formato, prezzo) 
       VALUES
          (
-            21, "Sir Rodney\'s Scones",8,3,"24 pkgs. x 4 pieces",10);
+            21, "Sir Rodney's Scones",8,3,"24 pkgs. x 4 pieces",10);
  
             INSERT INTO
                prodotto (id_prodotto, nome, id_fornitore, id_categoria, formato, prezzo) 
             VALUES
                (
-                  22, "Gustaf\'s Knäckebröd",9,5,"24 - 500 g pkgs.",21);
+                  22, "Gustaf's Knäckebröd",9,5,"24 - 500 g pkgs.",21);
  
                   INSERT INTO
                      prodotto (id_prodotto, nome, id_fornitore, id_categoria, formato, prezzo) 
@@ -6141,7 +6141,7 @@ INSERT INTO
    prodotto (id_prodotto, nome, id_fornitore, id_categoria, formato, prezzo) 
 VALUES
    (
-      41, "Jack\'s New England Clam Chowder",19,8,"12 - 12 oz cans",9.65);
+      41, "Jack's New England Clam Chowder",19,8,"12 - 12 oz cans",9.65);
  
       INSERT INTO
          prodotto (id_prodotto, nome, id_fornitore, id_categoria, formato, prezzo) 
@@ -6280,7 +6280,7 @@ INSERT INTO
    prodotto (id_prodotto, nome, id_fornitore, id_categoria, formato, prezzo) 
 VALUES
    (
-      61, "Sirop d\'érable",29,2,"24 - 500 ml bottles",28.5);
+      61, "Sirop d'érable",29,2,"24 - 500 ml bottles",28.5);
  
       INSERT INTO
          prodotto (id_prodotto, nome, id_fornitore, id_categoria, formato, prezzo) 
@@ -6435,7 +6435,7 @@ INSERT INTO
    fornitore (id_fornitore, azienda, referente, indirizzo, citta, cap, nazione, telefono) 
 VALUES
    (
-      3, "Grandma Kelly\'s Homestead","Regina Murphy","707 Oxford Rd.","Ann Arbor","48104","USA","(313) 555-5735"); 
+      3, "Grandma Kelly's Homestead","Regina Murphy","707 Oxford Rd.","Ann Arbor","48104","USA","(313) 555-5735"); 
  
       INSERT INTO
          fornitore (id_fornitore, azienda, referente, indirizzo, citta, cap, nazione, telefono) 
@@ -6448,13 +6448,13 @@ INSERT INTO
    fornitore (id_fornitore, azienda, referente, indirizzo, citta, cap, nazione, telefono) 
 VALUES
    (
-      5, "Cooperativa de Quesos \'Las Cabras\'","Antonio del Valle Saavedra ","Calle del Rosal 4","Oviedo","33007","Spain","(98) 598 76 54"); 
+      5, "Cooperativa de Quesos 'Las Cabras'","Antonio del Valle Saavedra ","Calle del Rosal 4","Oviedo","33007","Spain","(98) 598 76 54"); 
  
       INSERT INTO
          fornitore (id_fornitore, azienda, referente, indirizzo, citta, cap, nazione, telefono) 
       VALUES
          (
-            6, "Mayumi\'s","Mayumi Ohno","92 Setsuko Chuo-ku","Osaka","545","Japan","(06) 431-7877"); 
+            6, "Mayumi's","Mayumi Ohno","92 Setsuko Chuo-ku","Osaka","545","Japan","(06) 431-7877"); 
  
             INSERT INTO
                fornitore (id_fornitore, azienda, referente, indirizzo, citta, cap, nazione, telefono) 
@@ -6467,7 +6467,7 @@ INSERT INTO
    fornitore (id_fornitore, azienda, referente, indirizzo, citta, cap, nazione, telefono) 
 VALUES
    (
-      8, "Specialty Biscuits, Ltd.", "Peter Wilson", "29 King\'s Way","Manchester","M14 GSD","UK","(161) 555-4448"); 
+      8, "Specialty Biscuits, Ltd.", "Peter Wilson", "29 King's Way","Manchester","M14 GSD","UK","(161) 555-4448"); 
  
       INSERT INTO
          fornitore (id_fornitore, azienda, referente, indirizzo, citta, cap, nazione, telefono) 
@@ -6579,7 +6579,7 @@ INSERT INTO
    fornitore (id_fornitore, azienda, referente, indirizzo, citta, cap, nazione, telefono) 
 VALUES
    (
-      24, "G\'day, Mate","Wendy Mackenzie","170 Prince Edward Parade Hunter\'s Hill","Sydney","2042","Australia","(02) 555-5914"); 
+      24, "G'day, Mate","Wendy Mackenzie","170 Prince Edward Parade Hunter's Hill","Sydney","2042","Australia","(02) 555-5914"); 
  
       INSERT INTO
          fornitore (id_fornitore, azienda, referente, indirizzo, citta, cap, nazione, telefono) 
@@ -6613,7 +6613,7 @@ INSERT INTO
    fornitore (id_fornitore, azienda, referente, indirizzo, citta, cap, nazione, telefono) 
 VALUES
    (
-      29, "Forêts d\'érables", "Chantal Goulet", "148 rue Chasseur", "Ste - Hyacinthe", "J2S 7S8", "Canada", "(514) 555 - 2955"
+      29, "Forêts d'érables", "Chantal Goulet", "148 rue Chasseur", "Ste - Hyacinthe", "J2S 7S8", "Canada", "(514) 555 - 2955"
    )
 ;
 COMMIT;
