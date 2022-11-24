@@ -225,10 +225,6 @@ Inserisce i dati di una nuova spesa straordinaria, incluse le rate, e incrementa
 
 #### Ristrutturazione del modello concettuale
 
-##### P1 Rappresentazione delle associazioni
-
-uno a molti e uno ad uno
-
 ```mermaid
 erDiagram
 
@@ -308,6 +304,102 @@ Rata {
 
 Rata }o--|| Spesa : "rateizzare"
 Rata }o--|| Persona : "rateizzare"
+```
+
+Le modifiche al modello richiedono l'aggiunta di vincoli per il controllo degli inserimenti.
+
+#### DDL - SQL
+
+```sql
+CREATE TABLE Condominio (
+    codice INTEGER PRIMARY KEY,
+    ncc INTEGER,
+    indirizzo TEXT
+);
+
+CREATE TABLE Spesa (
+    codice INTEGER PRIMARY KEY,
+    codiceCondominio INTEGER NOT NULL
+        REFERENCES Condominio(codice),
+    tipo TEXT CHECK (
+        tipo IN ('Ordinaria', 'Straordinaria')
+        ),
+    data TEXT CHECK(
+        data IS strftime('%Y-%m-%d', data)
+        ),
+    natura TEXT,
+    importo REAL CHECK (importo > 0)
+    -- le voci in attivo non vengono considerate
+);
+
+CREATE TABLE Appartamento (
+    codice INTEGER PRIMARY KEY,
+    codiceCondominio INTEGER NOT NULL
+        REFERENCES Condominio(codice),
+    interno INTEGER NOT NULL,
+    vani INTEGER CHECK (vani > 1),
+    superficie REAL CHECK (superficie > 0),
+    UNIQUE (codiceCondominio, Interno)
+);
+
+CREATE TABLE Persona (
+    CF TEXT PRIMARY KEY,
+    -- andrebbero fatti vari controlli...
+    nome TEXT
+);
+
+CREATE TABLE Telefono (
+    CF TEXT NOT NULL
+        REFERENCES Persona(CF),
+    telefono TEXT
+);
+
+CREATE TABLE Inquilino (
+    CF TEXT
+        REFERENCES Persona(CF),
+    codiceAppartamento INTEGER
+        REFERENCES Appartamento(codice),
+    contratto TEXT CHECK(
+        contratto IS strftime('%Y-%m-%d', contratto)
+        ),
+    disdetta TEXT CHECK(
+        disdetta IS NULL OR disdetta IS strftime('%Y-%m-%d', disdetta)
+        ),
+    saldo REAL,
+    PRIMARY KEY(CF, codiceAppartamento, contratto)
+);
+
+CREATE TABLE Proprietario (
+    CF TEXT
+        REFERENCES Persona(CF),
+    codiceAppartamento INTEGER
+        REFERENCES Appartamento(codice),
+    inizio TEXT CHECK(
+        inizio IS NULL OR inizio IS strftime('%Y-%m-%d', inizio)
+        ),
+    fine TEXT CHECK(
+        fine IS NULL OR fine IS strftime('%Y-%m-%d', fine)
+        ),
+    quota REAL CHECK (quota BETWEEN 0 AND 1),
+    saldo REAL,
+    indirizzo TEXT,
+    PRIMARY KEY(CF, codiceAppartamento)
+    -- un proprietario non può modificare le quote di possesso, vendere e ricomprare un appartamento
+);
+
+CREATE TABLE Rata (
+    codice INTEGER PRIMARY KEY,
+    codiceSpesa INTEGER NOT NULL
+        REFERENCES Spesa(codice),
+    CF TEXT
+        REFERENCES Persona(CF),
+    numero INTEGER,
+    importo REAL CHECK (importo > 0),
+    scadenza TEXT CHECK(
+        scadenza IS strftime('%Y-%m-%d', scadenza)
+        )
+    -- La rata viene emessa per singolo proprietario in base alla quota di possesso
+);
 ```
 
 ## Esercizio 3.2
