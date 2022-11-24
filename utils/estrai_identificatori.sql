@@ -1,5 +1,5 @@
 -- Query per ottenere gli identificatori da tradurre
-SELECT DISTINCT identificatore
+SELECT DISTINCT 's/' || identificatore || '//g'
 FROM
 (SELECT DISTINCT m.tbl_name AS identificatore
   FROM sqlite_schema AS m
@@ -10,4 +10,4 @@ SELECT DISTINCT colonne.name AS identificatore
   pragma_table_info(catalogo.name) AS colonne
  WHERE catalogo.type IN ('table', 'view')
 )
-ORDER BY substr(identificatore, 1, 1), length(identificatore) DESC;
+ORDER BY length(identificatore) DESC, substr(identificatore, 1, 1);

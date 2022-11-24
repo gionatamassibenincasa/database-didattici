@@ -20,6 +20,12 @@ const argv = yargs
     type: "string",
     demandOption: true,
   })
+  .option("diagramma", {
+    alias: "d",
+    description: "Il tipo di diagramma",
+    type: "string",
+    demandOption: false,
+  })
   .help()
   .alias("help", "h").argv;
 console.log("DATABASE: ", argv.database);
@@ -141,7 +147,7 @@ const getAdocRelation = () => {
 };
 
 const getMarmaidClasses = () => {
-  let str = "```mermaid\nclassDiagram\n";
+  let str = "classDiagram\n";
   tables.forEach((t) => {
     str += `class ${t.nome} {\n`;
     t.colonne.forEach((c, i) => {
@@ -173,7 +179,49 @@ const getMarmaidClasses = () => {
       fk.fieldST +
       "\n";
   });
-  str += "```\n";
+  str += "\n";
+  return str;
+};
+
+const getMarmaidER = () => {
+  let str = "erDiagram\n";
+  tables.forEach((t) => {
+    str += ` ${t.nome} {\n`;
+    t.colonne.forEach((c, i) => {
+      str += "  " + c.tipo + " ";
+      str += c.nome;
+      if (c["primary_key"] && c["foreign_key"]) {
+        str += " PK";
+      } else if (c["primary_key"] && !c["foreign_key"]) {
+        str += " PK";
+      } else if (c["foreign_key"]) {
+        str += " FK";
+      }
+      // if (c["foreign_key"] == 1) {
+      //   const ref = foreignKeys[c["fk_index"]];
+      //   console.log(ref);
+      //   str += " Si riferisce a " + ref["primaryTable"]; //+ "(" + ref["fieldST"] + ")";
+      // }
+      str += "\n";
+    });
+    str += " }\n\n";
+  });
+  foreignKeys.forEach((fk) => {
+    str +=
+      " " +
+      fk.secondaryTable +
+      // |o OR || or }o OR }|
+      " }o" +
+      // -- OR ..
+      "--" +
+      // o| OR || or o{ OR |{
+      "|| " +
+      fk.primaryTable +
+      " : " +
+      fk.fieldST +
+      "\n";
+  });
+  str += "\n";
   return str;
 };
 
@@ -183,7 +231,9 @@ const generaDocumentazione =
     : argv.formato == "md"
     ? getMDRelation
     : argv.formato == "mermaid"
-    ? getMarmaidClasses
+    ? argv.diagramma == "ER"
+      ? getMarmaidER
+      : getMarmaidClasses
     : null;
 console.log(JSON.stringify(tables, null, 2));
 console.log(foreignKeys);
