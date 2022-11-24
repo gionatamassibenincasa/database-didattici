@@ -1,5 +1,17 @@
 # Esercizi edizione 2021
 
+**FONDAMENTI DI BASI DI DATI**, _Antonio Albano_, _Giorgio Ghelli_, _Renzo Orsini_
+
+Copyright c 2005-2021 A. Albano, G. Ghelli, R. Orsini
+
+Si concede il diritto di riprodurre gratuitamente questo materiale con qualsiasi
+mezzo o formato, in parte o nella sua interezza, per uso personale o per uso
+didattico alle seguenti condizioni: le copie non sono fatte per profitto o a scopo
+commerciale; la prima pagina di ogni copia deve riportare questa nota e la citazione
+completa, incluso il titolo e gli autori. Altri usi di questo materiale inclusa la
+ripubblicazione, anche di versioni modificate o derivate, la diffusione su server o
+su liste di posta, richiede un permesso esplicito preventivo dai detentori del copyright.
+
 ## Elenco degli esercizi che si prestano alla realizzazione di DB
 
 ### Esercizio 2.5
@@ -102,6 +114,114 @@ Gli appartamenti possono essere locati ad un inquilino, del quale interessano il
 Le spese riguardano i condomìni e di esse interessano il codice di identificazione, la natura (luce, pulizia, ascensore ecc.), la data e l'importo. Fra le spese si distinguono quelle straordinarie, a carico dei proprietari, e quelle ordinarie, a carico degli inquilini. Le spese ordinarie vengono pagate in un'unica rata, mentre le spese straordinarie possono essere pagate in più rate e di ognuna di esse occorre ricordare la data e l'importo.
 
 Progettare lo schema della base di dati e dare la specifica delle operazioni per l'immissione dei dati.
+
+### Bozza della soluzione
+
+#### Modello concettuale
+
+```mermaid
+classDiagram
+
+class Condominio {
+    integer codice
+    integer ncc
+    text indirizzo
+}
+
+class Spesa {
+    integer codice
+    date data
+    text natura
+    real importo
+}
+
+Condominio "1" -- "0..*" Spesa: spendere
+
+class Appartamento {
+    integer interno
+    integer vani
+    real superficie
+    enum stato
+}
+
+Condominio "1" -- "1..*" Appartamento : appartenere
+
+Spesa <|-- SpesaOrdinaria
+Spesa <|-- SpesaStraordinaria
+
+Appartamento <|-- AppartamentoOccupato
+
+class AppartamentoDisdetto {
+    date data
+}
+
+AppartamentoOccupato <|-- AppartamentoDisdetto
+
+class Persona {
+    text CF
+    text nome
+    text[] telefoni
+}
+
+class Inquilino {
+    real saldo
+}
+
+class Proprietario {
+    real saldo
+    text indirizzo
+}
+
+Persona <|-- Inquilino
+Persona <|-- Proprietario
+
+AppartamentoOccupato "1" -- "1" Inquilino
+
+Appartamento "*" -- "0..*" Proprietario : possedere
+
+SpesaOrdinaria "0..*" -- "1" Inquilino : competere
+
+class Rata {
+   real importo
+   date data
+}
+
+SpesaStraordinaria "1" -- "0..*" Rata : rateizzare
+
+Rata "*" -- "1" Proprietario : pagare
+
+SpesaOrdinaria "*" -- "1" Inquilino : riguardare
+```
+
+Le spese o sono ordinarie oppure sono straordinarie. Gli insiemi delle due spese sono disgiunti (vincolo di disgiunzione) e la loro unione forma l'insieme di tutte le spese (vincolo di copertura).
+
+Rispetto al testo, i nomi delle classi sono al singolare, il tipo enumerazione è indicato con _enum_ senza esplitarne i possibili valori, il tipo sequenza è indicato con le parentesi quadre aperta e chiusa, i tipi primitivi sono quelli di _SQLite_ al quale ho aggiunto _date_. Con la notazione di Mermaid non sono riuscito ad indicare i vincoli di disgiunzione e di copertura.
+
+##### Operazioni
+
+NuovaPersona
+    Inserisce i dati di una persona
+
+NuovoCondominio
+    Inserisce un condominio e tutti i suoi appartamenti e i loro proprietari (che
+    devono essere gia inseriti come persone).
+
+NuovoContrattoDiAffitto
+    Inserisce un affittuario e lo collega all’appartamento affittato.
+
+NuovaSpesaOrdinaria
+    Inserisce i dati di una nuova spesa ordinaria e incrementa i saldi degli inquilini a cui si riferisce.
+
+NuovaSpesaStraordinaria
+    Inserisce i dati di una nuova spesa straordinaria, incluse le rate, e incrementa i relativi saldi dei proprietari.
+
+| **Operazione** | NuovoCondominio                                             |
+| -------------- | ----------------------------------------------------------- |
+| **Scopo**      | Immissione dei dati di un nuovo condominio                  |
+| **Argomenti**  | codice: integer, ncc: integer, appartamenti: Appartamenti[] |
+| **Risultato**  | (OperazioneEseguita, Errore)                                |
+| **Errori**     | vani < 1, superficie errata, codice già usato               |
+| **Moodifica**  | Condomini, Appartamenti                                     |
 
 ## Esercizio 3.2
 
