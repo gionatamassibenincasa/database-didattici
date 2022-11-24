@@ -175,7 +175,7 @@ class Proprietario {
 Persona <|-- Inquilino
 Persona <|-- Proprietario
 
-AppartamentoOccupato "1" -- "1" Inquilino
+AppartamentoOccupato "1" -- "1" Inquilino : occupare
 
 Appartamento "*" -- "0..*" Proprietario : possedere
 
@@ -190,7 +190,7 @@ SpesaStraordinaria "1" -- "0..*" Rata : rateizzare
 
 Rata "*" -- "1" Proprietario : pagare
 
-SpesaOrdinaria "*" -- "1" Inquilino : riguardare
+SpesaStraordinaria "*" -- "1" Proprietario : riguardare
 ```
 
 Le spese o sono ordinarie oppure sono straordinarie. Gli insiemi delle due spese sono disgiunti (vincolo di disgiunzione) e la loro unione forma l'insieme di tutte le spese (vincolo di copertura).
@@ -200,20 +200,20 @@ Rispetto al testo, i nomi delle classi sono al singolare, il tipo enumerazione �
 ##### Operazioni
 
 NuovaPersona
-    Inserisce i dati di una persona
+Inserisce i dati di una persona
 
 NuovoCondominio
-    Inserisce un condominio e tutti i suoi appartamenti e i loro proprietari (che
-    devono essere gia inseriti come persone).
+Inserisce un condominio e tutti i suoi appartamenti e i loro proprietari (che
+devono essere gia inseriti come persone).
 
 NuovoContrattoDiAffitto
-    Inserisce un affittuario e lo collega all’appartamento affittato.
+Inserisce un affittuario e lo collega all’appartamento affittato.
 
 NuovaSpesaOrdinaria
-    Inserisce i dati di una nuova spesa ordinaria e incrementa i saldi degli inquilini a cui si riferisce.
+Inserisce i dati di una nuova spesa ordinaria e incrementa i saldi degli inquilini a cui si riferisce.
 
 NuovaSpesaStraordinaria
-    Inserisce i dati di una nuova spesa straordinaria, incluse le rate, e incrementa i relativi saldi dei proprietari.
+Inserisce i dati di una nuova spesa straordinaria, incluse le rate, e incrementa i relativi saldi dei proprietari.
 
 | **Operazione** | NuovoCondominio                                             |
 | -------------- | ----------------------------------------------------------- |
@@ -222,6 +222,93 @@ NuovaSpesaStraordinaria
 | **Risultato**  | (OperazioneEseguita, Errore)                                |
 | **Errori**     | vani < 1, superficie errata, codice già usato               |
 | **Moodifica**  | Condomini, Appartamenti                                     |
+
+#### Ristrutturazione del modello concettuale
+
+##### P1 Rappresentazione delle associazioni
+
+uno a molti e uno ad uno
+
+```mermaid
+erDiagram
+
+Condominio {
+    integer codice PK
+    integer ncc
+    text indirizzo
+}
+
+Spesa {
+    integer codice PK
+    integer codiceCondominio FK
+    enum tipo "{Ordinaria; Straordinaria}"
+    date data
+    text natura
+    real importo
+}
+
+Condominio ||--o{ Spesa: spendere
+
+Appartamento {
+    integer codice PK
+    integer codiceCondominio FK
+    integer interno "Unique(codiceCondominio, Interno)"
+    integer vani
+    real superficie
+    enum stato
+}
+
+Condominio ||--|{ Appartamento : appartenere
+
+Persona {
+    text CF PK
+    text nome
+}
+
+Telefono {
+    text CF FK
+    text telefono
+}
+
+Persona ||--|{ Telefono : telefoni
+
+Inquilino {
+    integer codiceAppartamento FK
+    text CF FK
+    date contratto
+    date disdetta "Se NULL, l'appartamento è occupato dall'inquilino"
+    real saldo
+}
+
+Appartamento ||--|| Inquilino : occupare
+
+Inquilino }o--|| Persona : essere
+
+Proprietario {
+    text CF FK
+    integer codiceAppartamento FK
+    float quota
+    date inizio
+    date fine
+    real saldo
+    text indirizzo
+}
+
+Proprietario }o--|| Persona : possedere
+Appartamento ||--o{ Proprietario : possedere
+
+Rata {
+    integer codice PK
+    integer codiceSpesa FK
+    integer CF FK
+    integer numero
+    real importo
+    date scadenza
+}
+
+Rata }o--|| Spesa : "rateizzare"
+Rata }o--|| Persona : "rateizzare"
+```
 
 ## Esercizio 3.2
 
@@ -367,3 +454,7 @@ le attività del Comitato di Programma e del Comitato Organizzatore, pensati com
 - Distribuire i lavori fra i membri del Comitato dei Revisori. Ogni lavoro sarà revisionato da 3 a 5 revisori, a seconda del numero complessivo dei lavori pervenuti.
 - Raccogliere i pareri dei revisori e selezionare il numero prefissato di lavori da presentare alla conferenza.
 - Raggruppare i lavori selezionati in sessioni e scegliere un Chairman per ogni sessione fra i membri del Comitato di Programma.
+
+```
+
+```
