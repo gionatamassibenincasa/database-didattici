@@ -313,7 +313,7 @@ Le modifiche al modello richiedono l'aggiunta di vincoli per il controllo degli 
 ```sql
 CREATE TABLE Condominio (
     codice INTEGER PRIMARY KEY,
-    ncc INTEGER,
+    nCC INTEGER UNIQUE,
     indirizzo TEXT
 );
 
