@@ -1,81 +1,81 @@
 `Album` (
   **AlbumId**: INTEGER
-, Titolo: NVARCHAR(160)
+, Titolo: TEXT
 , __ArtistaId__: INTEGER -> Artista(ArtistaId)
 )
 
 `Artista` (
   **ArtistaId**: INTEGER
-, Nome: NVARCHAR(120)
+, Nome: TEXT
 )
 
 `Cliente` (
   **ClienteId**: INTEGER
-, Nome: NVARCHAR(40)
-, Cognome: NVARCHAR(20)
-, Societa: NVARCHAR(80)
-, Indirizzo: NVARCHAR(70)
-, Citta: NVARCHAR(40)
-, Stato: NVARCHAR(40)
-, Nazione: NVARCHAR(40)
-, CodicePostale: NVARCHAR(10)
-, Telefono: NVARCHAR(24)
-, Fax: NVARCHAR(24)
-, Email: NVARCHAR(60)
+, Nome: TEXT
+, Cognome: TEXT
+, Societa: TEXT
+, Indirizzo: TEXT
+, Citta: TEXT
+, Stato: TEXT
+, Nazione: TEXT
+, CodicePostale: TEXT
+, Telefono: TEXT
+, Fax: TEXT
+, Email: TEXT
 , __AssistenteId__: INTEGER -> Dipendente(DipendenteId)
 )
 
 `Dipendente` (
   **DipendenteId**: INTEGER
-, Cognome: NVARCHAR(20)
-, Nome: NVARCHAR(20)
-, Titolo: NVARCHAR(30)
+, Cognome: TEXT
+, Nome: TEXT
+, Titolo: TEXT
 , __SuperioreId__: INTEGER -> Dipendente(DipendenteId)
 , DataNascita: DATETIME
 , DataAssunzione: DATETIME
-, Indirizzo: NVARCHAR(70)
-, Citta: NVARCHAR(40)
-, Stato: NVARCHAR(40)
-, Nazione: NVARCHAR(40)
-, CodicePostale: NVARCHAR(10)
-, Telefono: NVARCHAR(24)
-, Fax: NVARCHAR(24)
-, Email: NVARCHAR(60)
+, Indirizzo: TEXT
+, Citta: TEXT
+, Stato: TEXT
+, Nazione: TEXT
+, CodicePostale: TEXT
+, Telefono: TEXT
+, Fax: TEXT
+, Email: TEXT
 )
 
 `Genere` (
   **GenereId**: INTEGER
-, Nome: NVARCHAR(120)
+, Nome: TEXT
 )
 
 `Fattura` (
   **FatturaId**: INTEGER
 , __ClienteId__: INTEGER -> Cliente(ClienteId)
 , DataFatturazione: DATETIME
-, IndirizzoFatturazione: NVARCHAR(70)
-, CittaFatturazione: NVARCHAR(40)
-, StatoFatturazione: NVARCHAR(40)
-, NazioneFatturazione: NVARCHAR(40)
-, CodicePostaleFatturazione: NVARCHAR(10)
-, Totale: NUMERIC(10,2)
+, IndirizzoFatturazione: TEXT
+, CittaFatturazione: TEXT
+, StatoFatturazione: TEXT
+, NazioneFatturazione: TEXT
+, CodicePostaleFatturazione: TEXT
+, Totale: REAL(10,2)
 )
 
 `LineaFattura` (
   **LineaFatturaId**: INTEGER
 , __FatturaId__: INTEGER -> Fattura(FatturaId)
 , __TracciaId__: INTEGER -> Traccia(TracciaId)
-, PrezzoUnitario: NUMERIC(10,2)
+, PrezzoUnitario: REAL(10,2)
 , Quantita: INTEGER
 )
 
 `FormatoMultimediale` (
   **FormatoMultimedialeId**: INTEGER
-, Nome: NVARCHAR(120)
+, Nome: TEXT
 )
 
 `Playlist` (
   **PlaylistId**: INTEGER
-, Nome: NVARCHAR(120)
+, Nome: TEXT
 )
 
 `TracciaPlaylist` (
@@ -85,13 +85,13 @@
 
 `Traccia` (
   **TracciaId**: INTEGER
-, Nome: NVARCHAR(200)
+, Nome: TEXT
 , __AlbumId__: INTEGER -> Album(AlbumId)
 , __FormatoMultimedialeId__: INTEGER -> FormatoMultimediale(FormatoMultimedialeId)
 , __GenereId__: INTEGER -> Genere(GenereId)
-, Compositori: NVARCHAR(220)
+, Compositori: TEXT
 , Millisecondi: INTEGER
 , Byte: INTEGER
-, PrezzoUnitario: NUMERIC(10,2)
+, PrezzoUnitario: REAL(10,2)
 )
 

@@ -1,82 +1,82 @@
 classDiagram
 class Album {
 	AlbumId: INTEGER
-	Titolo: NVARCHAR(160)
+	Titolo: TEXT
 	ArtistaId: INTEGER
 }
 
 class Artista {
 	ArtistaId: INTEGER
-	Nome: NVARCHAR(120)
+	Nome: TEXT
 }
 
 class Cliente {
 	ClienteId: INTEGER
-	Nome: NVARCHAR(40)
-	Cognome: NVARCHAR(20)
-	Societa: NVARCHAR(80)
-	Indirizzo: NVARCHAR(70)
-	Citta: NVARCHAR(40)
-	Stato: NVARCHAR(40)
-	Nazione: NVARCHAR(40)
-	CodicePostale: NVARCHAR(10)
-	Telefono: NVARCHAR(24)
-	Fax: NVARCHAR(24)
-	Email: NVARCHAR(60)
+	Nome: TEXT
+	Cognome: TEXT
+	Societa: TEXT
+	Indirizzo: TEXT
+	Citta: TEXT
+	Stato: TEXT
+	Nazione: TEXT
+	CodicePostale: TEXT
+	Telefono: TEXT
+	Fax: TEXT
+	Email: TEXT
 	AssistenteId: INTEGER
 }
 
 class Dipendente {
 	DipendenteId: INTEGER
-	Cognome: NVARCHAR(20)
-	Nome: NVARCHAR(20)
-	Titolo: NVARCHAR(30)
+	Cognome: TEXT
+	Nome: TEXT
+	Titolo: TEXT
 	SuperioreId: INTEGER
 	DataNascita: DATETIME
 	DataAssunzione: DATETIME
-	Indirizzo: NVARCHAR(70)
-	Citta: NVARCHAR(40)
-	Stato: NVARCHAR(40)
-	Nazione: NVARCHAR(40)
-	CodicePostale: NVARCHAR(10)
-	Telefono: NVARCHAR(24)
-	Fax: NVARCHAR(24)
-	Email: NVARCHAR(60)
+	Indirizzo: TEXT
+	Citta: TEXT
+	Stato: TEXT
+	Nazione: TEXT
+	CodicePostale: TEXT
+	Telefono: TEXT
+	Fax: TEXT
+	Email: TEXT
 }
 
 class Genere {
 	GenereId: INTEGER
-	Nome: NVARCHAR(120)
+	Nome: TEXT
 }
 
 class Fattura {
 	FatturaId: INTEGER
 	ClienteId: INTEGER
 	DataFatturazione: DATETIME
-	IndirizzoFatturazione: NVARCHAR(70)
-	CittaFatturazione: NVARCHAR(40)
-	StatoFatturazione: NVARCHAR(40)
-	NazioneFatturazione: NVARCHAR(40)
-	CodicePostaleFatturazione: NVARCHAR(10)
-	Totale: NUMERIC(10,2)
+	IndirizzoFatturazione: TEXT
+	CittaFatturazione: TEXT
+	StatoFatturazione: TEXT
+	NazioneFatturazione: TEXT
+	CodicePostaleFatturazione: TEXT
+	Totale: REAL(10,2)
 }
 
 class LineaFattura {
 	LineaFatturaId: INTEGER
 	FatturaId: INTEGER
 	TracciaId: INTEGER
-	PrezzoUnitario: NUMERIC(10,2)
+	PrezzoUnitario: REAL(10,2)
 	Quantita: INTEGER
 }
 
 class FormatoMultimediale {
 	FormatoMultimedialeId: INTEGER
-	Nome: NVARCHAR(120)
+	Nome: TEXT
 }
 
 class Playlist {
 	PlaylistId: INTEGER
-	Nome: NVARCHAR(120)
+	Nome: TEXT
 }
 
 class TracciaPlaylist {
@@ -86,14 +86,14 @@ class TracciaPlaylist {
 
 class Traccia {
 	TracciaId: INTEGER
-	Nome: NVARCHAR(200)
+	Nome: TEXT
 	AlbumId: INTEGER
 	FormatoMultimedialeId: INTEGER
 	GenereId: INTEGER
-	Compositori: NVARCHAR(220)
+	Compositori: TEXT
 	Millisecondi: INTEGER
 	Byte: INTEGER
-	PrezzoUnitario: NUMERIC(10,2)
+	PrezzoUnitario: REAL(10,2)
 }
 
 Album "*" -- "1" Artista : ArtistaId
