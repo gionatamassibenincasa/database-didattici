@@ -16,6 +16,7 @@
   "author": "Gionata Massi",
   "license": "ISC",
   "dependencies": {
+    "@mermaid-js/mermaid-cli": "^9.3.0",
     "better-sqlite3": "^7.5.1",
     "yargs": "^17.4.0",
     "yasm": "^0.1.2"
