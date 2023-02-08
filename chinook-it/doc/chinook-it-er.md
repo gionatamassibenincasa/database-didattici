@@ -1,110 +1,110 @@
 erDiagram
  Album {
-  INTEGER AlbumId PK
-  TEXT Titolo
-  INTEGER ArtistaId FK
+  INTEGER albumId PK
+  TEXT titolo
+  INTEGER artistaId FK
  }
 
  Artista {
-  INTEGER ArtistaId PK
-  TEXT Nome
+  INTEGER artistaId PK
+  TEXT nome
  }
 
  Cliente {
-  INTEGER ClienteId PK
-  TEXT Nome
-  TEXT Cognome
-  TEXT Societa
-  TEXT Indirizzo
-  TEXT Citta
-  TEXT Stato
-  TEXT Nazione
-  TEXT CodicePostale
-  TEXT Telefono
-  TEXT Fax
-  TEXT Email
-  INTEGER AssistenteId FK
+  INTEGER clienteId PK
+  TEXT nome
+  TEXT cognome
+  TEXT societa
+  TEXT indirizzo
+  TEXT citta
+  TEXT stato
+  TEXT nazione
+  TEXT codicePostale
+  TEXT telefono
+  TEXT fax
+  TEXT email
+  INTEGER assistenteId FK
  }
 
  Dipendente {
-  INTEGER DipendenteId PK
-  TEXT Cognome
-  TEXT Nome
-  TEXT Titolo
-  INTEGER SuperioreId FK
-  DATETIME DataNascita
-  DATETIME DataAssunzione
-  TEXT Indirizzo
-  TEXT Citta
-  TEXT Stato
-  TEXT Nazione
-  TEXT CodicePostale
-  TEXT Telefono
-  TEXT Fax
-  TEXT Email
+  INTEGER dipendenteId PK
+  TEXT cognome
+  TEXT nome
+  TEXT titolo
+  INTEGER superioreId FK
+  DATETIME dataNascita
+  DATETIME dataAssunzione
+  TEXT indirizzo
+  TEXT citta
+  TEXT stato
+  TEXT nazione
+  TEXT codicePostale
+  TEXT telefono
+  TEXT fax
+  TEXT email
  }
 
  Genere {
-  INTEGER GenereId PK
-  TEXT Nome
+  INTEGER genereId PK
+  TEXT nome
  }
 
  Fattura {
-  INTEGER FatturaId PK
-  INTEGER ClienteId FK
-  DATETIME DataFatturazione
-  TEXT IndirizzoFatturazione
-  TEXT CittaFatturazione
-  TEXT StatoFatturazione
-  TEXT NazioneFatturazione
-  TEXT CodicePostaleFatturazione
-  REAL(10,2) Totale
+  INTEGER fatturaId PK
+  INTEGER clienteId FK
+  DATETIME dataFatturazione
+  TEXT indirizzoFatturazione
+  TEXT cittaFatturazione
+  TEXT statoFatturazione
+  TEXT nazioneFatturazione
+  TEXT codicePostaleFatturazione
+  REAL(10,2) totale
  }
 
  LineaFattura {
-  INTEGER LineaFatturaId PK
-  INTEGER FatturaId FK
-  INTEGER TracciaId FK
-  REAL(10,2) PrezzoUnitario
-  INTEGER Quantita
+  INTEGER LineafatturaId PK
+  INTEGER fatturaId FK
+  INTEGER tracciaId FK
+  REAL(10,2) prezzoUnitario
+  INTEGER quantita
  }
 
  FormatoMultimediale {
-  INTEGER FormatoMultimedialeId PK
-  TEXT Nome
+  INTEGER formatoMultimedialeId PK
+  TEXT nome
  }
 
  Playlist {
-  INTEGER PlaylistId PK
-  TEXT Nome
+  INTEGER playlistId PK
+  TEXT nome
  }
 
  TracciaPlaylist {
-  INTEGER PlaylistId PK
-  INTEGER TracciaId PK
+  INTEGER playlistId PK
+  INTEGER tracciaId PK
  }
 
  Traccia {
-  INTEGER TracciaId PK
-  TEXT Nome
-  INTEGER AlbumId FK
-  INTEGER FormatoMultimedialeId FK
-  INTEGER GenereId FK
-  TEXT Compositori
-  INTEGER Millisecondi
-  INTEGER Byte
-  REAL(10,2) PrezzoUnitario
+  INTEGER tracciaId PK
+  TEXT nome
+  INTEGER albumId FK
+  INTEGER formatoMultimedialeId FK
+  INTEGER genereId FK
+  TEXT compositori
+  INTEGER millisecondi
+  INTEGER byte
+  REAL(10,2) prezzoUnitario
  }
 
- Album }o--|| Artista : ArtistaId
- Cliente }o--|| Dipendente : AssistenteId
- Dipendente }o--|| Dipendente : SuperioreId
- Fattura }o--|| Cliente : ClienteId
- LineaFattura }o--|| Traccia : TracciaId
- LineaFattura }o--|| Fattura : FatturaId
- TracciaPlaylist }o--|| Traccia : TracciaId
- TracciaPlaylist }o--|| Playlist : PlaylistId
- Traccia }o--|| FormatoMultimediale : FormatoMultimedialeId
- Traccia }o--|| Genere : GenereId
- Traccia }o--|| Album : AlbumId
+ Album }o--|| Artista : artistaId
+ Cliente }o--|| Dipendente : assistenteId
+ Dipendente }o--|| Dipendente : superioreId
+ Fattura }o--|| Cliente : clienteId
+ LineaFattura }o--|| Traccia : tracciaId
+ LineaFattura }o--|| Fattura : fatturaId
+ TracciaPlaylist }o--|| Traccia : tracciaId
+ TracciaPlaylist }o--|| Playlist : playlistId
+ Traccia }o--|| FormatoMultimediale : formatoMultimedialeId
+ Traccia }o--|| Genere : genereId
+ Traccia }o--|| Album : albumId
 

@@ -1,110 +1,110 @@
 classDiagram
 class Album {
-	AlbumId: INTEGER
-	Titolo: TEXT
-	ArtistaId: INTEGER
+	albumId: INTEGER
+	titolo: TEXT
+	artistaId: INTEGER
 }
 
 class Artista {
-	ArtistaId: INTEGER
-	Nome: TEXT
+	artistaId: INTEGER
+	nome: TEXT
 }
 
 class Cliente {
-	ClienteId: INTEGER
-	Nome: TEXT
-	Cognome: TEXT
-	Societa: TEXT
-	Indirizzo: TEXT
-	Citta: TEXT
-	Stato: TEXT
-	Nazione: TEXT
-	CodicePostale: TEXT
-	Telefono: TEXT
-	Fax: TEXT
-	Email: TEXT
-	AssistenteId: INTEGER
+	clienteId: INTEGER
+	nome: TEXT
+	cognome: TEXT
+	societa: TEXT
+	indirizzo: TEXT
+	citta: TEXT
+	stato: TEXT
+	nazione: TEXT
+	codicePostale: TEXT
+	telefono: TEXT
+	fax: TEXT
+	email: TEXT
+	assistenteId: INTEGER
 }
 
 class Dipendente {
-	DipendenteId: INTEGER
-	Cognome: TEXT
-	Nome: TEXT
-	Titolo: TEXT
-	SuperioreId: INTEGER
-	DataNascita: DATETIME
-	DataAssunzione: DATETIME
-	Indirizzo: TEXT
-	Citta: TEXT
-	Stato: TEXT
-	Nazione: TEXT
-	CodicePostale: TEXT
-	Telefono: TEXT
-	Fax: TEXT
-	Email: TEXT
+	dipendenteId: INTEGER
+	cognome: TEXT
+	nome: TEXT
+	titolo: TEXT
+	superioreId: INTEGER
+	dataNascita: DATETIME
+	dataAssunzione: DATETIME
+	indirizzo: TEXT
+	citta: TEXT
+	stato: TEXT
+	nazione: TEXT
+	codicePostale: TEXT
+	telefono: TEXT
+	fax: TEXT
+	email: TEXT
 }
 
 class Genere {
-	GenereId: INTEGER
-	Nome: TEXT
+	genereId: INTEGER
+	nome: TEXT
 }
 
 class Fattura {
-	FatturaId: INTEGER
-	ClienteId: INTEGER
-	DataFatturazione: DATETIME
-	IndirizzoFatturazione: TEXT
-	CittaFatturazione: TEXT
-	StatoFatturazione: TEXT
-	NazioneFatturazione: TEXT
-	CodicePostaleFatturazione: TEXT
-	Totale: REAL(10,2)
+	fatturaId: INTEGER
+	clienteId: INTEGER
+	dataFatturazione: DATETIME
+	indirizzoFatturazione: TEXT
+	cittaFatturazione: TEXT
+	statoFatturazione: TEXT
+	nazioneFatturazione: TEXT
+	codicePostaleFatturazione: TEXT
+	totale: REAL(10,2)
 }
 
 class LineaFattura {
-	LineaFatturaId: INTEGER
-	FatturaId: INTEGER
-	TracciaId: INTEGER
-	PrezzoUnitario: REAL(10,2)
-	Quantita: INTEGER
+	LineafatturaId: INTEGER
+	fatturaId: INTEGER
+	tracciaId: INTEGER
+	prezzoUnitario: REAL(10,2)
+	quantita: INTEGER
 }
 
 class FormatoMultimediale {
-	FormatoMultimedialeId: INTEGER
-	Nome: TEXT
+	formatoMultimedialeId: INTEGER
+	nome: TEXT
 }
 
 class Playlist {
-	PlaylistId: INTEGER
-	Nome: TEXT
+	playlistId: INTEGER
+	nome: TEXT
 }
 
 class TracciaPlaylist {
-	PlaylistId: INTEGER
-	TracciaId: INTEGER
+	playlistId: INTEGER
+	tracciaId: INTEGER
 }
 
 class Traccia {
-	TracciaId: INTEGER
-	Nome: TEXT
-	AlbumId: INTEGER
-	FormatoMultimedialeId: INTEGER
-	GenereId: INTEGER
-	Compositori: TEXT
-	Millisecondi: INTEGER
-	Byte: INTEGER
-	PrezzoUnitario: REAL(10,2)
+	tracciaId: INTEGER
+	nome: TEXT
+	albumId: INTEGER
+	formatoMultimedialeId: INTEGER
+	genereId: INTEGER
+	compositori: TEXT
+	millisecondi: INTEGER
+	byte: INTEGER
+	prezzoUnitario: REAL(10,2)
 }
 
-Album "*" -- "1" Artista : ArtistaId
-Cliente "*" -- "1" Dipendente : AssistenteId
-Dipendente "*" -- "1" Dipendente : SuperioreId
-Fattura "*" -- "1" Cliente : ClienteId
-LineaFattura "*" -- "1" Traccia : TracciaId
-LineaFattura "*" -- "1" Fattura : FatturaId
-TracciaPlaylist "*" -- "1" Traccia : TracciaId
-TracciaPlaylist "*" -- "1" Playlist : PlaylistId
-Traccia "*" -- "1" FormatoMultimediale : FormatoMultimedialeId
-Traccia "*" -- "1" Genere : GenereId
-Traccia "*" -- "1" Album : AlbumId
+Album "*" -- "1" Artista : artistaId
+Cliente "*" -- "1" Dipendente : assistenteId
+Dipendente "*" -- "1" Dipendente : superioreId
+Fattura "*" -- "1" Cliente : clienteId
+LineaFattura "*" -- "1" Traccia : tracciaId
+LineaFattura "*" -- "1" Fattura : fatturaId
+TracciaPlaylist "*" -- "1" Traccia : tracciaId
+TracciaPlaylist "*" -- "1" Playlist : playlistId
+Traccia "*" -- "1" FormatoMultimediale : formatoMultimedialeId
+Traccia "*" -- "1" Genere : genereId
+Traccia "*" -- "1" Album : albumId
 

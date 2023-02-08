@@ -1,97 +1,97 @@
 `Album` (
-  **AlbumId**: INTEGER
-, Titolo: TEXT
-, __ArtistaId__: INTEGER -> Artista(ArtistaId)
+  **albumId**: INTEGER
+, titolo: TEXT
+, __artistaId__: INTEGER -> Artista(artistaId)
 )
 
 `Artista` (
-  **ArtistaId**: INTEGER
-, Nome: TEXT
+  **artistaId**: INTEGER
+, nome: TEXT
 )
 
 `Cliente` (
-  **ClienteId**: INTEGER
-, Nome: TEXT
-, Cognome: TEXT
-, Societa: TEXT
-, Indirizzo: TEXT
-, Citta: TEXT
-, Stato: TEXT
-, Nazione: TEXT
-, CodicePostale: TEXT
-, Telefono: TEXT
-, Fax: TEXT
-, Email: TEXT
-, __AssistenteId__: INTEGER -> Dipendente(DipendenteId)
+  **clienteId**: INTEGER
+, nome: TEXT
+, cognome: TEXT
+, societa: TEXT
+, indirizzo: TEXT
+, citta: TEXT
+, stato: TEXT
+, nazione: TEXT
+, codicePostale: TEXT
+, telefono: TEXT
+, fax: TEXT
+, email: TEXT
+, __assistenteId__: INTEGER -> Dipendente(dipendenteId)
 )
 
 `Dipendente` (
-  **DipendenteId**: INTEGER
-, Cognome: TEXT
-, Nome: TEXT
-, Titolo: TEXT
-, __SuperioreId__: INTEGER -> Dipendente(DipendenteId)
-, DataNascita: DATETIME
-, DataAssunzione: DATETIME
-, Indirizzo: TEXT
-, Citta: TEXT
-, Stato: TEXT
-, Nazione: TEXT
-, CodicePostale: TEXT
-, Telefono: TEXT
-, Fax: TEXT
-, Email: TEXT
+  **dipendenteId**: INTEGER
+, cognome: TEXT
+, nome: TEXT
+, titolo: TEXT
+, __superioreId__: INTEGER -> Dipendente(dipendenteId)
+, dataNascita: DATETIME
+, dataAssunzione: DATETIME
+, indirizzo: TEXT
+, citta: TEXT
+, stato: TEXT
+, nazione: TEXT
+, codicePostale: TEXT
+, telefono: TEXT
+, fax: TEXT
+, email: TEXT
 )
 
 `Genere` (
-  **GenereId**: INTEGER
-, Nome: TEXT
+  **genereId**: INTEGER
+, nome: TEXT
 )
 
 `Fattura` (
-  **FatturaId**: INTEGER
-, __ClienteId__: INTEGER -> Cliente(ClienteId)
-, DataFatturazione: DATETIME
-, IndirizzoFatturazione: TEXT
-, CittaFatturazione: TEXT
-, StatoFatturazione: TEXT
-, NazioneFatturazione: TEXT
-, CodicePostaleFatturazione: TEXT
-, Totale: REAL(10,2)
+  **fatturaId**: INTEGER
+, __clienteId__: INTEGER -> Cliente(clienteId)
+, dataFatturazione: DATETIME
+, indirizzoFatturazione: TEXT
+, cittaFatturazione: TEXT
+, statoFatturazione: TEXT
+, nazioneFatturazione: TEXT
+, codicePostaleFatturazione: TEXT
+, totale: REAL(10,2)
 )
 
 `LineaFattura` (
-  **LineaFatturaId**: INTEGER
-, __FatturaId__: INTEGER -> Fattura(FatturaId)
-, __TracciaId__: INTEGER -> Traccia(TracciaId)
-, PrezzoUnitario: REAL(10,2)
-, Quantita: INTEGER
+  **LineafatturaId**: INTEGER
+, __fatturaId__: INTEGER -> Fattura(fatturaId)
+, __tracciaId__: INTEGER -> Traccia(tracciaId)
+, prezzoUnitario: REAL(10,2)
+, quantita: INTEGER
 )
 
 `FormatoMultimediale` (
-  **FormatoMultimedialeId**: INTEGER
-, Nome: TEXT
+  **formatoMultimedialeId**: INTEGER
+, nome: TEXT
 )
 
 `Playlist` (
-  **PlaylistId**: INTEGER
-, Nome: TEXT
+  **playlistId**: INTEGER
+, nome: TEXT
 )
 
 `TracciaPlaylist` (
-  **__PlaylistId__**: INTEGER -> Playlist(PlaylistId)
-, **__TracciaId__**: INTEGER -> Traccia(TracciaId)
+  **__playlistId__**: INTEGER -> Playlist(playlistId)
+, **__tracciaId__**: INTEGER -> Traccia(tracciaId)
 )
 
 `Traccia` (
-  **TracciaId**: INTEGER
-, Nome: TEXT
-, __AlbumId__: INTEGER -> Album(AlbumId)
-, __FormatoMultimedialeId__: INTEGER -> FormatoMultimediale(FormatoMultimedialeId)
-, __GenereId__: INTEGER -> Genere(GenereId)
-, Compositori: TEXT
-, Millisecondi: INTEGER
-, Byte: INTEGER
-, PrezzoUnitario: REAL(10,2)
+  **tracciaId**: INTEGER
+, nome: TEXT
+, __albumId__: INTEGER -> Album(albumId)
+, __formatoMultimedialeId__: INTEGER -> FormatoMultimediale(formatoMultimedialeId)
+, __genereId__: INTEGER -> Genere(genereId)
+, compositori: TEXT
+, millisecondi: INTEGER
+, byte: INTEGER
+, prezzoUnitario: REAL(10,2)
 )
 
