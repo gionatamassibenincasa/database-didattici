@@ -58,14 +58,14 @@ class Fattura {
 	statoFatturazione: TEXT
 	nazioneFatturazione: TEXT
 	codicePostaleFatturazione: TEXT
-	totale: REAL(10,2)
+	totale: REAL
 }
 
 class LineaFattura {
-	LineafatturaId: INTEGER
+	lineaFatturaId: INTEGER
 	fatturaId: INTEGER
 	tracciaId: INTEGER
-	prezzoUnitario: REAL(10,2)
+	prezzoUnitario: REAL
 	quantita: INTEGER
 }
 
@@ -93,7 +93,7 @@ class Traccia {
 	compositori: TEXT
 	millisecondi: INTEGER
 	byte: INTEGER
-	prezzoUnitario: REAL(10,2)
+	prezzoUnitario: REAL
 }
 
 Album "*" -- "1" Artista : artistaId

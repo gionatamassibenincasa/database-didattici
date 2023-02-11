@@ -57,14 +57,14 @@
 , statoFatturazione: TEXT
 , nazioneFatturazione: TEXT
 , codicePostaleFatturazione: TEXT
-, totale: REAL(10,2)
+, totale: REAL
 )
 
 `LineaFattura` (
-  **LineafatturaId**: INTEGER
+  **lineaFatturaId**: INTEGER
 , __fatturaId__: INTEGER -> Fattura(fatturaId)
 , __tracciaId__: INTEGER -> Traccia(tracciaId)
-, prezzoUnitario: REAL(10,2)
+, prezzoUnitario: REAL
 , quantita: INTEGER
 )
 
@@ -92,6 +92,6 @@
 , compositori: TEXT
 , millisecondi: INTEGER
 , byte: INTEGER
-, prezzoUnitario: REAL(10,2)
+, prezzoUnitario: REAL
 )
 

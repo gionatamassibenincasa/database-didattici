@@ -58,14 +58,14 @@ erDiagram
   TEXT statoFatturazione
   TEXT nazioneFatturazione
   TEXT codicePostaleFatturazione
-  REAL(10,2) totale
+  REAL totale
  }
 
  LineaFattura {
-  INTEGER LineafatturaId PK
+  INTEGER lineaFatturaId PK
   INTEGER fatturaId FK
   INTEGER tracciaId FK
-  REAL(10,2) prezzoUnitario
+  REAL prezzoUnitario
   INTEGER quantita
  }
 
@@ -93,7 +93,7 @@ erDiagram
   TEXT compositori
   INTEGER millisecondi
   INTEGER byte
-  REAL(10,2) prezzoUnitario
+  REAL prezzoUnitario
  }
 
  Album }o--|| Artista : artistaId

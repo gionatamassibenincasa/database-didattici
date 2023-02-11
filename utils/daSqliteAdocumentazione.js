@@ -74,6 +74,17 @@ for (const table of tablesStmt.iterate()) {
   idx++;
 }
 
+const sanitizeType = (type) => {
+  let ret = "";
+  type = type.toUpperCase();
+  for (let i = 0; i < type.length; i++) {
+    if (type.at(i) < "A" || type.at(i) > "Z") break;
+    ret += type.at(i);
+  }
+
+  return ret;
+};
+
 const getMDRelation = () => {
   const BOLD = "**";
   const ITALIC = "_";
@@ -96,7 +107,7 @@ const getMDRelation = () => {
       } else {
         str += c.nome;
       }
-      str += ": " + c.tipo;
+      str += ": " + sanitizeType(c.tipo);
       if (c["foreign_key"] == 1) {
         const ref = foreignKeys[c["fk_index"]];
         //console.log(ref);
@@ -104,7 +115,7 @@ const getMDRelation = () => {
       }
       str += "";
     });
-    str += ")\n";
+    str += ")\n\n";
   });
   return str;
 };
@@ -133,7 +144,7 @@ const getAdocRelation = () => {
       } else {
         str += c.nome;
       }
-      str += ": " + c.tipo;
+      str += ": " + sanitizeType(c.tipo);
       if (c["foreign_key"] == 1) {
         const ref = foreignKeys[c["fk_index"]];
         //console.log(ref);
@@ -160,7 +171,7 @@ const getMarmaidClasses = () => {
       //   } else {
       str += "\t" + c.nome;
       //}
-      str += ": " + c.tipo;
+      str += ": " + sanitizeType(c.tipo);
       //   if (c["foreign_key"] == 1) {
       //     const ref = foreignKeys[c["fk_index"]];
       //     console.log(ref);
@@ -188,7 +199,7 @@ const getMarmaidER = () => {
   tables.forEach((t) => {
     str += ` ${t.nome} {\n`;
     t.colonne.forEach((c, i) => {
-      str += "  " + c.tipo + " ";
+      str += "  " + sanitizeType(c.tipo) + " ";
       str += c.nome;
       if (c["primary_key"] && c["foreign_key"]) {
         str += " PK";

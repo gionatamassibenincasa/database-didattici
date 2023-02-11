@@ -1,190 +1,179 @@
-﻿/*******************************************************************************
-   Chinook Database - Version 1.4
-   Script: Chinook_Sqlite.sql
-   Description: Creates and populates the Chinook database.
-   DB Server: Sqlite
-   Author: Luis Rocha
-   License: http://www.codeplex.com/ChinookDatabase/license
+/*******************************************************************************
+	Chinook Database - Version 1.4
+	Script: Chinook_Sqlite.sql
+	Description: Creates and populates the Chinook database.
+	DB Server: Sqlite
+	Author: Luis Rocha
+	License: http://www.codeplex.com/ChinookDatabase/license
 ********************************************************************************/
 
 /*******************************************************************************
-   Drop Tables
+	Drop Tables
 ********************************************************************************/
 DROP TABLE IF EXISTS Album;
-
 DROP TABLE IF EXISTS Artista;
-
 DROP TABLE IF EXISTS Cliente;
-
 DROP TABLE IF EXISTS Dipendente;
-
 DROP TABLE IF EXISTS Genere;
-
 DROP TABLE IF EXISTS Fattura;
-
 DROP TABLE IF EXISTS LineaFattura;
-
 DROP TABLE IF EXISTS FormatoMultimediale;
-
 DROP TABLE IF EXISTS Playlist;
-
 DROP TABLE IF EXISTS TracciaPlaylist;
-
 DROP TABLE IF EXISTS Traccia;
 
-
 /*******************************************************************************
-   Create Tables
+	Create Tables
 ********************************************************************************/
 CREATE TABLE Album
 (
-    albumId INTEGER  NOT NULL,
-    titolo TEXT  NOT NULL,
-    artistaId INTEGER  NOT NULL,
-    CONSTRAINT PK_Album PRIMARY KEY  (albumId),
-    FOREIGN KEY (artistaId) REFERENCES Artista (artistaId) 
+	albumId INTEGER NOT NULL,
+	titolo TEXT NOT NULL,
+	artistaId INTEGER NOT NULL,
+	CONSTRAINT PK_Album PRIMARY KEY (albumId),
+	FOREIGN KEY (artistaId) REFERENCES Artista (artistaId) 
 		ON DELETE NO ACTION ON UPDATE NO ACTION
 );
 
 CREATE TABLE Artista
 (
-    artistaId INTEGER  NOT NULL,
-    nome TEXT,
-    CONSTRAINT PK_Artista PRIMARY KEY  (artistaId)
+	artistaId INTEGER NOT NULL,
+	nome TEXT,
+	CONSTRAINT PK_Artista PRIMARY KEY (artistaId)
 );
 
 CREATE TABLE Cliente
 (
-    clienteId INTEGER  NOT NULL,
-    nome TEXT  NOT NULL,
-    cognome TEXT  NOT NULL,
-    societa TEXT,
-    indirizzo TEXT,
-    citta TEXT,
-    stato TEXT,
-    nazione TEXT,
-    codicePostale TEXT,
-    telefono TEXT,
-    fax TEXT,
-    email TEXT  NOT NULL,
-    assistenteId INTEGER,
-    CONSTRAINT PK_Cliente PRIMARY KEY  (clienteId),
-    FOREIGN KEY (assistenteId) REFERENCES Dipendente (dipendenteId) 
+	clienteId INTEGER NOT NULL,
+	nome TEXT NOT NULL,
+	cognome TEXT NOT NULL,
+	societa TEXT,
+	indirizzo TEXT,
+	citta TEXT,
+	stato TEXT,
+	nazione TEXT,
+	codicePostale TEXT,
+	telefono TEXT,
+	fax TEXT,
+	email TEXT NOT NULL,
+	assistenteId INTEGER,
+	CONSTRAINT PK_Cliente PRIMARY KEY (clienteId),
+	FOREIGN KEY (assistenteId) REFERENCES Dipendente (dipendenteId) 
 		ON DELETE NO ACTION ON UPDATE NO ACTION
 );
 
 CREATE TABLE Dipendente
 (
-    dipendenteId INTEGER  NOT NULL,
-    cognome TEXT  NOT NULL,
-    nome TEXT  NOT NULL,
-    titolo TEXT,
-    superioreId INTEGER,
-    dataNascita DATETIME,
-    dataAssunzione DATETIME,
-    indirizzo TEXT,
-    citta TEXT,
-    stato TEXT,
-    nazione TEXT,
-    codicePostale TEXT,
-    telefono TEXT,
-    fax TEXT,
-    email TEXT,
-    CONSTRAINT PK_Dipendente PRIMARY KEY  (dipendenteId),
-    FOREIGN KEY (superioreId) REFERENCES Dipendente (dipendenteId) 
+	dipendenteId INTEGER NOT NULL,
+	cognome TEXT NOT NULL,
+	nome TEXT NOT NULL,
+	titolo TEXT,
+	superioreId INTEGER,
+	dataNascita DATETIME,
+	dataAssunzione DATETIME,
+	indirizzo TEXT,
+	citta TEXT,
+	stato TEXT,
+	nazione TEXT,
+	codicePostale TEXT,
+	telefono TEXT,
+	fax TEXT,
+	email TEXT,
+	CONSTRAINT PK_Dipendente PRIMARY KEY (dipendenteId),
+	FOREIGN KEY (superioreId) REFERENCES Dipendente (dipendenteId) 
 		ON DELETE NO ACTION ON UPDATE NO ACTION
 );
 
 CREATE TABLE Genere
 (
-    genereId INTEGER  NOT NULL,
-    nome TEXT,
-    CONSTRAINT PK_Genere PRIMARY KEY  (genereId)
+	genereId INTEGER NOT NULL,
+	nome TEXT,
+	CONSTRAINT PK_Genere PRIMARY KEY (genereId)
 );
 
 CREATE TABLE Fattura
 (
-    fatturaId INTEGER  NOT NULL,
-    clienteId INTEGER  NOT NULL,
-    dataFatturazione DATETIME  NOT NULL,
-    indirizzoFatturazione TEXT,
-    cittaFatturazione TEXT,
-    statoFatturazione TEXT,
-    nazioneFatturazione TEXT,
-    codicePostaleFatturazione TEXT,
-    totale REAL(10,2)  NOT NULL,
-    CONSTRAINT PK_Fattura PRIMARY KEY  (fatturaId),
-    FOREIGN KEY (clienteId) REFERENCES Cliente (clienteId) 
+	fatturaId INTEGER NOT NULL,
+	clienteId INTEGER NOT NULL,
+	dataFatturazione DATETIME NOT NULL,
+	indirizzoFatturazione TEXT,
+	cittaFatturazione TEXT,
+	statoFatturazione TEXT,
+	nazioneFatturazione TEXT,
+	codicePostaleFatturazione TEXT,
+	totale REAL(10,2) NOT NULL,
+	CONSTRAINT PK_Fattura PRIMARY KEY (fatturaId),
+	FOREIGN KEY (clienteId) REFERENCES Cliente (clienteId) 
 		ON DELETE NO ACTION ON UPDATE NO ACTION
 );
 
 CREATE TABLE LineaFattura
 (
-    LineafatturaId INTEGER  NOT NULL,
-    fatturaId INTEGER  NOT NULL,
-    tracciaId INTEGER  NOT NULL,
-    prezzoUnitario REAL(10,2)  NOT NULL,
-    quantita INTEGER  NOT NULL,
-    CONSTRAINT PK_LineaFattura PRIMARY KEY  (LineafatturaId),
-    FOREIGN KEY (fatturaId) REFERENCES Fattura (fatturaId) 
+	lineaFatturaId INTEGER NOT NULL,
+	fatturaId INTEGER NOT NULL,
+	tracciaId INTEGER NOT NULL,
+	prezzoUnitario REAL(10,2) NOT NULL,
+	quantita INTEGER NOT NULL,
+	CONSTRAINT PK_LineaFattura PRIMARY KEY (lineaFatturaId),
+	FOREIGN KEY (fatturaId) REFERENCES Fattura (fatturaId) 
 		ON DELETE NO ACTION ON UPDATE NO ACTION,
-    FOREIGN KEY (tracciaId) REFERENCES Traccia (tracciaId) 
+	FOREIGN KEY (tracciaId) REFERENCES Traccia (tracciaId) 
 		ON DELETE NO ACTION ON UPDATE NO ACTION
 );
 
 CREATE TABLE FormatoMultimediale
 (
-    formatoMultimedialeId INTEGER  NOT NULL,
-    nome TEXT,
-    CONSTRAINT PK_FormatoMultimediale PRIMARY KEY  (formatoMultimedialeId)
+	formatoMultimedialeId INTEGER NOT NULL,
+	nome TEXT,
+	CONSTRAINT PK_FormatoMultimediale PRIMARY KEY (formatoMultimedialeId)
 );
 
 CREATE TABLE Playlist
 (
-    playlistId INTEGER  NOT NULL,
-    nome TEXT,
-    CONSTRAINT PK_Playlist PRIMARY KEY  (playlistId)
+	playlistId INTEGER NOT NULL,
+	nome TEXT,
+	CONSTRAINT PK_Playlist PRIMARY KEY (playlistId)
 );
 
 CREATE TABLE TracciaPlaylist
 (
-    playlistId INTEGER  NOT NULL,
-    tracciaId INTEGER  NOT NULL,
-    CONSTRAINT PK_TracciaPlaylist PRIMARY KEY  (playlistId, tracciaId),
-    FOREIGN KEY (playlistId) REFERENCES Playlist (playlistId) 
+	playlistId INTEGER NOT NULL,
+	tracciaId INTEGER NOT NULL,
+	CONSTRAINT PK_TracciaPlaylist PRIMARY KEY (playlistId, tracciaId),
+	FOREIGN KEY (playlistId) REFERENCES Playlist (playlistId) 
 		ON DELETE NO ACTION ON UPDATE NO ACTION,
-    FOREIGN KEY (tracciaId) REFERENCES Traccia (tracciaId) 
+	FOREIGN KEY (tracciaId) REFERENCES Traccia (tracciaId) 
 		ON DELETE NO ACTION ON UPDATE NO ACTION
 );
 
 CREATE TABLE Traccia
 (
-    tracciaId INTEGER  NOT NULL,
-    nome TEXT  NOT NULL,
-    albumId INTEGER,
-    formatoMultimedialeId INTEGER  NOT NULL,
-    genereId INTEGER,
-    compositori TEXT,
-    millisecondi INTEGER  NOT NULL,
-    byte INTEGER,
-    prezzoUnitario REAL(10,2)  NOT NULL,
-    CONSTRAINT PK_Traccia PRIMARY KEY  (tracciaId),
-    FOREIGN KEY (albumId) REFERENCES Album (albumId) 
+	tracciaId INTEGER NOT NULL,
+	nome TEXT NOT NULL,
+	albumId INTEGER,
+	formatoMultimedialeId INTEGER NOT NULL,
+	genereId INTEGER,
+	compositori TEXT,
+	millisecondi INTEGER NOT NULL,
+	byte INTEGER,
+	prezzoUnitario REAL(10,2) NOT NULL,
+	CONSTRAINT PK_Traccia PRIMARY KEY (tracciaId),
+	FOREIGN KEY (albumId) REFERENCES Album (albumId) 
 		ON DELETE NO ACTION ON UPDATE NO ACTION,
-    FOREIGN KEY (genereId) REFERENCES Genere (genereId) 
+	FOREIGN KEY (genereId) REFERENCES Genere (genereId) 
 		ON DELETE NO ACTION ON UPDATE NO ACTION,
-    FOREIGN KEY (formatoMultimedialeId) REFERENCES FormatoMultimediale (formatoMultimedialeId) 
+	FOREIGN KEY (formatoMultimedialeId) REFERENCES FormatoMultimediale (formatoMultimedialeId) 
 		ON DELETE NO ACTION ON UPDATE NO ACTION
 );
 
 
 
 /*******************************************************************************
-   Create Primary Key Unique Indexes
+	Create Primary Key Unique Indexes
 ********************************************************************************/
 
 /*******************************************************************************
-   Create Foreign Keys
+	Create Foreign Keys
 ********************************************************************************/
 CREATE INDEX IFK_AlbumartistaId ON Album (artistaId);
 
@@ -207,10 +196,10 @@ CREATE INDEX IFK_TracciagenereId ON Traccia (genereId);
 CREATE INDEX IFK_TracciaformatoMultimedialeId ON Traccia (formatoMultimedialeId);
 
 /*******************************************************************************
-   Populate Tables
+	Populate Tables
 ********************************************************************************/
 BEGIN TRANSACTION;
-INSERT INTO "Album" ("albumId","titolo","artistaId") VALUES (1,'For Those About To Rock We Salute You',1),
+INSERT INTO Album (albumId,titolo,artistaId) VALUES (1,'For Those About To Rock We Salute You',1),
  (2,'Balls to the Wall',2),
  (3,'Restless and Wild',2),
  (4,'Let There Be Rock',1),
@@ -557,7 +546,7 @@ INSERT INTO "Album" ("albumId","titolo","artistaId") VALUES (1,'For Those About 
  (345,'Monteverdi: L''Orfeo',273),
  (346,'Mozart: Chamber Music',274),
  (347,'Koyaanisqatsi (SoundTraccia from the Motion Picture)',275);
-INSERT INTO "Artista" ("artistaId","nome") VALUES (1,'AC/DC'),
+INSERT INTO Artista (artistaId,nome) VALUES (1,'AC/DC'),
  (2,'Accept'),
  (3,'Aerosmith'),
  (4,'Alanis Morissette'),
@@ -832,7 +821,7 @@ INSERT INTO "Artista" ("artistaId","nome") VALUES (1,'AC/DC'),
  (273,'C. Monteverdi, Nigel Rogers - Chiaroscuro; London Baroque; London Cornett & Sackbu'),
  (274,'Nash Ensemble'),
  (275,'Philip Glass Ensemble');
-INSERT INTO "Cliente" ("clienteId","nome","cognome","societa","indirizzo","citta","stato","nazione","codicePostale","telefono","fax","email","assistenteId") VALUES (1,'Luís','Gonçalves','Embraer - Empresa Brasileira de Aeronáutica S.A.','Av. Brigadeiro Faria Lima, 2170','São José dos Campos','SP','Brazil','12227-000','+55 (12) 3923-5555','+55 (12) 3923-5566','luisg@embraer.com.br',3),
+INSERT INTO Cliente (clienteId,nome,cognome,societa,indirizzo,citta,stato,nazione,codicePostale,telefono,fax,email,assistenteId) VALUES (1,'Luís','Gonçalves','Embraer - Empresa Brasileira de Aeronáutica S.A.','Av. Brigadeiro Faria Lima, 2170','São José dos Campos','SP','Brazil','12227-000','+55 (12) 3923-5555','+55 (12) 3923-5566','luisg@embraer.com.br',3),
  (2,'Leonie','Köhler',NULL,'Theodor-Heuss-Straße 34','Stuttgart',NULL,'Germany','70174','+49 0711 2842222',NULL,'leonekohler@surfeu.de',5),
  (3,'François','Tremblay',NULL,'1498 rue Bélanger','Montréal','QC','Canada','H2G 1A7','+1 (514) 721-4711',NULL,'ftremblay@gmail.com',3),
  (4,'Bjørn','Hansen',NULL,'Ullevålsveien 14','Oslo',NULL,'Norway','0171','+47 22 44 22 22',NULL,'bjorn.hansen@yahoo.no',4),
@@ -891,7 +880,7 @@ INSERT INTO "Cliente" ("clienteId","nome","cognome","societa","indirizzo","citta
  (57,'Luis','Rojas',NULL,'Calle Lira, 198','Santiago',NULL,'Chile',NULL,'+56 (0)2 635 4444',NULL,'luisrojas@yahoo.cl',5),
  (58,'Manoj','Pareek',NULL,'12,Community Centre','Delhi',NULL,'India','110017','+91 0124 39883988',NULL,'manoj.pareek@rediff.com',3),
  (59,'Puja','Srivastava',NULL,'3,Raj Bhavan Road','Bangalore',NULL,'India','560001','+91 080 22289999',NULL,'puja_srivastava@yahoo.in',3);
-INSERT INTO "Dipendente" ("dipendenteId","cognome","nome","titolo","superioreId","dataNascita","dataAssunzione","indirizzo","citta","stato","nazione","codicePostale","telefono","fax","email") VALUES (1,'Adams','Andrew','General Manager',NULL,'1962-02-18 00:00:00','2002-08-14 00:00:00','11120 Jasper Ave NW','Edmonton','AB','Canada','T5K 2N1','+1 (780) 428-9482','+1 (780) 428-3457','andrew@chinookcorp.com'),
+INSERT INTO Dipendente (dipendenteId,cognome,nome,titolo,superioreId,dataNascita,dataAssunzione,indirizzo,citta,stato,nazione,codicePostale,telefono,fax,email) VALUES (1,'Adams','Andrew','General Manager',NULL,'1962-02-18 00:00:00','2002-08-14 00:00:00','11120 Jasper Ave NW','Edmonton','AB','Canada','T5K 2N1','+1 (780) 428-9482','+1 (780) 428-3457','andrew@chinookcorp.com'),
  (2,'Edwards','Nancy','Sales Manager',1,'1958-12-08 00:00:00','2002-05-01 00:00:00','825 8 Ave SW','Calgary','AB','Canada','T2P 2T3','+1 (403) 262-3443','+1 (403) 262-3322','nancy@chinookcorp.com'),
  (3,'Peacock','Jane','Sales Support Agent',2,'1973-08-29 00:00:00','2002-04-01 00:00:00','1111 6 Ave SW','Calgary','AB','Canada','T2P 5M5','+1 (403) 262-3443','+1 (403) 262-6712','jane@chinookcorp.com'),
  (4,'Park','Margaret','Sales Support Agent',2,'1947-09-19 00:00:00','2003-05-03 00:00:00','683 10 Street SW','Calgary','AB','Canada','T2P 5G3','+1 (403) 263-4423','+1 (403) 263-4289','margaret@chinookcorp.com'),
@@ -899,7 +888,7 @@ INSERT INTO "Dipendente" ("dipendenteId","cognome","nome","titolo","superioreId"
  (6,'Mitchell','Michael','IT Manager',1,'1973-07-01 00:00:00','2003-10-17 00:00:00','5827 Bowness Road NW','Calgary','AB','Canada','T3B 0C5','+1 (403) 246-9887','+1 (403) 246-9899','michael@chinookcorp.com'),
  (7,'King','Robert','IT Staff',6,'1970-05-29 00:00:00','2004-01-02 00:00:00','590 Columbia Boulevard West','Lethbridge','AB','Canada','T1K 5N8','+1 (403) 456-9986','+1 (403) 456-8485','robert@chinookcorp.com'),
  (8,'Callahan','Laura','IT Staff',6,'1968-01-09 00:00:00','2004-03-04 00:00:00','923 7 ST NW','Lethbridge','AB','Canada','T1H 1Y8','+1 (403) 467-3351','+1 (403) 467-8772','laura@chinookcorp.com');
-INSERT INTO "Genere" ("genereId","nome") VALUES (1,'Rock'),
+INSERT INTO Genere (genereId,nome) VALUES (1,'Rock'),
  (2,'Jazz'),
  (3,'Metal'),
  (4,'Alternative & Punk'),
@@ -924,7 +913,7 @@ INSERT INTO "Genere" ("genereId","nome") VALUES (1,'Rock'),
  (23,'Alternative'),
  (24,'Classical'),
  (25,'Opera');
-INSERT INTO "Fattura" ("fatturaId","clienteId","dataFatturazione","indirizzoFatturazione","CittaFatturazione","statoFatturazione","nazioneFatturazione","codicePostaleFatturazione","totale") VALUES (1,2,'2009-01-01 00:00:00','Theodor-Heuss-Straße 34','Stuttgart',NULL,'Germany','70174',1.98),
+INSERT INTO Fattura (fatturaId,clienteId,dataFatturazione,indirizzoFatturazione,CittaFatturazione,statoFatturazione,nazioneFatturazione,codicePostaleFatturazione,totale) VALUES (1,2,'2009-01-01 00:00:00','Theodor-Heuss-Straße 34','Stuttgart',NULL,'Germany','70174',1.98),
  (2,4,'2009-01-02 00:00:00','Ullevålsveien 14','Oslo',NULL,'Norway','0171',3.96),
  (3,8,'2009-01-03 00:00:00','Grétrystraat 63','Brussels',NULL,'Belgium','1000',5.94),
  (4,14,'2009-01-06 00:00:00','8210 111 ST NW','Edmonton','AB','Canada','T6G 2C7',8.91),
@@ -1336,7 +1325,7 @@ INSERT INTO "Fattura" ("fatturaId","clienteId","dataFatturazione","indirizzoFatt
  (410,35,'2013-12-09 00:00:00','Rua dos Campeões Europeus de Viena, 4350','Porto',NULL,'Portugal',NULL,8.91),
  (411,44,'2013-12-14 00:00:00','Porthaninkatu 9','Helsinki',NULL,'Finland','00530',13.86),
  (412,58,'2013-12-22 00:00:00','12,Community Centre','Delhi',NULL,'India','110017',1.99);
-INSERT INTO "LineaFattura" ("LineafatturaId","fatturaId","tracciaId","prezzoUnitario","quantita") VALUES (1,1,2,0.99,1),
+INSERT INTO LineaFattura (lineaFatturaId,fatturaId,tracciaId,prezzoUnitario,quantita) VALUES (1,1,2,0.99,1),
  (2,1,4,0.99,1),
  (3,2,6,0.99,1),
  (4,2,8,0.99,1),
@@ -3576,12 +3565,12 @@ INSERT INTO "LineaFattura" ("LineafatturaId","fatturaId","tracciaId","prezzoUnit
  (2238,411,3154,0.99,1),
  (2239,411,3163,0.99,1),
  (2240,412,3177,1.99,1);
-INSERT INTO "FormatoMultimediale" ("formatoMultimedialeId","nome") VALUES (1,'MPEG audio file'),
+INSERT INTO FormatoMultimediale (formatoMultimedialeId,nome) VALUES (1,'MPEG audio file'),
  (2,'Protected AAC audio file'),
  (3,'Protected MPEG-4 video file'),
  (4,'Purchased AAC audio file'),
  (5,'AAC audio file');
-INSERT INTO "Playlist" ("playlistId","nome") VALUES (1,'Music'),
+INSERT INTO Playlist (playlistId,nome) VALUES (1,'Music'),
  (2,'Movies'),
  (3,'TV Shows'),
  (4,'Audiobooks'),
@@ -3599,7 +3588,7 @@ INSERT INTO "Playlist" ("playlistId","nome") VALUES (1,'Music'),
  (16,'Grunge'),
  (17,'Heavy Metal Classic'),
  (18,'On-The-Go 1');
-INSERT INTO "TracciaPlaylist" ("playlistId","tracciaId") VALUES (1,3402),
+INSERT INTO TracciaPlaylist (playlistId,tracciaId) VALUES (1,3402),
  (1,3389),
  (1,3390),
  (1,3391),
@@ -12314,7 +12303,7 @@ INSERT INTO "TracciaPlaylist" ("playlistId","tracciaId") VALUES (1,3402),
  (17,2096),
  (17,3290),
  (18,597);
-INSERT INTO "Traccia" ("tracciaId","nome","albumId","formatoMultimedialeId","genereId","compositori","millisecondi","byte","prezzoUnitario") VALUES (1,'For Those About To Rock (We Salute You)',1,1,1,'Angus Young, Malcolm Young, Brian Johnson',343719,11170334,0.99),
+INSERT INTO Traccia (tracciaId,nome,albumId,formatoMultimedialeId,genereId,compositori,millisecondi,byte,prezzoUnitario) VALUES (1,'For Those About To Rock (We Salute You)',1,1,1,'Angus Young, Malcolm Young, Brian Johnson',343719,11170334,0.99),
  (2,'Balls to the Wall',2,2,1,NULL,342562,5510424,0.99),
  (3,'Fast As a Shark',3,2,1,'F. Baltes, S. Kaufman, U. Dirkscneider & W. Hoffman',230619,3990994,0.99),
  (4,'Restless and Wild',3,2,1,'F. Baltes, R.A. Smith-Diesel, S. Kaufman, U. Dirkscneider & W. Hoffman',252051,4331779,0.99),
@@ -12425,7 +12414,7 @@ INSERT INTO "Traccia" ("tracciaId","nome","albumId","formatoMultimedialeId","gen
  (109,'#1 Zero',11,1,4,'Cornell, Commerford, Morello, Wilk',299102,9731988,0.99),
  (110,'The Curse',11,1,4,'Cornell, Commerford, Morello, Wilk',309786,10029406,0.99),
  (111,'Money',12,1,5,'Berry Gordy, Jr./Janie Bradford',147591,2365897,0.99),
- (112,'Long Tall Sally',12,1,5,'Enotris Johnson/Little Richard/Robert "Bumps" Blackwell',106396,1707084,0.99),
+ (112,'Long Tall Sally',12,1,5,'Enotris Johnson/Little Richard/Robert Bumps Blackwell',106396,1707084,0.99),
  (113,'Bad Boy',12,1,5,'Larry Williams',116088,1862126,0.99),
  (114,'Twist And Shout',12,1,5,'Bert Russell/Phil Medley',161123,2582553,0.99),
  (115,'Please Mr. Postman',12,1,5,'Brian Holland/Freddie Gorman/Georgia Dobbins/Robert Bateman/William Garrett',137639,2206986,0.99),
@@ -12438,7 +12427,7 @@ INSERT INTO "Traccia" ("tracciaId","nome","albumId","formatoMultimedialeId","gen
  (122,'20 Flight Rock',12,1,5,'Ned Fairchild',107807,1299960,0.99),
  (123,'Quadrant',13,1,2,'Billy Cobham',261851,8538199,0.99),
  (124,'Snoopy''s search-Red baron',13,1,2,'Billy Cobham',456071,15075616,0.99),
- (125,'Spanish moss-"A sound portrait"-Spanish moss',13,1,2,'Billy Cobham',248084,8217867,0.99),
+ (125,'Spanish moss-A sound portrait-Spanish moss',13,1,2,'Billy Cobham',248084,8217867,0.99),
  (126,'Moon germs',13,1,2,'Billy Cobham',294060,9714812,0.99),
  (127,'Stratus',13,1,2,'Billy Cobham',582086,19115680,0.99),
  (128,'The pleasant pheasant',13,1,2,'Billy Cobham',318066,10630578,0.99),
@@ -12523,7 +12512,7 @@ INSERT INTO "Traccia" ("tracciaId","nome","albumId","formatoMultimedialeId","gen
  (207,'Meditação',21,1,7,'Tom Jobim - Newton Mendoça',148793,4865597,0.99),
  (208,'Terra',21,1,7,'Caetano Veloso',482429,15889054,0.99),
  (209,'Eclipse Oculto',21,1,7,'Caetano Veloso',221936,7382703,0.99),
- (210,'Texto "Verdade Tropical"',21,1,7,'Caetano Veloso',84088,2752161,0.99),
+ (210,'Texto Verdade Tropical',21,1,7,'Caetano Veloso',84088,2752161,0.99),
  (211,'Bem Devagar',21,1,7,'Gilberto Gil',133172,4333651,0.99),
  (212,'Drão',21,1,7,'Gilberto Gil',156264,5065932,0.99),
  (213,'Saudosismo',21,1,7,'Caetano Veloso',144326,4726981,0.99),
@@ -12843,7 +12832,7 @@ INSERT INTO "Traccia" ("tracciaId","nome","albumId","formatoMultimedialeId","gen
  (527,'Terra',23,1,7,NULL,401319,13224055,0.99),
  (528,'Alegria, Alegria',23,1,7,NULL,169221,5497025,0.99),
  (529,'Balada Do Louco',42,1,4,'Arnaldo Baptista - Rita Lee',241057,7852328,0.99),
- (530,'Ando Meio Desligado',42,1,4,'Arnaldo Baptista - Rita Lee -  Sérgio Dias',287817,9484504,0.99),
+ (530,'Ando Meio Desligado',42,1,4,'Arnaldo Baptista - Rita Lee - Sérgio Dias',287817,9484504,0.99),
  (531,'Top Top',42,1,4,'Os Mutantes - Arnolpho Lima Filho',146938,4875374,0.99),
  (532,'Baby',42,1,4,'Caetano Veloso',177188,5798202,0.99),
  (533,'A E O Z',42,1,4,'Mutantes',518556,16873005,0.99),
@@ -13394,7 +13383,7 @@ INSERT INTO "Traccia" ("tracciaId","nome","albumId","formatoMultimedialeId","gen
  (1078,'Asa Branca',85,1,10,'Humberto Teixeira/Luiz Gonzaga',217051,7387183,0.99),
  (1079,'Qui Nem Jiló',85,1,10,'Humberto Teixeira/Luiz Gonzaga',204695,6937472,0.99),
  (1080,'Assum Preto',85,1,10,'Humberto Teixeira/Luiz Gonzaga',199653,6625000,0.99),
- (1081,'Pau-De-Arara',85,1,10,'Guio De Morais E Seus "Parentes"/Luiz Gonzaga',191660,6340649,0.99),
+ (1081,'Pau-De-Arara',85,1,10,'Guio De Morais E Seus Parentes/Luiz Gonzaga',191660,6340649,0.99),
  (1082,'A Volta Da Asa Branca',85,1,10,'Luiz Gonzaga/Zé Dantas',271020,9098093,0.99),
  (1083,'O Amor Daqui De Casa',85,1,10,'Gilberto Gil',148636,4888292,0.99),
  (1084,'As Pegadas Do Amor',85,1,10,'Gilberto Gil',209136,6899062,0.99),
@@ -13588,7 +13577,7 @@ INSERT INTO "Traccia" ("tracciaId","nome","albumId","formatoMultimedialeId","gen
  (1272,'05 - Phantom of the Opera',100,1,6,'Steve Harris',428016,10276872,0.99),
  (1273,'06 - Transylvania',100,1,6,'Steve Harris',259343,6226048,0.99),
  (1274,'07 - Strange World',100,1,6,'Steve Harris',332460,7981184,0.99),
- (1275,'08 - Charlotte the Harlot',100,1,6,'Murray  Dave',252708,6066304,0.99),
+ (1275,'08 - Charlotte the Harlot',100,1,6,'Murray Dave',252708,6066304,0.99),
  (1276,'09 - Iron Maiden',100,1,6,'Steve Harris',216058,5189891,0.99),
  (1277,'The Ides Of March',101,1,13,'Steve Harris',105926,2543744,0.99),
  (1278,'Wrathchild',101,1,13,'Steve Harris',174471,4188288,0.99),
@@ -14088,13 +14077,13 @@ INSERT INTO "Traccia" ("tracciaId","nome","albumId","formatoMultimedialeId","gen
  (1772,'O Xote Das Meninas',145,1,7,'Caetano Veloso e Gilberto Gil',291866,9553228,0.99),
  (1773,'Wherever I Lay My Hat',146,1,14,NULL,136986,4477321,0.99),
  (1774,'Get My Hands On Some Lovin''',146,1,14,NULL,149054,4860380,0.99),
- (1775,'No Good Without You',146,1,14,'William "Mickey" Stevenson',161410,5259218,0.99),
+ (1775,'No Good Without You',146,1,14,'William Mickey Stevenson',161410,5259218,0.99),
  (1776,'You''ve Been A Long Time Coming',146,1,14,'Brian Holland/Eddie Holland/Lamont Dozier',137221,4437949,0.99),
- (1777,'When I Had Your Love',146,1,14,'Robert Rogers/Warren "Pete" Moore/William "Mickey" Stevenson',152424,4972815,0.99),
+ (1777,'When I Had Your Love',146,1,14,'Robert Rogers/Warren Pete Moore/William Mickey Stevenson',152424,4972815,0.99),
  (1778,'You''re What''s Happening (In The World Today)',146,1,14,'Allen Story/George Gordy/Robert Gordy',142027,4631104,0.99),
  (1779,'Loving You Is Sweeter Than Ever',146,1,14,'Ivy Hunter/Stevie Wonder',166295,5377546,0.99),
- (1780,'It''s A Bitter Pill To Swallow',146,1,14,'Smokey Robinson/Warren "Pete" Moore',194821,6477882,0.99),
- (1781,'Seek And You Shall Find',146,1,14,'Ivy Hunter/William "Mickey" Stevenson',223451,7306719,0.99),
+ (1780,'It''s A Bitter Pill To Swallow',146,1,14,'Smokey Robinson/Warren Pete Moore',194821,6477882,0.99),
+ (1781,'Seek And You Shall Find',146,1,14,'Ivy Hunter/William Mickey Stevenson',223451,7306719,0.99),
  (1782,'Gonna Keep On Tryin'' Till I Win Your Love',146,1,14,'Barrett Strong/Norman Whitfield',176404,5789945,0.99),
  (1783,'Gonna Give Her All The Love I''ve Got',146,1,14,'Barrett Strong/Norman Whitfield',210886,6893603,0.99),
  (1784,'I Wish It Would Rain',146,1,14,'Barrett Strong/Norman Whitfield/Roger Penzabene',172486,5647327,0.99),
@@ -15231,7 +15220,7 @@ INSERT INTO "Traccia" ("tracciaId","nome","albumId","formatoMultimedialeId","gen
  (2915,'Do No Harm',230,3,19,NULL,2618487,212039309,1.99),
  (2916,'Two for the Road',231,3,21,NULL,2610958,502404558,1.99),
  (2917,'The Greater Good',230,3,19,NULL,2617784,214130273,1.99),
- (2918,'"?"',231,3,19,NULL,2782333,528227089,1.99),
+ (2918,'?',231,3,19,NULL,2782333,528227089,1.99),
  (2919,'Born to Run',230,3,19,NULL,2618619,213772057,1.99),
  (2920,'Three Minutes',231,3,19,NULL,2763666,531556853,1.99),
  (2921,'Exodus (Part 1)',230,3,19,NULL,2620747,213107744,1.99),
@@ -15340,7 +15329,7 @@ INSERT INTO "Traccia" ("tracciaId","nome","albumId","formatoMultimedialeId","gen
  (3024,'Two Hearts Beat As One',239,1,1,'U2',243487,7998323,0.99),
  (3025,'Red Light',239,1,1,'U2',225854,7453704,0.99),
  (3026,'Surrender',239,1,1,'U2',333505,11221406,0.99),
- (3027,'"40"',239,1,1,'U2',157962,5251767,0.99),
+ (3027,'40',239,1,1,'U2',157962,5251767,0.99),
  (3028,'Zooropa',240,1,1,'U2; Bono',392359,12807979,0.99),
  (3029,'Babyface',240,1,1,'U2; Bono',241998,7942573,0.99),
  (3030,'Numb',240,1,1,'U2; Edge, The',260284,8577861,0.99),
@@ -15666,13 +15655,13 @@ INSERT INTO "Traccia" ("tracciaId","nome","albumId","formatoMultimedialeId","gen
  (3350,'Despertar',262,5,2,'Andrea Dulbecco',307385,4821485,0.99),
  (3351,'Din Din Wo (Little Child)',263,5,16,'Habib Koité',285837,4615841,0.99),
  (3352,'Distance',264,5,15,'Karsh Kale/Vishal Vaid',327122,5327463,0.99),
- (3353,'I Guess You''re Right',265,5,1,'Darius "Take One" Minwalla/Jon Auer/Ken Stringfellow/Matt Harris',212044,3453849,0.99),
+ (3353,'I Guess You''re Right',265,5,1,'Darius Take One Minwalla/Jon Auer/Ken Stringfellow/Matt Harris',212044,3453849,0.99),
  (3354,'I Ka Barra (Your Work)',263,5,16,'Habib Koité',300605,4855457,0.99),
- (3355,'Love Comes',265,5,1,'Darius "Take One" Minwalla/Jon Auer/Ken Stringfellow/Matt Harris',199923,3240609,0.99),
+ (3355,'Love Comes',265,5,1,'Darius Take One Minwalla/Jon Auer/Ken Stringfellow/Matt Harris',199923,3240609,0.99),
  (3356,'Muita Bobeira',266,5,7,'Luciana Souza',172710,2775071,0.99),
  (3357,'OAM''s Blues',267,5,2,'Aaron Goldberg',266936,4292028,0.99),
  (3358,'One Step Beyond',264,5,15,'Karsh Kale',366085,6034098,0.99),
- (3359,'Symphony No. 3 in E-flat major, Op. 55, "Eroica" - Scherzo: Allegro Vivace',268,5,24,'Ludwig van Beethoven',356426,5817216,0.99),
+ (3359,'Symphony No. 3 in E-flat major, Op. 55, Eroica - Scherzo: Allegro Vivace',268,5,24,'Ludwig van Beethoven',356426,5817216,0.99),
  (3360,'Something Nice Back Home',261,3,21,NULL,2612779,484711353,1.99),
  (3361,'Cabin Fever',261,3,21,NULL,2612028,477733942,1.99),
  (3362,'There''s No Place Like Home, Pt. 1',261,3,21,NULL,2609526,522919189,1.99),
@@ -15715,26 +15704,26 @@ INSERT INTO "Traccia" ("tracciaId","nome","albumId","formatoMultimedialeId","gen
  (3399,'Nothing Left to Say But Goodbye',271,2,23,NULL,213041,3484335,0.99),
  (3400,'Moth',271,2,23,NULL,298049,4838884,0.99),
  (3401,'Show Me How to Live (Live at the Quart Festival)',271,2,23,NULL,301974,4901540,0.99),
- (3402,'Band Members Discuss Traccias from "Revelations"',271,3,23,NULL,294294,61118891,0.99),
+ (3402,'Band Members Discuss Traccias from Revelations',271,3,23,NULL,294294,61118891,0.99),
  (3403,'Intoitus: Adorate Deum',272,2,24,'Anonymous',245317,4123531,0.99),
  (3404,'Miserere mei, Deus',273,2,24,'Gregorio Allegri',501503,8285941,0.99),
  (3405,'Canon and Gigue in D Major: I. Canon',274,2,24,'Johann Pachelbel',271788,4438393,0.99),
- (3406,'Concerto No. 1 in E Major, RV 269 "Spring": I. Allegro',275,2,24,'Antonio Vivaldi',199086,3347810,0.99),
+ (3406,'Concerto No. 1 in E Major, RV 269 Spring: I. Allegro',275,2,24,'Antonio Vivaldi',199086,3347810,0.99),
  (3407,'Concerto for 2 Violins in D Minor, BWV 1043: I. Vivace',276,2,24,'Johann Sebastian Bach',193722,3192890,0.99),
- (3408,'Aria Mit 30 Veränderungen, BWV 988 "Goldberg Variations": Aria',277,2,24,'Johann Sebastian Bach',120463,2081895,0.99),
+ (3408,'Aria Mit 30 Veränderungen, BWV 988 Goldberg Variations: Aria',277,2,24,'Johann Sebastian Bach',120463,2081895,0.99),
  (3409,'Suite for Solo Cello No. 1 in G Major, BWV 1007: I. Prélude',278,2,24,'Johann Sebastian Bach',143288,2315495,0.99),
  (3410,'The Messiah: Behold, I Tell You a Mystery... The Trumpet Shall Sound',279,2,24,'George Frideric Handel',582029,9553140,0.99),
  (3411,'Solomon HWV 67: The Arrival of the Queen of Sheba',280,2,24,'George Frideric Handel',197135,3247914,0.99),
- (3412,'"Eine Kleine Nachtmusik" Serenade In G, K. 525: I. Allegro',281,2,24,'Wolfgang Amadeus Mozart',348971,5760129,0.99),
+ (3412,'Eine Kleine Nachtmusik Serenade In G, K. 525: I. Allegro',281,2,24,'Wolfgang Amadeus Mozart',348971,5760129,0.99),
  (3413,'Concerto for Clarinet in A Major, K. 622: II. Adagio',282,2,24,'Wolfgang Amadeus Mozart',394482,6474980,0.99),
- (3414,'Symphony No. 104 in D Major "London": IV. Finale: Spiritoso',283,4,24,'Franz Joseph Haydn',306687,10085867,0.99),
+ (3414,'Symphony No. 104 in D Major London: IV. Finale: Spiritoso',283,4,24,'Franz Joseph Haydn',306687,10085867,0.99),
  (3415,'Symphony No.5 in C Minor: I. Allegro con brio',284,2,24,'Ludwig van Beethoven',392462,6419730,0.99),
  (3416,'Ave Maria',285,2,24,'Franz Schubert',338243,5605648,0.99),
- (3417,'Nabucco: Chorus, "Va, Pensiero, Sull''ali Dorate"',286,2,24,'Giuseppe Verdi',274504,4498583,0.99),
+ (3417,'Nabucco: Chorus, Va, Pensiero, Sull''ali Dorate',286,2,24,'Giuseppe Verdi',274504,4498583,0.99),
  (3418,'Die Walküre: The Ride of the Valkyries',287,2,24,'Richard Wagner',189008,3114209,0.99),
  (3419,'Requiem, Op.48: 4. Pie Jesu',288,2,24,'Gabriel Fauré',258924,4314850,0.99),
  (3420,'The Nutcracker, Op. 71a, Act II: Scene 14: Pas de deux: Dance of the Prince & the Sugar-Plum Fairy',289,2,24,'Peter Ilyich Tchaikovsky',304226,5184289,0.99),
- (3421,'Nimrod (Adagio) from Variations On an Original Theme, Op. 36 "Enigma"',290,2,24,'Edward Elgar',250031,4124707,0.99),
+ (3421,'Nimrod (Adagio) from Variations On an Original Theme, Op. 36 Enigma',290,2,24,'Edward Elgar',250031,4124707,0.99),
  (3422,'Madama Butterfly: Un Bel Dì Vedremo',291,2,24,'Giacomo Puccini',277639,4588197,0.99),
  (3423,'Jupiter, the Bringer of Jollity',292,2,24,'Gustav Holst',522099,8547876,0.99),
  (3424,'Turandot, Act III, Nessun dorma!',293,2,24,'Giacomo Puccini',176911,2920890,0.99),
@@ -15744,13 +15733,13 @@ INSERT INTO "Traccia" ("tracciaId","nome","albumId","formatoMultimedialeId","gen
  (3428,'Branch Closing',251,3,22,NULL,1814855,360331351,1.99),
  (3429,'The Return',251,3,22,NULL,1705080,343877320,1.99),
  (3430,'Toccata and Fugue in D Minor, BWV 565: I. Toccata',297,2,24,'Johann Sebastian Bach',153901,2649938,0.99),
- (3431,'Symphony No.1 in D Major, Op.25 "Classical", Allegro Con Brio',298,2,24,'Sergei Prokofiev',254001,4195542,0.99),
+ (3431,'Symphony No.1 in D Major, Op.25 Classical, Allegro Con Brio',298,2,24,'Sergei Prokofiev',254001,4195542,0.99),
  (3432,'Scheherazade, Op. 35: I. The Sea and Sindbad''s Ship',299,2,24,'Nikolai Rimsky-Korsakov',545203,8916313,0.99),
  (3433,'Concerto No.2 in F Major, BWV1047, I. Allegro',300,2,24,'Johann Sebastian Bach',307244,5064553,0.99),
  (3434,'Concerto for Piano No. 2 in F Minor, Op. 21: II. Larghetto',301,2,24,'Frédéric Chopin',560342,9160082,0.99),
  (3435,'Cavalleria Rusticana \ Act \ Intermezzo Sinfonico',302,2,24,'Pietro Mascagni',243436,4001276,0.99),
  (3436,'Karelia Suite, Op.11: 2. Ballade (Tempo Di Menuetto)',303,2,24,'Jean Sibelius',406000,5908455,0.99),
- (3437,'Piano Sonata No. 14 in C Sharp Minor, Op. 27, No. 2, "Moonlight": I. Adagio sostenuto',304,2,24,'Ludwig van Beethoven',391000,6318740,0.99),
+ (3437,'Piano Sonata No. 14 in C Sharp Minor, Op. 27, No. 2, Moonlight: I. Adagio sostenuto',304,2,24,'Ludwig van Beethoven',391000,6318740,0.99),
  (3438,'Fantasia On Greensleeves',280,2,24,'Ralph Vaughan Williams',268066,4513190,0.99),
  (3439,'Das Lied Von Der Erde, Von Der Jugend',305,2,24,'Gustav Mahler',223583,3700206,0.99),
  (3440,'Concerto for Cello and Orchestra in E minor, Op. 85: I. Adagio - Moderato',306,2,24,'Edward Elgar',483133,7865479,0.99),
@@ -15764,10 +15753,10 @@ INSERT INTO "Traccia" ("tracciaId","nome","albumId","formatoMultimedialeId","gen
  (3448,'Lamentations of Jeremiah, First Set \ Incipit Lamentatio',314,2,24,'Thomas Tallis',69194,1208080,0.99),
  (3449,'Music for the Royal Fireworks, HWV351 (1749): La Réjouissance',315,2,24,'George Frideric Handel',120000,2193734,0.99),
  (3450,'Peer Gynt Suite No.1, Op.46: 1. Morning Mood',316,2,24,'Edvard Grieg',253422,4298769,0.99),
- (3451,'Die Zauberflöte, K.620: "Der Hölle Rache Kocht in Meinem Herze"',317,2,25,'Wolfgang Amadeus Mozart',174813,2861468,0.99),
+ (3451,'Die Zauberflöte, K.620: Der Hölle Rache Kocht in Meinem Herze',317,2,25,'Wolfgang Amadeus Mozart',174813,2861468,0.99),
  (3452,'SCRIABIN: Prelude in B Major, Op. 11, No. 11',318,4,24,NULL,101293,3819535,0.99),
  (3453,'Pavan, Lachrimae Antiquae',319,2,24,'John Dowland',253281,4211495,0.99),
- (3454,'Symphony No. 41 in C Major, K. 551, "Jupiter": IV. Molto allegro',320,2,24,'Wolfgang Amadeus Mozart',362933,6173269,0.99),
+ (3454,'Symphony No. 41 in C Major, K. 551, Jupiter: IV. Molto allegro',320,2,24,'Wolfgang Amadeus Mozart',362933,6173269,0.99),
  (3455,'Rehab',321,2,14,NULL,213240,3416878,0.99),
  (3456,'You Know I''m No Good',321,2,14,NULL,256946,4133694,0.99),
  (3457,'Me & Mr. Jones',321,2,14,NULL,151706,2449438,0.99),
@@ -15788,9 +15777,9 @@ INSERT INTO "Traccia" ("tracciaId","nome","albumId","formatoMultimedialeId","gen
  (3472,'In My Bed',322,2,9,'Salaam Remi',315960,5211774,0.99),
  (3473,'Take the Box',322,2,9,'Luke Smith',199160,3281526,0.99),
  (3474,'October Song',322,2,9,'Matt Rowe & Stefan Skarbek',204846,3358125,0.99),
- (3475,'What Is It About Men',322,2,9,'Delroy "Chris" Cooper, Donovan Jackson, Earl Chinna Smith, Felix Howard, Gordon Williams, Luke Smith, Paul Watson & Wilburn Squiddley Cole',209573,3426106,0.99),
+ (3475,'What Is It About Men',322,2,9,'Delroy Chris Cooper, Donovan Jackson, Earl Chinna Smith, Felix Howard, Gordon Williams, Luke Smith, Paul Watson & Wilburn Squiddley Cole',209573,3426106,0.99),
  (3476,'Help Yourself',322,2,9,'Freddy James, Jimmy hogarth & Larry Stock',300884,5029266,0.99),
- (3477,'Amy Amy Amy (Outro)',322,2,9,'Astor Campbell, Delroy "Chris" Cooper, Donovan Jackson, Dorothy Fields, Earl Chinna Smith, Felix Howard, Gordon Williams, James Moody, Jimmy McHugh, Matt Rowe, Salaam Remi & Stefan Skarbek',663426,10564704,0.99),
+ (3477,'Amy Amy Amy (Outro)',322,2,9,'Astor Campbell, Delroy Chris Cooper, Donovan Jackson, Dorothy Fields, Earl Chinna Smith, Felix Howard, Gordon Williams, James Moody, Jimmy McHugh, Matt Rowe, Salaam Remi & Stefan Skarbek',663426,10564704,0.99),
  (3478,'Slowness',323,2,23,NULL,215386,3644793,0.99),
  (3479,'Prometheus Overture, Op. 43',324,4,24,'Ludwig van Beethoven',339567,10887931,0.99),
  (3480,'Sonata for Solo Violin: IV: Presto',325,4,24,'Béla Bartók',299350,9785346,0.99),
@@ -15798,22 +15787,22 @@ INSERT INTO "Traccia" ("tracciaId","nome","albumId","formatoMultimedialeId","gen
  (3482,'Suite No. 3 in D, BWV 1068: III. Gavotte I & II',327,2,24,'Johann Sebastian Bach',225933,3847164,0.99),
  (3483,'Concert pour 4 Parties de V**les, H. 545: I. Prelude',328,2,24,'Marc-Antoine Charpentier',110266,1973559,0.99),
  (3484,'Adios nonino',329,2,24,'Astor Piazzolla',289388,4781384,0.99),
- (3485,'Symphony No. 3 Op. 36 for Orchestra and Soprano "Symfonia Piesni Zalosnych" \ Lento E Largo - Tranquillissimo',330,2,24,'Henryk Górecki',567494,9273123,0.99),
+ (3485,'Symphony No. 3 Op. 36 for Orchestra and Soprano Symfonia Piesni Zalosnych \ Lento E Largo - Tranquillissimo',330,2,24,'Henryk Górecki',567494,9273123,0.99),
  (3486,'Act IV, Symphony',331,2,24,'Henry Purcell',364296,5987695,0.99),
  (3487,'3 Gymnopédies: No.1 - Lent Et Grave, No.3 - Lent Et Douloureux',332,2,24,'Erik Satie',385506,6458501,0.99),
- (3488,'Music for the Funeral of Queen Mary: VI. "Thou Knowest, Lord, the Secrets of Our Hearts"',333,2,24,'Henry Purcell',142081,2365930,0.99),
+ (3488,'Music for the Funeral of Queen Mary: VI. Thou Knowest, Lord, the Secrets of Our Hearts',333,2,24,'Henry Purcell',142081,2365930,0.99),
  (3489,'Symphony No. 2: III. Allegro vivace',334,2,24,'Kurt Weill',376510,6129146,0.99),
  (3490,'Partita in E Major, BWV 1006A: I. Prelude',335,2,24,'Johann Sebastian Bach',285673,4744929,0.99),
  (3491,'Le Sacre Du Printemps: I.iv. Spring Rounds',336,2,24,'Igor Stravinsky',234746,4072205,0.99),
  (3492,'Sing Joyfully',314,2,24,'William Byrd',133768,2256484,0.99),
  (3493,'Metopes, Op. 29: Calypso',337,2,24,'Karol Szymanowski',333669,5548755,0.99),
- (3494,'Symphony No. 2, Op. 16 -  "The Four Temperaments": II. Allegro Comodo e Flemmatico',338,2,24,'Carl Nielsen',286998,4834785,0.99),
+ (3494,'Symphony No. 2, Op. 16 - The Four Temperaments: II. Allegro Comodo e Flemmatico',338,2,24,'Carl Nielsen',286998,4834785,0.99),
  (3495,'24 Caprices, Op. 1, No. 24, for Solo Violin, in A Minor',339,2,24,'Niccolò Paganini',265541,4371533,0.99),
  (3496,'Étude 1, In C Major - Preludio (Presto) - Liszt',340,4,24,NULL,51780,2229617,0.99),
  (3497,'Erlkonig, D.328',341,2,24,NULL,261849,4307907,0.99),
  (3498,'Concerto for Violin, Strings and Continuo in G Major, Op. 3, No. 9: I. Allegro',342,4,24,'Pietro Antonio Locatelli',493573,16454937,0.99),
  (3499,'Pini Di Roma (Pinien Von Rom) \ I Pini Della Via Appia',343,2,24,NULL,286741,4718950,0.99),
- (3500,'String Quartet No. 12 in C Minor, D. 703 "Quartettsatz": II. Andante - Allegro assai',344,2,24,'Franz Schubert',139200,2283131,0.99),
+ (3500,'String Quartet No. 12 in C Minor, D. 703 Quartettsatz: II. Andante - Allegro assai',344,2,24,'Franz Schubert',139200,2283131,0.99),
  (3501,'L''orfeo, Act 3, Sinfonia (Orchestra)',345,2,24,'Claudio Monteverdi',66639,1189062,0.99),
  (3502,'Quintet for Horn, Violin, 2 Violas, and Cello in E Flat Major, K. 407/386c: III. Allegro',346,2,24,'Wolfgang Amadeus Mozart',221331,3665114,0.99),
  (3503,'Koyaanisqatsi',347,2,10,'Philip Glass',206005,3305164,0.99);
