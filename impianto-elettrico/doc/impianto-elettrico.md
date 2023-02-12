@@ -1,3 +1,5 @@
+**TipoMorsetto** (  **tipoMorsettoId**: INTEGER, tipo: TEXT, diametro: INTEGER)
+
 **TipoCavo** (  **tipoCavoId**: INTEGER, cavo: TEXT, colore: TEXT, sezione: REAL)
 
 **TipoFrutto** (  **tipoFruttoId**: INTEGER, frutto: TEXT, note: TEXT)
@@ -16,5 +18,5 @@
 
 **Frutto** (  **fruttoId**: INTEGER, _tipoFruttoId_: INTEGER -> TipoFrutto(tipoFruttoId), _scatolaId_: INTEGER -> Scatola(scatolaId), posizione: INTEGER)
 
-**TipoMorsetto** (  **tipoMorsettoId**: INTEGER, tipo: TEXT, diametro: INTEGER)
+**Connessione** (  ***cavoOrigineId***: INTEGER -> Cavo(cavoOrigineId), ***cavoDestinazioneId***: INTEGER -> Cavo(cavoDestinazioneId), _tipoMorsettoId_: INTEGER -> TipoMorsetto(tipoMorsettoId))
 

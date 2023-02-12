@@ -181,11 +181,11 @@ CREATE TABLE TipoMorsetto (
 
 DROP TABLE IF EXISTS Connessione;
 
-CRATE TABLE Connessione (
+CREATE TABLE Connessione (
     -- scatolaId INTEGER REFERENCES Scatola(scatolaId),
     cavoOrigineId INTEGER REFERENCES Cavo(cavoId),
     cavoDestinazioneId INTEGER REFERENCES Cavo(cavoId),
-    tipoMorsettoId REFERENCES TipoMorsetto(tipoMorsettoId),
+    tipoMorsettoId INTEGER REFERENCES TipoMorsetto(tipoMorsettoId),
     PRIMARY KEY(cavoOrigineId, cavoDestinazioneId)
 );
 

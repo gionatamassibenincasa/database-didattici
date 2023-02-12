@@ -1,3 +1,9 @@
+`TipoMorsetto` (
+  **tipoMorsettoId**: INTEGER
+, tipo: TEXT
+, diametro: INTEGER
+)
+
 `TipoCavo` (
   **tipoCavoId**: INTEGER
 , cavo: TEXT
@@ -66,9 +72,9 @@
 , posizione: INTEGER
 )
 
-`TipoMorsetto` (
-  **tipoMorsettoId**: INTEGER
-, tipo: TEXT
-, diametro: INTEGER
+`Connessione` (
+  **__cavoOrigineId__**: INTEGER -> Cavo(cavoId)
+, **__cavoDestinazioneId__**: INTEGER -> Cavo(cavoId)
+, __tipoMorsettoId__: INTEGER -> TipoMorsetto(tipoMorsettoId)
 )
 

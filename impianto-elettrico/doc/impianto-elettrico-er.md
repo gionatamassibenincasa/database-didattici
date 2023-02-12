@@ -1,4 +1,10 @@
 erDiagram
+ TipoMorsetto {
+  INTEGER tipoMorsettoId PK
+  TEXT tipo
+  INTEGER diametro
+ }
+
  TipoCavo {
   INTEGER tipoCavoId PK
   TEXT cavo
@@ -67,10 +73,10 @@ erDiagram
   INTEGER posizione
  }
 
- TipoMorsetto {
-  INTEGER tipoMorsettoId PK
-  TEXT tipo
-  INTEGER diametro
+ Connessione {
+  INTEGER cavoOrigineId PK
+  INTEGER cavoDestinazioneId PK
+  INTEGER tipoMorsettoId FK
  }
 
  Scatola }o--|| Parete : spigolo
@@ -83,4 +89,7 @@ erDiagram
  Cavo }o--|| TipoCavo : tipoCavoId
  Frutto }o--|| Scatola : scatolaId
  Frutto }o--|| TipoFrutto : tipoFruttoId
+ Connessione }o--|| TipoMorsetto : tipoMorsettoId
+ Connessione }o--|| Cavo : cavoDestinazioneId
+ Connessione }o--|| Cavo : cavoOrigineId
 

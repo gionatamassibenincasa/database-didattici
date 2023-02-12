@@ -1,4 +1,10 @@
 classDiagram
+class TipoMorsetto {
+	tipoMorsettoId: INTEGER
+	tipo: TEXT
+	diametro: INTEGER
+}
+
 class TipoCavo {
 	tipoCavoId: INTEGER
 	cavo: TEXT
@@ -67,10 +73,10 @@ class Frutto {
 	posizione: INTEGER
 }
 
-class TipoMorsetto {
+class Connessione {
+	cavoOrigineId: INTEGER
+	cavoDestinazioneId: INTEGER
 	tipoMorsettoId: INTEGER
-	tipo: TEXT
-	diametro: INTEGER
 }
 
 Scatola "*" -- "1" Parete : spigolo
@@ -83,4 +89,7 @@ Cavo "*" -- "1" Linea : lineaId
 Cavo "*" -- "1" TipoCavo : tipoCavoId
 Frutto "*" -- "1" Scatola : scatolaId
 Frutto "*" -- "1" TipoFrutto : tipoFruttoId
+Connessione "*" -- "1" TipoMorsetto : tipoMorsettoId
+Connessione "*" -- "1" Cavo : cavoDestinazioneId
+Connessione "*" -- "1" Cavo : cavoOrigineId
 
