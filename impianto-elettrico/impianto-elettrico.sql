@@ -146,9 +146,50 @@ CREATE TABLE Cavo (
     canalizzazioneId INTEGER REFERENCES Canalizzazione(canalizzazioneId)
 );
 
+-- Inserire i cavi
 
+DROP TABLE IF EXISTS Frutto;
 
-SELECT * FROM Scatola;
+CREATE TABLE Frutto (
+    fruttoId INTEGER PRIMARY KEY,
+    tipoFruttoId INTEGER REFERENCES TipoFrutto(tipoFruttoId),
+    scatolaId INTEGER REFERENCES Scatola(scatolaId),
+    posizione INTEGER,
+    UNIQUE(scatolaId, posizione)
+);
+
+INSERT INTO Frutto (fruttoId, tipoFruttoId, scatolaId, posizione) VALUES
+  (1, 2, 1, 1)
+, (2, 3, 1, 3)
+, (3, 5, 2, 1)
+, (4, 4, 2, 3)
+, (5, 1, 3, 1)
+, (6, 3, 3, 3)
+, (7, 5, 4, 1)
+, (8, 5, 5, 1)
+;
+
+DROP TABLE ID EXISTS TipoMorsetto;
+
+CREATE TABLE TipoMorsetto (
+    tipoMorsettoId INTEGER PRIMARY KEY,
+    tipo TEXT,
+    diametro INTEGER
+);
+
+-- Inserisci TipoMorsetto
+
+DROP TABLE IF EXISTS Connessione;
+
+CRATE TABLE Connessione (
+    -- scatolaId INTEGER REFERENCES Scatola(scatolaId),
+    cavoOrigineId INTEGER REFERENCES Cavo(cavoId),
+    cavoDestinazioneId INTEGER REFERENCES Cavo(cavoId),
+    tipoMorsettoId REFERENCES TipoMorsetto(tipoMorsettoId),
+    PRIMARY KEY(cavoOrigineId, cavoDestinazioneId)
+);
+
+-- INSERT Connessione
 
 CREATE VIEW view_Prospetto_scatole AS
 SELECT
@@ -179,3 +220,11 @@ FROM
     Canalizzazione C
         INNER JOIN Scatola O ON (C.scatolaOrigineId = O.scatolaId)
         INNER JOIN Scatola D ON (C.scatolaDestinazioneId = D.scatolaId)
+
+CREATE VIEW view_Prospetto_frutti AS
+SELECT
+    F.fruttoId,  F.posizione, T.frutto, S.scatolaId, S.descrizione
+FROM
+    FRUTTO F
+        INNER JOIN TipoFrutto T USING (tipoFruttoId)
+        INNER JOIN Scatola S USING (scatolaId)

@@ -60,6 +60,19 @@ class Cavo {
 	canalizzazioneId: INTEGER
 }
 
+class Frutto {
+	fruttoId: INTEGER
+	tipoFruttoId: INTEGER
+	scatolaId: INTEGER
+	posizione: INTEGER
+}
+
+class TipoMorsetto {
+	tipoMorsettoId: INTEGER
+	tipo: TEXT
+	diametro: INTEGER
+}
+
 Scatola "*" -- "1" Parete : spigolo
 Scatola "*" -- "1" Parete : pareteId
 Scatola "*" -- "1" TipoScatola : tipoScatolaId
@@ -68,4 +81,6 @@ Canalizzazione "*" -- "1" Scatola : scatolaOrigineId
 Cavo "*" -- "1" Canalizzazione : canalizzazioneId
 Cavo "*" -- "1" Linea : lineaId
 Cavo "*" -- "1" TipoCavo : tipoCavoId
+Frutto "*" -- "1" Scatola : scatolaId
+Frutto "*" -- "1" TipoFrutto : tipoFruttoId
 

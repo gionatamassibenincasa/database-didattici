@@ -60,6 +60,19 @@ erDiagram
   INTEGER canalizzazioneId FK
  }
 
+ Frutto {
+  INTEGER fruttoId PK
+  INTEGER tipoFruttoId FK
+  INTEGER scatolaId FK
+  INTEGER posizione
+ }
+
+ TipoMorsetto {
+  INTEGER tipoMorsettoId PK
+  TEXT tipo
+  INTEGER diametro
+ }
+
  Scatola }o--|| Parete : spigolo
  Scatola }o--|| Parete : pareteId
  Scatola }o--|| TipoScatola : tipoScatolaId
@@ -68,4 +81,6 @@ erDiagram
  Cavo }o--|| Canalizzazione : canalizzazioneId
  Cavo }o--|| Linea : lineaId
  Cavo }o--|| TipoCavo : tipoCavoId
+ Frutto }o--|| Scatola : scatolaId
+ Frutto }o--|| TipoFrutto : tipoFruttoId
 

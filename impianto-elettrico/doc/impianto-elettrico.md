@@ -14,3 +14,7 @@
 
 **Cavo** (  **cavoId**: INTEGER, _tipoCavoId_: INTEGER -> TipoCavo(tipoCavoId), _lineaId_: INTEGER -> Linea(lineaId), _canalizzazioneId_: INTEGER -> Canalizzazione(canalizzazioneId))
 
+**Frutto** (  **fruttoId**: INTEGER, _tipoFruttoId_: INTEGER -> TipoFrutto(tipoFruttoId), _scatolaId_: INTEGER -> Scatola(scatolaId), posizione: INTEGER)
+
+**TipoMorsetto** (  **tipoMorsettoId**: INTEGER, tipo: TEXT, diametro: INTEGER)
+

@@ -59,3 +59,16 @@
 , __canalizzazioneId__: INTEGER -> Canalizzazione(canalizzazioneId)
 )
 
+`Frutto` (
+  **fruttoId**: INTEGER
+, __tipoFruttoId__: INTEGER -> TipoFrutto(tipoFruttoId)
+, __scatolaId__: INTEGER -> Scatola(scatolaId)
+, posizione: INTEGER
+)
+
+`TipoMorsetto` (
+  **tipoMorsettoId**: INTEGER
+, tipo: TEXT
+, diametro: INTEGER
+)
+
