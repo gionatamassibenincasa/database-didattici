@@ -1,0 +1,61 @@
+`TipoCavo` (
+  **tipoCavoId**: INTEGER
+, cavo: TEXT
+, colore: TEXT
+, sezione: REAL
+)
+
+`TipoFrutto` (
+  **tipoFruttoId**: INTEGER
+, frutto: TEXT
+, note: TEXT
+)
+
+`Parete` (
+  **pareteId**: INTEGER
+, parete: TEXT
+)
+
+`TipoScatola` (
+  **TipoScatolaId**: INTEGER
+, tipoScatola: TEXT
+, lunghezza: REAL
+, larghezza: REAL
+, profondita: REAL
+, moduli: INTEGER
+, descrizione: TEXT
+)
+
+`Scatola` (
+  **scatolaId**: INTEGER
+, __tipoScatolaId__: INTEGER -> TipoScatola(TipoScatolaId)
+, __pareteId__: INTEGER -> Parete(pareteId)
+, __spigolo__: INTEGER -> Parete(pareteId)
+, distanzaSpigolo: INTEGER
+, altezzaTerra: INTEGER
+, tipo: TEXT
+, descrizione: TEXT
+)
+
+`Canalizzazione` (
+  **canalizzazioneId**: INTEGER
+, __scatolaOrigineId__: INTEGER -> Scatola(scatolaId)
+, __scatolaDestinazioneId__: INTEGER -> Scatola(scatolaId)
+, diametro: INTEGER
+, lunghezza: INTEGER
+, descrizione: TEXT
+, cavi: INTEGER
+)
+
+`Linea` (
+  **lineaId**: INTEGER
+, linea: TEXT
+)
+
+`Cavo` (
+  **cavoId**: INTEGER
+, __tipoCavoId__: INTEGER -> TipoCavo(tipoCavoId)
+, __lineaId__: INTEGER -> Linea(lineaId)
+, __canalizzazioneId__: INTEGER -> Canalizzazione(canalizzazioneId)
+)
+
