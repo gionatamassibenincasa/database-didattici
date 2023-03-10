@@ -1,12 +1,11 @@
-```mermaid
 classDiagram
-class categoria {
+class Categoria {
 	id_categoria: INTEGER
 	nome: TEXT
 	descrizione: TEXT
 }
 
-class cliente {
+class Cliente {
 	id_cliente: INTEGER
 	azienda: TEXT
 	referente: TEXT
@@ -16,36 +15,36 @@ class cliente {
 	nazione: TEXT
 }
 
-class venditore {
+class Venditore {
 	id_venditore: INTEGER
 	cognome: TEXT
 	nome: TEXT
-	data: DATE
+	data: TEXT
 	foto: TEXT
-	note: MEMO
+	note: TEXT
 }
 
-class spedizioniere {
+class Spedizioniere {
 	id_spedizioniere: INTEGER
 	nome: TEXT
 	telefono: TEXT
 }
 
-class ordine {
+class Ordine {
 	id_ordine: INTEGER
-	id_cliente: INT
-	id_venditore: INT
-	data_ordine: DATE
-	id_spedizioniere: INT
+	id_cliente: INTEGER
+	id_venditore: INTEGER
+	data_ordine: TEXT
+	id_spedizioniere: INTEGER
 }
 
-class composizione {
-	id_ordine: INT
-	id_prodotto: INT
-	quantita: INT
+class Composizione {
+	id_ordine: INTEGER
+	id_prodotto: INTEGER
+	quantita: INTEGER
 }
 
-class fornitore {
+class Fornitore {
 	id_fornitore: INTEGER
 	azienda: TEXT
 	referente: TEXT
@@ -56,20 +55,20 @@ class fornitore {
 	telefono: TEXT
 }
 
-class prodotto {
+class Prodotto {
 	id_prodotto: INTEGER
 	nome: TEXT
-	id_fornitore: INT
-	id_categoria: INT
+	id_fornitore: INTEGER
+	id_categoria: INTEGER
 	formato: TEXT
-	prezzo: MONEY
+	prezzo: REAL
 }
 
-ordine "*" -- "1" spedizioniere : id_spedizioniere
-ordine "*" -- "1" venditore : id_venditore
-ordine "*" -- "1" cliente : id_cliente
-composizione "*" -- "1" prodotto : id_prodotto
-composizione "*" -- "1" ordine : id_ordine
-prodotto "*" -- "1" categoria : id_categoria
-prodotto "*" -- "1" fornitore : id_fornitore
-```
+Ordine "*" -- "1" Spedizioniere : id_spedizioniere
+Ordine "*" -- "1" Venditore : id_venditore
+Ordine "*" -- "1" Cliente : id_cliente
+Composizione "*" -- "1" Prodotto : id_prodotto
+Composizione "*" -- "1" Ordine : id_ordine
+Prodotto "*" -- "1" Categoria : id_categoria
+Prodotto "*" -- "1" Fornitore : id_fornitore
+

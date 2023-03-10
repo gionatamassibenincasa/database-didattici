@@ -1,10 +1,10 @@
-`categoria` (
+`Categoria` (
   **id_categoria**: INTEGER
 , nome: TEXT
 , descrizione: TEXT
 )
 
-`cliente` (
+`Cliente` (
   **id_cliente**: INTEGER
 , azienda: TEXT
 , referente: TEXT
@@ -14,36 +14,36 @@
 , nazione: TEXT
 )
 
-`venditore` (
+`Venditore` (
   **id_venditore**: INTEGER
 , cognome: TEXT
 , nome: TEXT
-, data: DATE
+, data: TEXT
 , foto: TEXT
-, note: MEMO
+, note: TEXT
 )
 
-`spedizioniere` (
+`Spedizioniere` (
   **id_spedizioniere**: INTEGER
 , nome: TEXT
 , telefono: TEXT
 )
 
-`ordine` (
+`Ordine` (
   **id_ordine**: INTEGER
-, __id_cliente__: INT -> cliente(id_cliente)
-, __id_venditore__: INT -> venditore(id_venditore)
-, data_ordine: DATE
-, __id_spedizioniere__: INT -> spedizioniere(id_spedizioniere)
+, __id_cliente__: INTEGER -> Cliente(id_cliente)
+, __id_venditore__: INTEGER -> Venditore(id_venditore)
+, data_ordine: TEXT
+, __id_spedizioniere__: INTEGER -> Spedizioniere(id_spedizioniere)
 )
 
-`composizione` (
-  __id_ordine__: INT -> ordine(id_ordine)
-, __id_prodotto__: INT -> prodotto(id_prodotto)
-, quantita: INT
+`Composizione` (
+  __id_ordine__: INTEGER -> Ordine(id_ordine)
+, __id_prodotto__: INTEGER -> Prodotto(id_prodotto)
+, quantita: INTEGER
 )
 
-`fornitore` (
+`Fornitore` (
   **id_fornitore**: INTEGER
 , azienda: TEXT
 , referente: TEXT
@@ -54,12 +54,12 @@
 , telefono: TEXT
 )
 
-`prodotto` (
+`Prodotto` (
   **id_prodotto**: INTEGER
 , nome: TEXT
-, __id_fornitore__: INT -> fornitore(id_fornitore)
-, __id_categoria__: INT -> categoria(id_categoria)
+, __id_fornitore__: INTEGER -> Fornitore(id_fornitore)
+, __id_categoria__: INTEGER -> Categoria(id_categoria)
 , formato: TEXT
-, prezzo: MONEY
+, prezzo: REAL
 )
 
