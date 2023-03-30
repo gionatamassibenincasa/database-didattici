@@ -14,35 +14,6 @@
 , nazione: TEXT
 )
 
-`Venditore` (
-  **id_venditore**: INTEGER
-, cognome: TEXT
-, nome: TEXT
-, data: TEXT
-, foto: TEXT
-, note: TEXT
-)
-
-`Spedizioniere` (
-  **id_spedizioniere**: INTEGER
-, nome: TEXT
-, telefono: TEXT
-)
-
-`Ordine` (
-  **id_ordine**: INTEGER
-, __id_cliente__: INTEGER -> Cliente(id_cliente)
-, __id_venditore__: INTEGER -> Venditore(id_venditore)
-, data_ordine: TEXT
-, __id_spedizioniere__: INTEGER -> Spedizioniere(id_spedizioniere)
-)
-
-`Composizione` (
-  __id_ordine__: INTEGER -> Ordine(id_ordine)
-, __id_prodotto__: INTEGER -> Prodotto(id_prodotto)
-, quantita: INTEGER
-)
-
 `Fornitore` (
   **id_fornitore**: INTEGER
 , azienda: TEXT
@@ -61,5 +32,34 @@
 , __id_categoria__: INTEGER -> Categoria(id_categoria)
 , formato: TEXT
 , prezzo: REAL
+)
+
+`Spedizioniere` (
+  **id_spedizioniere**: INTEGER
+, nome: TEXT
+, telefono: TEXT
+)
+
+`Venditore` (
+  **id_venditore**: INTEGER
+, cognome: TEXT
+, nome: TEXT
+, data: TEXT
+, foto: TEXT
+, note: TEXT
+)
+
+`Ordine` (
+  **id_ordine**: INTEGER
+, __id_cliente__: INTEGER -> Cliente(id_cliente)
+, __id_venditore__: INTEGER -> Venditore(id_venditore)
+, data_ordine: TEXT
+, __id_spedizioniere__: INTEGER -> Spedizioniere(id_spedizioniere)
+)
+
+`Composizione` (
+  **__id_ordine__**: INTEGER -> Ordine(id_ordine)
+, **__id_prodotto__**: INTEGER -> Prodotto(id_prodotto)
+, quantita: INTEGER
 )
 
