@@ -10,7 +10,7 @@ const argv = yargs
   })
   .option("formato", {
     alias: "f",
-    description: "Il formato della documentazione [adoc|md|mermaid]",
+    description: "Il formato della documentazione [adoc|md|mermaid|plantuml]",
     type: "string",
     demandOption: true,
   })
@@ -236,11 +236,73 @@ const getMarmaidER = () => {
   return str;
 };
 
+const getPlantUmlER = () => {
+  let str = `@startuml
+left to right direction
+skinparam roundcorner 5
+skinparam linetype ortho
+skinparam shadowing false
+skinparam handwritten false
+skinparam class {
+    BackgroundColor white
+    ArrowColor #2688d4
+    BorderColor #2688d4
+}
+!define primary_key(x) <b><color:#b8861b><&key></color> x</b>
+!define foreign_key(x) <color:#aaaaaa><&key></color> x
+!define primary_and_foreign_key(x) <b><i><color:#b8861b><&key></color> x</i></b>
+!define column(x) <color:#efefef><&media-record></color> x
+!define table(x) entity x << (T, white) >>
+
+`;
+  tables.forEach((t) => {
+    str += `table( ${t.nome} ) {\n`;
+    t.colonne.forEach((c, i) => {
+      if (c["primary_key"] && c["foreign_key"]) {
+        str += `   primary_and_foreign_key( ${c.nome} )`;
+      } else if (c["primary_key"] && !c["foreign_key"]) {
+        str += `   primary_key( ${c.nome} )`;
+      } else if (c["foreign_key"]) {
+        str += `   foreign_key( ${c.nome} )`;
+      } else {
+        str += `   column( ${c.nome} )`;
+      }
+      str += "  :" + sanitizeType(c.tipo) + " ";
+      // if (c["foreign_key"] == 1) {
+      //   const ref = foreignKeys[c["fk_index"]];
+      //   console.log(ref);
+      //   str += " Si riferisce a " + ref["primaryTable"]; //+ "(" + ref["fieldST"] + ")";
+      // }
+      str += "\n";
+    });
+    str += " }\n\n\n";
+  });
+  foreignKeys.forEach((fk) => {
+    str +=
+      " " +
+      fk.secondaryTable +
+      // |o OR || or }o OR }|
+      " }o" +
+      // -- OR ..
+      "--" +
+      // o| OR || or o{ OR |{
+      "|| " +
+      fk.primaryTable +
+      " : " +
+      fk.fieldST +
+      "\n";
+  });
+  str += "\n@enduml\n";
+  return str;
+};
+
 const generaDocumentazione =
   argv.formato === "adoc"
     ? getAdocRelation
     : argv.formato == "md"
     ? getMDRelation
+    : argv.formato == "plantuml"
+    ? getPlantUmlER
     : argv.formato == "mermaid"
     ? argv.diagramma == "ER"
       ? getMarmaidER
