@@ -1,0 +1,73 @@
+erDiagram
+ rapport_scena_del_crimine {
+  INTEGER nome
+  TEXT tipo
+  TEXT descrizione
+  TEXT luogo
+ }
+
+ patente {
+  INTEGER id PK
+  INTEGER eta
+  INTEGER altezza
+  TEXT colore_occhi
+  TEXT colore_capelli
+  TEXT sesso
+  TEXT targa
+  TEXT costruttore_veicolo
+  TEXT modello_veicolo
+ }
+
+ facebook_ingresso_eventi {
+  INTEGER persona_id FK
+  INTEGER evento_id
+  TEXT nome_evento
+  INTEGER data
+ }
+
+ interrogatorio {
+  INTEGER persona_id FK
+  TEXT trascrizione
+ }
+
+ get_fit_now_iscrizione {
+  TEXT id PK
+  INTEGER persona_id FK
+  TEXT nome
+  INTEGER data_iscrizione
+  TEXT tipo_iscrizione
+ }
+
+ get_fit_now_ingresso {
+  TEXT tessera_id FK
+  INTEGER data_ingresso
+  INTEGER ora_ingresso
+  INTEGER ora_uscita
+ }
+
+ soluzione {
+  INTEGER utente
+  TEXT valore
+ }
+
+ reddito {
+  CHAR codice_fiscale PK
+  INTEGER reddito_annuo
+ }
+
+ persona {
+  INTEGER id PK
+  TEXT nome
+  INTEGER patente_id FK
+  INTEGER numero_civico
+  TEXT indirizzo
+  CHAR codice_fiscale FK
+ }
+
+ facebook_ingresso_eventi }o--|| persona : persona_id
+ interrogatorio }o--|| persona : persona_id
+ get_fit_now_iscrizione }o--|| persona : persona_id
+ get_fit_now_ingresso }o--|| get_fit_now_iscrizione : tessera_id
+ persona }o--|| reddito : codice_fiscale
+ persona }o--|| patente : patente_id
+

@@ -1,6 +1,8 @@
 import Database from "better-sqlite3";
 const db = new Database("sql-murder-mystery.db", { verbose: console.log });
 db.pragma("journal_mode = WAL");
+import { execSync } from "child_process";
+// const { execSync } = require("child_process");
 
 const MODE = {
   ENUM: "Enum",
@@ -8,21 +10,28 @@ const MODE = {
 };
 
 const columns = [
+  /*
+// SELECT description
+// FROM crime_scene_report csr 
+// WHERE lower(city)  = 'sql city' AND 
+// type = 'murder' AND 
+// date = 20180115
   {
     table: "crime_scene_report",
-    id: null,
+    id_column_name: null,
     column: "type",
     mode: MODE.ENUM,
   },
   {
     table: "crime_scene_report",
-    id: null,
+    id_column_name: null,
     column: "description",
     mode: MODE.ENUM,
   },
+  */
   {
     table: "interview",
-    id: "person_id",
+    id_column_name: "person_id",
     column: "transcript",
     mode: MODE.ITERATOR,
   },
@@ -79,9 +88,12 @@ function main() {
     const t = ctx.table; //< db table name
     const c = ctx.column; //< db column name
     if (ctx.mode === MODE.ITERATOR) {
-      const stmt = db.prepare(`SELECT ${ctx.id}, ${c} FROM ${t}`);
+      const sql = `SELECT ${ctx.id_column_name}, ${c} FROM ${t}`;
+      console.log(sql);
+      const stmt = db.prepare(sql);
 
       for (const record of stmt.iterate()) {
+        const id = record[ctx.id_column_name];
         const en = record[c];
         const url =
           "https://translate.googleapis.com/translate_a/single?client=gtx&sl=en&tl=it&dt=t&q=" +
@@ -89,14 +101,19 @@ function main() {
         const it = fetch(url)
           .then((response) => response.json())
           .then((json) => {
+            let it = "BLA BLA BLA...";
             try {
-              const it = processGoogleTranslateResponse(json);
-              const sql = `UPDATE ${t} SET ${c} = ? WHERE ${id} = ?`;
+              it = processGoogleTranslateResponse(json);
+            } catch (error) {
+              console.log(error);
+            }
+            try {
+              const sql = `UPDATE ${t} SET ${c} = ? WHERE ${ctx.id_column_name} = ?`;
               console.log(sql);
 
               const stmt = db.prepare(sql);
               const info = stmt.run(it, id);
-              console.log(info.changes);
+              console.error(info.changes);
             } catch (error) {
               console.log(error);
             }
@@ -127,6 +144,8 @@ function main() {
           });
       }
     }
+    // Aspetta almeno 250 ms prima di contattare nuovamente Google Translate
+    execSync("sleep 0.25");
   });
 }
 

@@ -1,0 +1,99 @@
+@startuml
+left to right direction
+skinparam roundcorner 5
+skinparam linetype ortho
+skinparam shadowing false
+skinparam handwritten false
+skinparam class {
+    BackgroundColor white
+    ArrowColor #2688d4
+    BorderColor #2688d4
+}
+!define primary_key(x) <b><color:#b8861b><&key></color> x</b>
+!define foreign_key(x) <color:#aaaaaa><&key></color> x
+!define primary_and_foreign_key(x) <b><i><color:#b8861b><&key></color> x</i></b>
+!define column(x) <color:#efefef><&media-record></color> x
+!define table(x) entity x << (T, white) >>
+
+table( rapport_scena_del_crimine ) {
+   column( nome )  :INTEGER 
+   column( tipo )  :TEXT 
+   column( descrizione )  :TEXT 
+   column( luogo )  :TEXT 
+ }
+
+
+table( patente ) {
+   primary_key( id )  :INTEGER 
+   column( eta )  :INTEGER 
+   column( altezza )  :INTEGER 
+   column( colore_occhi )  :TEXT 
+   column( colore_capelli )  :TEXT 
+   column( sesso )  :TEXT 
+   column( targa )  :TEXT 
+   column( costruttore_veicolo )  :TEXT 
+   column( modello_veicolo )  :TEXT 
+ }
+
+
+table( facebook_ingresso_eventi ) {
+   foreign_key( persona_id )  :INTEGER 
+   column( evento_id )  :INTEGER 
+   column( nome_evento )  :TEXT 
+   column( data )  :INTEGER 
+ }
+
+
+table( interrogatorio ) {
+   foreign_key( persona_id )  :INTEGER 
+   column( trascrizione )  :TEXT 
+ }
+
+
+table( get_fit_now_iscrizione ) {
+   primary_key( id )  :TEXT 
+   foreign_key( persona_id )  :INTEGER 
+   column( nome )  :TEXT 
+   column( data_iscrizione )  :INTEGER 
+   column( tipo_iscrizione )  :TEXT 
+ }
+
+
+table( get_fit_now_ingresso ) {
+   foreign_key( tessera_id )  :TEXT 
+   column( data_ingresso )  :INTEGER 
+   column( ora_ingresso )  :INTEGER 
+   column( ora_uscita )  :INTEGER 
+ }
+
+
+table( soluzione ) {
+   column( utente )  :INTEGER 
+   column( valore )  :TEXT 
+ }
+
+
+table( reddito ) {
+   primary_key( codice_fiscale )  :CHAR 
+   column( reddito_annuo )  :INTEGER 
+ }
+
+
+table( persona ) {
+   primary_key( id )  :INTEGER 
+   column( nome )  :TEXT 
+   foreign_key( patente_id )  :INTEGER 
+   column( numero_civico )  :INTEGER 
+   column( indirizzo )  :TEXT 
+   foreign_key( codice_fiscale )  :CHAR 
+ }
+
+
+ facebook_ingresso_eventi }o--|| persona : persona_id
+ interrogatorio }o--|| persona : persona_id
+ get_fit_now_iscrizione }o--|| persona : persona_id
+ get_fit_now_ingresso }o--|| get_fit_now_iscrizione : tessera_id
+ persona }o--|| reddito : codice_fiscale
+ persona }o--|| patente : patente_id
+
+@enduml

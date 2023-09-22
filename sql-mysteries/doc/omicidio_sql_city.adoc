@@ -1,0 +1,65 @@
+`rapport_scena_del_crimine` (
+  nome: INTEGER
+, tipo: TEXT
+, descrizione: TEXT
+, luogo: TEXT
+)
+
+`patente` (
+  **id**: INTEGER
+, eta: INTEGER
+, altezza: INTEGER
+, colore_occhi: TEXT
+, colore_capelli: TEXT
+, sesso: TEXT
+, targa: TEXT
+, costruttore_veicolo: TEXT
+, modello_veicolo: TEXT
+)
+
+`facebook_ingresso_eventi` (
+  __persona_id__: INTEGER -> persona(id)
+, evento_id: INTEGER
+, nome_evento: TEXT
+, data: INTEGER
+)
+
+`interrogatorio` (
+  __persona_id__: INTEGER -> persona(id)
+, trascrizione: TEXT
+)
+
+`get_fit_now_iscrizione` (
+  **id**: TEXT
+, __persona_id__: INTEGER -> persona(id)
+, nome: TEXT
+, data_iscrizione: INTEGER
+, tipo_iscrizione: TEXT
+)
+
+`get_fit_now_ingresso` (
+  __tessera_id__: TEXT -> get_fit_now_iscrizione(id)
+, data_ingresso: INTEGER
+, ora_ingresso: INTEGER
+, ora_uscita: INTEGER
+)
+
+`soluzione` (
+  utente: INTEGER
+, valore: TEXT
+)
+
+`reddito` (
+  **codice_fiscale**: CHAR
+, reddito_annuo: INTEGER
+)
+
+`persona` (
+  **id**: INTEGER
+, nome: TEXT
+, __patente_id__: INTEGER -> patente(id)
+, numero_civico: INTEGER
+, indirizzo: TEXT
+, __codice_fiscale__: CHAR -> reddito(codice_fiscale)
+)
+
