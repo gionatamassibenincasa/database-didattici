@@ -1,7 +1,7 @@
 BEGIN TRANSACTION;
-DROP TABLE IF EXISTS "rapport_scena_del_crimine";
-CREATE TABLE IF NOT EXISTS "rapport_scena_del_crimine" (
-	"nome"	integer,
+DROP TABLE IF EXISTS "rapporto_scena_del_crimine";
+CREATE TABLE IF NOT EXISTS "rapporto_scena_del_crimine" (
+	"data"	integer,
 	"tipo"	text,
 	"descrizione"	text,
 	"luogo"	text
@@ -74,7 +74,7 @@ CREATE TABLE IF NOT EXISTS "persona" (
 	FOREIGN KEY("codice_fiscale") REFERENCES "reddito"("codice_fiscale"),
 	PRIMARY KEY("id")
 );
-INSERT INTO "rapport_scena_del_crimine" ("nome","tipo","descrizione","luogo") VALUES (20180115,'rapina','Un uomo vestito da Spider-Man è impegnato in una serie di rapine','NYC'),
+INSERT INTO "rapporto_scena_del_crimine" ("data","tipo","descrizione","luogo") VALUES (20180115,'rapina','Un uomo vestito da Spider-Man è impegnato in una serie di rapine','NYC'),
  (20180115,'omicidio','I filmati di sicurezza mostrano che c''erano 2 testimoni. Il primo testimone abita nell''ultima casa sulla "Northwestern Dr". La seconda testimone, di nome Annabel, vive da qualche parte in "Franklin Ave".','Albany'),
  (20180115,'omicidio','I filmati di sicurezza mostrano che c''erano 2 testimoni. Il primo testimone abita nell''ultima casa sulla "Northwestern Dr". La seconda testimone, di nome Annabel, vive da qualche parte in "Franklin Ave".','Reno'),
  (20180215,'omicidio','REDATTO REDATTO REDATTO','SQL City'),
