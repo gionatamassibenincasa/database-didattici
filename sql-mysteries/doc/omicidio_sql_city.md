@@ -1,4 +1,4 @@
-**rapport_scena_del_crimine** (  nome: INTEGER, tipo: TEXT, descrizione: TEXT, luogo: TEXT)
+**rapporto_scena_del_crimine** (  data: INTEGER, tipo: TEXT, descrizione: TEXT, luogo: TEXT)
 
 **patente** (  **id**: INTEGER, eta: INTEGER, altezza: INTEGER, colore_occhi: TEXT, colore_capelli: TEXT, sesso: TEXT, targa: TEXT, costruttore_veicolo: TEXT, modello_veicolo: TEXT)
 

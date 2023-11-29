@@ -15,8 +15,8 @@ skinparam class {
 !define column(x) <color:#efefef><&media-record></color> x
 !define table(x) entity x << (T, white) >>
 
-table( rapport_scena_del_crimine ) {
-   column( nome )  :INTEGER 
+table( rapporto_scena_del_crimine ) {
+   column( data )  :INTEGER 
    column( tipo )  :TEXT 
    column( descrizione )  :TEXT 
    column( luogo )  :TEXT 

@@ -1,6 +1,6 @@
 erDiagram
- rapport_scena_del_crimine {
-  INTEGER nome
+ rapporto_scena_del_crimine {
+  INTEGER data
   TEXT tipo
   TEXT descrizione
   TEXT luogo
