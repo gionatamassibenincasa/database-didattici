@@ -1,0 +1,106 @@
+@startuml
+left to right direction
+skinparam roundcorner 5
+skinparam linetype ortho
+skinparam shadowing false
+skinparam handwritten false
+skinparam class {
+    BackgroundColor white
+    ArrowColor #2688d4
+    BorderColor #2688d4
+}
+!define primary_key(x) <b><color:#b8861b><&key></color> x</b>
+!define foreign_key(x) <color:#aaaaaa><&key></color> x
+!define primary_and_foreign_key(x) <b><i><color:#b8861b><&key></color> x</i></b>
+!define column(x) <color:#efefef><&media-record></color> x
+!define table(x) entity x << (T, white) >>
+
+table( Ambito ) {
+   primary_key( idAmbito )  :INTEGER 
+   column( ambito )  :TEXT 
+ }
+
+
+table( Beneficiario ) {
+   primary_key( idBeneficiario )  :INTEGER 
+   column( beneficiario )  :TEXT 
+ }
+
+
+table( Donatore ) {
+   primary_key( idDonatore )  :INTEGER 
+   column( cognome )  :TEXT 
+   column( nome )  :TEXT 
+   column( email )  :TEXT 
+   column( CF )  :TEXT 
+   column( IBAN )  :TEXT 
+ }
+
+
+table( Obiettivo ) {
+   primary_key( idObiettivo )  :INTEGER 
+   column( obiettivo )  :TEXT 
+ }
+
+
+table( Organizzazione ) {
+   primary_key( idOrganizzazione )  :INTEGER 
+   column( partitaIVA )  :TEXT 
+   column( denominazione )  :TEXT 
+   column( indirizzo )  :TEXT 
+   column( IBAN )  :TEXT 
+ }
+
+
+table( Progetto ) {
+   primary_key( idProgetto )  :INTEGER 
+   foreign_key( idOrganizzazione )  :INTEGER 
+   column( titolo )  :TEXT 
+   column( sogliaMinima )  :REAL 
+   column( ricompensa )  :TEXT 
+   column( stato )  :TEXT 
+   column( tempoLimite )  :TEXT 
+   column( ammontare )  :REAL 
+ }
+
+
+table( ProgettoAmbito ) {
+   primary_and_foreign_key( idProgetto )  :INTEGER 
+   primary_and_foreign_key( idAmbito )  :INTEGER 
+ }
+
+
+table( ProgettoBeneficiario ) {
+   primary_and_foreign_key( idProgetto )  :INTEGER 
+   primary_and_foreign_key( idBeneficiario )  :INTEGER 
+ }
+
+
+table( ProgettoObiettivo ) {
+   primary_and_foreign_key( idProgetto )  :INTEGER 
+   primary_and_foreign_key( idObiettivo )  :INTEGER 
+ }
+
+
+table( Donazione ) {
+   primary_key( idDonazione )  :INTEGER 
+   foreign_key( idDonatore )  :INTEGER 
+   foreign_key( idProgetto )  :INTEGER 
+   column( importo )  :REAL 
+   column( modalita )  :TEXT 
+   column( dataPagamento )  :TEXT 
+   column( dataRestituzione )  :TEXT 
+ }
+
+
+ Progetto }o--|| Organizzazione : idOrganizzazione
+ ProgettoAmbito }o--|| Ambito : idAmbito
+ ProgettoAmbito }o--|| Progetto : idProgetto
+ ProgettoBeneficiario }o--|| Beneficiario : idBeneficiario
+ ProgettoBeneficiario }o--|| Progetto : idProgetto
+ ProgettoObiettivo }o--|| Obiettivo : idObiettivo
+ ProgettoObiettivo }o--|| Progetto : idProgetto
+ Donazione }o--|| Progetto : idProgetto
+ Donazione }o--|| Donatore : idDonatore
+
+@enduml
