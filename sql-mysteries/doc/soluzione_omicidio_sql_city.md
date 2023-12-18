@@ -235,7 +235,8 @@ WHERE persona_id IN testimoni
 3. Con più CTE
 
 ```sql
-WITH massimo_civico AS (
+WITH
+    massimo_civico AS (
 		SELECT MAX(numero_civico) AS numero
 		FROM persona
 		WHERE indirizzo = 'Northwestern Dr'
@@ -251,7 +252,7 @@ WITH massimo_civico AS (
         SELECT id
         FROM persona
         WHERE nome LIKE '%Annabel%' AND
-              indirizzo = '%Franklin Ave%'
+              indirizzo = 'Franklin Ave'
     )
 SELECT trascrizione
 FROM interrogatorio
@@ -263,9 +264,9 @@ WHERE persona_id IN (
 ```
 
 
-> I heard a gunshot and then saw a man run out. He had a "Get Fit Now Gym" bag. The membership number on the bag started with "48Z". Only gold members have those bags. The man got into a car with a plate that included "H42W".
+> Ho sentito uno sparo e poi ho visto un uomo correre fuori. Aveva una borsa "Get Fit Now Gym". Il numero di iscrizione sulla borsa iniziava con "48Z". Solo i membri Gold hanno quelle borse. L'uomo è salito su un''auto con la targa con scritto "H42W" ma non so se erano all'inizio, alla fine o al centro.
 >
-> I saw the murder happen, and I recognized the killer from my gym when I was working out last week on January the 9th.
+> Ho visto accadere l'omicidio e ho riconosciuto l'assassino nella mia palestra mentre mi allenavo la settimana scorsa, il 9 gennaio.
 
 
 

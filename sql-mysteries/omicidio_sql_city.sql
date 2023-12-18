@@ -61903,11 +61903,11 @@ INSERT INTO "interrogatorio" ("persona_id","trascrizione") VALUES (28508,'‘I d
 '),
  (10206,'time,’ she said, ‘than waste it in asking riddles that have no answers.’
 '),
- (14887,'I heard a gunshot and then saw a man run out. He had a "Get Fit Now Gym" bag. The membership number on the bag started with "48Z". Only gold members have those bags. The man got into a car with a plate that included "H42W".'),
- (16371,'I saw the murder happen, and I recognized the killer from my gym when I was working out last week on January the 9th.'),
- (67318,'I was hired by a woman with a lot of money. I don''t know her name but I know she''s around 5''5" (65") or 5''7" (67"). She has red hair and she drives a Tesla Model S. I know that she attended the SQL Symphony Concert 3 times in December 2017.
-');
-INSERT INTO "get_fit_now_iscrizione" ("id","persona_id","nome","data_iscrizione","tipo_iscrizione") VALUES ('NL318',65076,'Everette Koepke',20170926,'gold'),
+ (14887,'Ho sentito uno sparo e poi ho visto un uomo correre fuori. Aveva una borsa "Get Fit Now Gym". Il numero di iscrizione sulla borsa iniziava con "48Z". Solo i membri Gold hanno quelle borse. L''uomo è salito su un''auto con la targa con scritto "H42W" ma non so se erano all''inizio, alla fine o al centro.'),
+ (16371,'Ho visto accadere l''omicidio e ho riconosciuto l''assassino nella mia palestra mentre mi allenavo la settimana scorsa, il 9 gennaio.'),
+ (67318,'Sono stato assunto da una donna con molti soldi.Non conosco il suo nome ma so che è alta circa 5'' 5 " (65", 165 cm) o 5'' 7 " (67", 170 cm). Ha i capelli rossi e guida una Tesla Model S. So che ha assistito al "Concerto Sinfonico SQL" 3 volte a dicembre 2017.');
+ 
+ INSERT INTO "get_fit_now_iscrizione" ("id","persona_id","nome","data_iscrizione","tipo_iscrizione") VALUES ('NL318',65076,'Everette Koepke',20170926,'gold'),
  ('AOE21',39426,'Noe Locascio',20171005,'regular'),
  ('2PN28',63823,'Jeromy Heitschmidt',20180215,'silver'),
  ('0YJ24',80651,'Waneta Wellard',20171206,'gold'),
