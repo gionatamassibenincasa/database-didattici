@@ -1,5 +1,5 @@
 import Database from "better-sqlite3";
-const db = new Database("sql-murder-mystery.db", { verbose: console.log });
+const db = new Database("omicidio_sql_city.sqlite", { verbose: console.log });
 db.pragma("journal_mode = WAL");
 import { execSync } from "child_process";
 // const { execSync } = require("child_process");
@@ -30,9 +30,9 @@ const columns = [
   },
   */
   {
-    table: "interview",
-    id_column_name: "person_id",
-    column: "transcript",
+    table: "interrogatorio",
+    id_column_name: "persona_id",
+    column: "trascrizione",
     mode: MODE.ITERATOR,
   },
 ];
