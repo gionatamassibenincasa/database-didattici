@@ -202,7 +202,7 @@ const getMarmaidER = () => {
       str += "  " + sanitizeType(c.tipo) + " ";
       str += c.nome;
       if (c["primary_key"] && c["foreign_key"]) {
-        str += " PK";
+        str += " PK, FK";
       } else if (c["primary_key"] && !c["foreign_key"]) {
         str += " PK";
       } else if (c["foreign_key"]) {

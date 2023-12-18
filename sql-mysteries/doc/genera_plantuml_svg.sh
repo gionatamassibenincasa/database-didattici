@@ -1,0 +1,1 @@
+puml generate --svg omicidio_sql_city.plantuml -o omicidio_sql_city.svg
