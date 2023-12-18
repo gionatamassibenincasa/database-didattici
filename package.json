@@ -17,7 +17,7 @@
   "author": "Gionata Massi",
   "license": "ISC",
   "dependencies": {
-    "better-sqlite3": "^9.1.1",
-    "yargs": "^17.4.0"
+    "better-sqlite3": "^9.2.2",
+    "yargs": "^17.7.2"
   }
 }

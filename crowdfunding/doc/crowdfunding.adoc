@@ -1,0 +1,68 @@
+`Ambito` (
+  **idAmbito**: INTEGER
+, ambito: TEXT
+)
+
+`Beneficiario` (
+  **idBeneficiario**: INTEGER
+, beneficiario: TEXT
+)
+
+`Donatore` (
+  **idDonatore**: INTEGER
+, cognome: TEXT
+, nome: TEXT
+, email: TEXT
+, CF: TEXT
+, IBAN: TEXT
+)
+
+`Obiettivo` (
+  **idObiettivo**: INTEGER
+, obiettivo: TEXT
+)
+
+`Organizzazione` (
+  **idOrganizzazione**: INTEGER
+, partitaIVA: TEXT
+, denominazione: TEXT
+, indirizzo: TEXT
+, IBAN: TEXT
+)
+
+`Progetto` (
+  **idProgetto**: INTEGER
+, __idOrganizzazione__: INTEGER -> Organizzazione(idOrganizzazione)
+, titolo: TEXT
+, sogliaMinima: REAL
+, ricompensa: TEXT
+, stato: TEXT
+, tempoLimite: TEXT
+, ammontare: REAL
+)
+
+`ProgettoAmbito` (
+  **__idProgetto__**: INTEGER -> Progetto(idProgetto)
+, **__idAmbito__**: INTEGER -> Ambito(idAmbito)
+)
+
+`ProgettoBeneficiario` (
+  **__idProgetto__**: INTEGER -> Progetto(idProgetto)
+, **__idBeneficiario__**: INTEGER -> Beneficiario(idBeneficiario)
+)
+
+`ProgettoObiettivo` (
+  **__idProgetto__**: INTEGER -> Progetto(idProgetto)
+, **__idObiettivo__**: INTEGER -> Obiettivo(idObiettivo)
+)
+
+`Donazione` (
+  **idDonazione**: INTEGER
+, __idDonatore__: INTEGER -> Donatore(idDonatore)
+, __idProgetto__: INTEGER -> Progetto(idProgetto)
+, importo: REAL
+, modalita: TEXT
+, dataPagamento: TEXT
+, dataRestituzione: TEXT
+)
+

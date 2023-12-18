@@ -1,0 +1,79 @@
+erDiagram
+ Ambito {
+  INTEGER idAmbito PK
+  TEXT ambito
+ }
+
+ Beneficiario {
+  INTEGER idBeneficiario PK
+  TEXT beneficiario
+ }
+
+ Donatore {
+  INTEGER idDonatore PK
+  TEXT cognome
+  TEXT nome
+  TEXT email
+  TEXT CF
+  TEXT IBAN
+ }
+
+ Obiettivo {
+  INTEGER idObiettivo PK
+  TEXT obiettivo
+ }
+
+ Organizzazione {
+  INTEGER idOrganizzazione PK
+  TEXT partitaIVA
+  TEXT denominazione
+  TEXT indirizzo
+  TEXT IBAN
+ }
+
+ Progetto {
+  INTEGER idProgetto PK
+  INTEGER idOrganizzazione FK
+  TEXT titolo
+  REAL sogliaMinima
+  TEXT ricompensa
+  TEXT stato
+  TEXT tempoLimite
+  REAL ammontare
+ }
+
+ ProgettoAmbito {
+  INTEGER idProgetto PK
+  INTEGER idAmbito PK
+ }
+
+ ProgettoBeneficiario {
+  INTEGER idProgetto PK
+  INTEGER idBeneficiario PK
+ }
+
+ ProgettoObiettivo {
+  INTEGER idProgetto PK
+  INTEGER idObiettivo PK
+ }
+
+ Donazione {
+  INTEGER idDonazione PK
+  INTEGER idDonatore FK
+  INTEGER idProgetto FK
+  REAL importo
+  TEXT modalita
+  TEXT dataPagamento
+  TEXT dataRestituzione
+ }
+
+ Progetto }o--|| Organizzazione : idOrganizzazione
+ ProgettoAmbito }o--|| Ambito : idAmbito
+ ProgettoAmbito }o--|| Progetto : idProgetto
+ ProgettoBeneficiario }o--|| Beneficiario : idBeneficiario
+ ProgettoBeneficiario }o--|| Progetto : idProgetto
+ ProgettoObiettivo }o--|| Obiettivo : idObiettivo
+ ProgettoObiettivo }o--|| Progetto : idProgetto
+ Donazione }o--|| Progetto : idProgetto
+ Donazione }o--|| Donatore : idDonatore
+
