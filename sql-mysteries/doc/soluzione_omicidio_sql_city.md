@@ -270,10 +270,10 @@ WHERE persona_id IN (
 
 
 
-## Sospettato
+## Assassino - esecutore materiale
 
 ```sql
-SELECT *
+SELECT persona_id, nome
   FROM get_fit_now_iscrizione AS iscr
        INNER JOIN
        persona AS pers ON iscr.persona_id = pers.id
@@ -285,4 +285,33 @@ SELECT *
        iscr.id LIKE '48Z%' AND 
        targa LIKE '%H42W%' AND 
        data_ingresso = 20180109;
+```
+
+> 67318	Jeremy Bowers
+
+### Trascrizione
+
+> Sono stato assunto da una donna con molti soldi.
+> Non conosco il suo nome ma so che è alta circa 5'' 5 " (65", 165 cm) o 5'' 7 " (67", 170 cm).
+> Ha i capelli rossi e guida una Tesla Model S.
+> So che ha assistito al "Concerto Sinfonico SQL" 3 volte a dicembre 2017.
+
+## Mandante
+
+```sql
+SELECT id, nome, reddito_annuo, count(nome_evento) AS concerti
+FROM 
+    persona AS pe INNER JOIN
+    reddito AS re USING (codice_fiscale) INNER JOIN
+    patente AS pa ON pe.patente_id = pa.id INNER JOIN
+    facebook_ingresso_eventi AS ev ON pe.id = ev.persona_id
+WHERE altezza BETWEEN 65 AND 67 AND
+    sesso = 'female' AND
+    colore_capelli = 'red' AND
+    costruttore_veicolo = 'Tesla' AND
+    modello_veicolo = 'Model S' AND
+    nome_evento = 'SQL Symphony Concert'
+
+GROUP BY pe.id
+HAVING concerti >= 3
 ```
