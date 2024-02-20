@@ -28,6 +28,98 @@ Gli animali sono sottoposti al loro arrivo, e poi periodicamente, a visite di un
 
 **Dare uno schema grafico della base di dati**.
 
+#### Ipotesi soluzione
+
+```plantuml
+hide methods
+title Zoo
+
+class Esemplare {
+  **codInventario**
+  //codAnimale//
+  dataArrivo
+  dataNascita
+  nome
+  sesso
+  //codPaese//
+}
+
+class Animale {
+  **codAnimale**
+  genere
+}
+
+Esemplare "n" -- "1" Animale : genere >
+
+class Paese {
+  **codPaese**
+  nomePaese
+}
+
+Esemplare "n" -- "1" Paese
+
+class AreaGeografica {
+  **codAreaGeografica**
+  nome
+}
+
+Paese "n" -- "1" AreaGeografica
+
+class Responsabile {
+  **codResponsabile**
+  nome
+  cognome
+}
+
+AreaGeografica "n" -- "1" Responsabile
+
+class Casa {
+  **codCasa**
+  //codAreaGeografica//
+  //codTipo//
+  //codAddetto//
+  numGabbie
+  giornoPulizie
+}
+
+Casa "n" -- "1" AreaGeografica : ""
+Casa "n" -- "1" Animale
+
+class TipoCasa {
+  **codTipo**
+  descrizione
+}
+
+Casa "n" -- "1" TipoCasa
+
+class Addetto {
+  **codAddetto**
+  nome
+  cognome
+}
+
+Casa "n" -- "1" Addetto
+Casa "1" -- "n" Esemplare
+
+class Veterinario {
+  **codVeterinario**
+  cognome
+  nome
+}
+
+class Visita {
+  **codInventario**
+  **codVeterinario**
+  **data**
+   peso
+   referto
+   dieta
+}
+
+Esemplare "1" -- "n" Visita
+Veterinario "1" -- "n" Visita
+```
+
 ### Esercizio 2.6
 
 Una banca gestisce informazioni sui mutui dei propri clienti e le rate del piano di ammortamento.
