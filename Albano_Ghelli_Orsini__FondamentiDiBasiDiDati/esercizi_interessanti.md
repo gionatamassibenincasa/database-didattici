@@ -36,7 +36,7 @@ title Zoo
 
 class Esemplare {
   **codInventario**
-  //codAnimale//
+  //codGenere//
   dataArrivo
   dataNascita
   nome
@@ -44,26 +44,26 @@ class Esemplare {
   //codPaese//
 }
 
-class Animale {
-  **codAnimale**
+class GenereTassonomico {
+  **codGenere**
   genere
 }
 
-Esemplare "n" -- "1" Animale : genere >
+Esemplare "n" -- "1" GenereTassonomico: genere >
 
 class Paese {
   **codPaese**
   nomePaese
 }
 
-Esemplare "n" -- "1" Paese
+Esemplare "n" -- "1" Paese : provenienza >
 
 class AreaGeografica {
   **codAreaGeografica**
   nome
 }
 
-Paese "n" -- "1" AreaGeografica
+Paese "n" -- "1" AreaGeografica : appartenenza >
 
 class Responsabile {
   **codResponsabile**
@@ -71,26 +71,34 @@ class Responsabile {
   cognome
 }
 
-AreaGeografica "n" -- "1" Responsabile
+AreaGeografica "n" -- "1" Responsabile : risponde <
 
 class Casa {
   **codCasa**
   //codAreaGeografica//
   //codTipo//
   //codAddetto//
-  numGabbie
   giornoPulizie
 }
 
-Casa "n" -- "1" AreaGeografica : ""
-Casa "n" -- "1" Animale
+Casa "n" -- "1" AreaGeografica : situata >
+Casa "n" -- "1" GenereTassonomico : destinata >
 
 class TipoCasa {
   **codTipo**
   descrizione
 }
 
-Casa "n" -- "1" TipoCasa
+Casa "n" -- "1" TipoCasa : tipologia >
+
+class Gabbia {
+  **codGabbia**
+  //codCasa//
+  //codInventario//
+}
+
+Casa "1" -- "n" Gabbia : collocata <
+Gabbia "1" -- "1" Esemplare : vive <
 
 class Addetto {
   **codAddetto**
@@ -98,8 +106,7 @@ class Addetto {
   cognome
 }
 
-Casa "n" -- "1" Addetto
-Casa "1" -- "n" Esemplare
+Casa "n" -- "1" Addetto : pulisce <
 
 class Veterinario {
   **codVeterinario**
@@ -116,8 +123,8 @@ class Visita {
    dieta
 }
 
-Esemplare "1" -- "n" Visita
-Veterinario "1" -- "n" Visita
+Esemplare "1" -- "n" Visita : soggettoA >
+Veterinario "1" -- "n" Visita : effettua >
 ```
 
 ### Esercizio 2.6
