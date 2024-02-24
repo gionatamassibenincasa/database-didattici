@@ -53,6 +53,7 @@ Esemplare "n" -- "1" GenereTassonomico: genere >
 
 class Paese {
   **codPaese**
+  //codAreaGeografica//
   nomePaese
 }
 
@@ -60,6 +61,7 @@ Esemplare "n" -- "1" Paese : provenienza >
 
 class AreaGeografica {
   **codAreaGeografica**
+  //codResponsabile//
   nome
 }
 
@@ -142,11 +144,13 @@ genere
 
 Paese (
 **codPaese**,
+*codAreaGeografica*,
 nomePaese
 )
 
 AreaGeografica (
 **codAreaGeografica**,
+*codResponsabile*
 nome
 )
 
@@ -195,6 +199,105 @@ peso,
 referto,
 dieta
 )
+
+```sql
+
+DROP TABLE IF EXISTS demo;
+
+CREATE TABLE IF NOT EXISTS Addetto (
+  codAddetto INTEGER PRIMARY KEY,
+  nome TEXT NOT NULL,
+  cognome TEXT NOT NULL
+);
+
+CREATE TABLE IF NOT EXISTS GenereTassonomico (
+  codGenere INTEGER PRIMARY KEY,
+  ordine TEXT,
+  famiglia TEXT,
+  genere TEXT NOT NULL
+ );
+ 
+CREATE TABLE IF NOT EXISTS Responsabile (
+  codResponsabile INTEGER PRIMARY KEY,
+  nome TEXT NOT NULL,
+  cognome TEXT NOT NULL
+);
+
+CREATE TABLE IF NOT EXISTS TipoCasa (
+  codTipo INTEGER PRIMARY KEY,
+  descrizione TEXT NOT NULL
+);
+
+CREATE TABLE IF NOT EXISTS Veterinario (
+  codVeterinario INTEGER PRIMARY KEY,
+  nome TEXT NOT NULL,
+  cognome TEXT NOT NULL
+);
+
+CREATE TABLE IF NOT EXISTS AreaGeografica (
+  codAreaGeografica INTEGER PRIMARY KEY,
+  codResponsabile  INTEGER NOT NULL
+  	REFERENCES AreaGeografica (codResponsabile),
+  nome TEXT NOT NULL
+);
+
+CREATE TABLE IF NOT EXISTS Casa (
+  codCasa INTEGER PRIMARY KEY,
+  codAreaGeografica INTEGER NOT NULL
+  	REFERENCES AreaGeografica (codAreaGeografica),
+  codTipo INTEGER NOT NULL
+    REFERENCES TipoCasa (codTipo),
+  codAddetto INTEGER NOT NULL
+  	REFERENCES Addetto (codAddetto),
+  giornoPulizie TEXT
+ );
+ 
+ CREATE TABLE IF NOT EXISTS Paese (
+   -- Codice Paese ISO 3166-1 alpha-2
+   codPaese TEXT PRIMARY KEY
+   	CHECK (length(codPaese = 2)),
+   codAreaGeografica INTEGER NOT NULL
+   	REFERENCES AreaGeografica (codAreaGeografica),
+   nomePaese TEXT NOT NULL
+ );
+ 
+ CREATE TABLE IF NOT EXISTS Esemplare (
+   codInventario INTEGER PRIMARY KEY,
+   codGenere INTEGER NOT NULL
+   	REFERENCES GenereTassonomico (codGenere),
+   codPaese TEXT
+   	REFERENCES Paese (codPaese),
+   nome TEXT NULL,
+   sesso TEXT NOT NULL
+   	CHECK(sesso IN ('M', 'F')),
+   dataArrivo TEXT NOT NULL
+   	CHECK (dataArrivo IS date(dataArrivo, '+0 days')),
+   dataNascita TEXT
+   	CHECK (dataNascita IS NULL OR
+           dataNascita IS date(dataNascita, '+0 days'))
+ );
+ 
+ CREATE TABLE IF NOT EXISTS Gabbia (
+   codGabbia INTEGER PRIMARY KEY,
+   codCasa INTEGER NOT NULL
+   	REFERENCES Casa (codCasa),
+   codInventario INTEGER
+   	REFERENCES Esemplare (codInventario)
+ );
+ 
+ CREATE TABLE IF NOT EXISTS Visita (
+   codInventario INTEGER
+   	REFERENCES Esemplare (codInventario),
+   codVeterinario INTEGER
+   	REFERENCES Veterinario (codVeterinario),
+   data TEXT
+   	CHECK (data IS date(data, '+0 days')),
+   peso REAL NOT NULL,
+   referto TEXT NOT NULL,
+   dieta TEXT DEFAULT NULL,
+   PRIMARY KEY (codInventario, codVeterinario, data)
+ );
+```
 
 
 
