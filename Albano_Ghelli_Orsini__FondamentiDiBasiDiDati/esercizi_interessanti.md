@@ -98,7 +98,7 @@ class Gabbia {
 }
 
 Casa "1" -- "n" Gabbia : collocata <
-Gabbia "1" -- "1" Esemplare : vive <
+Gabbia "1" .. "0..1" Esemplare : vive <
 
 class Addetto {
   **codAddetto**
@@ -126,6 +126,77 @@ class Visita {
 Esemplare "1" -- "n" Visita : soggettoA >
 Veterinario "1" -- "n" Visita : effettua >
 ```
+
+Esemplare (
+**codInventario**, *codGenere*,
+dataArrivo,
+dataNascita,
+nome,
+sesso,
+*codPaese*)
+
+GenereTassonomico (
+**codGenere**,
+genere
+)
+
+Paese (
+**codPaese**,
+nomePaese
+)
+
+AreaGeografica (
+**codAreaGeografica**,
+nome
+)
+
+Responsabile (
+**codResponsabile**,
+nome,
+cognome
+)
+
+Casa (
+**codCasa**,
+*codAreaGeografica*,
+*codTipo*,
+*codAddetto*,
+giornoPulizie
+)
+
+TipoCasa (
+**codTipo**,
+descrizione
+)
+
+Gabbia (
+**codGabbia**,
+*codCasa*,
+*codInventario*
+)
+
+Addetto (
+**codAddetto**,
+nome,
+cognome
+)
+
+Veterinario (
+**codVeterinario**,
+cognome,
+nome
+)
+
+Visita (
+_**codInventario**_,
+_**codVeterinario**_,
+**data**,
+peso,
+referto,
+dieta
+)
+
+
 
 ### Esercizio 2.6
 
