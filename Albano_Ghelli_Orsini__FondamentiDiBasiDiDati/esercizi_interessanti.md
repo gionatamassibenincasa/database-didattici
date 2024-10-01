@@ -31,10 +31,13 @@ Gli animali sono sottoposti al loro arrivo, e poi periodicamente, a visite di un
 #### Ipotesi soluzione
 
 ```plantuml
+@startuml
+left to right direction
 hide methods
+hide circle
 title Zoo
 
-class Esemplare {
+class Animale {
   **codInventario**
   //codGenere//
   dataArrivo
@@ -47,9 +50,10 @@ class Esemplare {
 class GenereTassonomico {
   **codGenere**
   genere
+  periodicitaVisita
 }
 
-Esemplare "n" -- "1" GenereTassonomico: genere >
+Animale "n" -- "1" GenereTassonomico: genere >
 
 class Paese {
   **codPaese**
@@ -57,7 +61,7 @@ class Paese {
   nomePaese
 }
 
-Esemplare "n" -- "1" Paese : provenienza >
+Animale "n" -- "1" Paese : provenienza >
 
 class AreaGeografica {
   **codAreaGeografica**
@@ -80,7 +84,7 @@ class Casa {
   //codAreaGeografica//
   //codTipo//
   //codAddetto//
-  giornoPulizie
+  giornoPulizia
 }
 
 Casa "n" -- "1" AreaGeografica : situata >
@@ -100,7 +104,7 @@ class Gabbia {
 }
 
 Casa "1" -- "n" Gabbia : collocata <
-Gabbia "1" .. "0..1" Esemplare : vive <
+Gabbia "1" .. "0..1" Animale : vive <
 
 class Addetto {
   **codAddetto**
@@ -117,16 +121,43 @@ class Veterinario {
 }
 
 class Visita {
-  **codInventario**
-  **codVeterinario**
-  **data**
+   **codVisita**
+   //codInventario//
+   //codVeterinario//
+   data
    peso
-   referto
-   dieta
 }
 
-Esemplare "1" -- "n" Visita : soggettoA >
-Veterinario "1" -- "n" Visita : effettua >
+Animale "1" -- "n" Visita : soggettoA >
+Veterinario "1" -- "0..n" Visita : effettua >
+
+class Malattia {
+  **codMalattia**
+  nome
+}
+
+class Diagnosticare {
+  //**codVisita**//
+  //**codMalattia**//
+}
+
+Visita "1" -- "0..n" Diagnosticare
+
+Diagnosticare "0..n" -- "1" Malattia
+  
+class Alimento {
+  **codAlimento**
+  alimento
+}
+
+class Dieta {
+  //**codVisita**//
+  //**codAlimento**//
+}
+
+Visita "1" -- "n" Dieta
+Dieta "0..n" -- "1" Alimento
+@enduml
 ```
 
 Esemplare (
