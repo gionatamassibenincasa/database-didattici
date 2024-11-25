@@ -1,0 +1,22 @@
+## Data sets
+
+### Ergast
+
+#### Data
+
+- https://ergast.com/mrd/db/#csv
+- https://ergast.com/downloads/f1db_csv.zip
+
+#### Schema
+
+- https://ergast.com/docs/f1db_user_guide.txt
+- https://ergast.com/schemas/f1db_tables.sql
+
+#### MySQL dump
+
+- https://ergast.com/downloads/f1db.sql.gz
+
+#### ANSI SQL dump
+
+- https://ergast.com/downloads/f1db_ansi.sql.gz
+
