@@ -1,12 +1,21 @@
-## Compito in classe - 4A SIA - Informatica - 26/11/2024
+---
+title: "Verifica scritta sull'Algebra delle relazioni"
+author: Gionata Massi
+date: 4A SIA - Informatica - 26 Novembre 2024
+geometry: margin=0.75cm
+output: pdf_document
+plantuml-format: svg
+---
+
+##
 
 ### Cognome e nome:
 
-Considera il seguente diagramma
+Considera le seguenti relazioni
 
-```plantuml
+```plantuml height=40%
 @startuml
-left to right direction
+' left to right direction
 skinparam roundcorner 5
 skinparam linetype ortho
 skinparam shadowing false
@@ -64,19 +73,7 @@ table( film_categoria ) {
 
 ```
 
-che corrisponde alle relazioni:
-
-**attore** (  **attore_id**: INTEGER, nome: TEXT, cognome: TEXT)
-
-**categoria** (  **categoria_id**: INTEGER, nome: TEXT)
-
-**film** (  **film_id**: INTEGER, titolo: TEXT, descrizione: TEXT, anno: TEXT)
-
-**film_attore** (  ***attore_id***: INTEGER -> attore(attore_id), ***film_id***: INTEGER -> film(film_id))
-
-**film_categoria** (  ***film_id***: INTEGER -> film(film_id), ***categoria_id***: INTEGER -> categoria(categoria_id))
-
-Formula le interrogazioni dell'algebra relazionale che rispondono a 10 delle seguenti richieste:
+Formula le espressioni dell'algebra relazionale che rispondono a 10 delle seguenti interrogazioni, anche avvalendoti di [Relax](https://dbis-uibk.github.io/relax/calc/gist/ffeaa1bca8f4fd82c50b377d19f70e7d).
 
 1. Elenca i nomi delle categorie
 2. Elenca i titoli dei film
@@ -93,9 +90,3 @@ Formula le interrogazioni dell'algebra relazionale che rispondono a 10 delle seg
 13. Elenca gli attori che hanno recitato in film della categoria 'Family'
 14. Elenca le categorie a cui non appartiene alcun film
 15. Elenca il nome e il cognome degli attori che non hanno mai recitato in film di genere 'Horror'
-
-
-Puoi usare RelaX per scrivere e provare le espressioni relazionali: https://dbis-uibk.github.io/relax/calc/gist/ffeaa1bca8f4fd82c50b377d19f70e7d
-Se hai problemi a caricare i dati, usa quelli alla pagina: https://dbis-uibk.github.io/relax/calc/gist/ffeaa1bca8f4fd82c50b377d19f70e7d
-
-Consegna una stampa delle espressioni che hai prodotto.
