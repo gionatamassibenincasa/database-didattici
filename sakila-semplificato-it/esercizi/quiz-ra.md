@@ -80,7 +80,7 @@ Formula le espressioni dell'algebra relazionale che rispondono a 10 delle seguen
 3.  Elenca l'anno di uscita dei film
 4. Elenca il titolo e l'anno dei film usciti nel 2006
 5. Elenca il nome e il cognome degli attori che si chiamano 'JOHNNY'
-6. Elenca il titolo dei film della categoria 'Comedy':
+6. Elenca il titolo dei film della categoria 'Comedy'
 7. Elenca le categorie diverse da 'Horror'
 8. Elenca i titoli e la descrizione dei film della categoria 'Horror'
 9. Elenca il nome degli attori che hanno recitato in almeno un film della categoria 'Horror'
