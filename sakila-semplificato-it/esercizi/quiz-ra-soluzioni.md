@@ -46,3 +46,71 @@ $\pi_\mathrm{nome,cognome} (\sigma_{\mathrm{nome}=\mathrm{JOHNNY}}(\mathrm{attor
 -- 5. Elenca il nome e il cognome degli attori che si chiamano 'JOHNNY'
 π nome,cognome (σ nome='JOHNNY' (attore))
 ```
+
+## 6. Titolo dei film categoria 'Comedy'
+
+$\pi_\mathrm{titolo}
+  \left(
+    \sigma_{\mathrm{nome}='\mathrm{Comedy}'}
+      \left(
+        \mathrm{film} \bowtie \mathrm{film\_categoria} \bowtie {categoria}
+      \right)
+ \right)$
+
+```text
+-- 6. Elenca il titolo dei film della categoria 'Comedy'
+π titolo (σ nome='Comedy' (film ⨝ film_categoria ⨝ categoria))
+```
+
+## 7. Categorie diverse da 'Horror'
+
+$\pi_\mathrm{nome}
+  \left(
+    \sigma_{\mathrm{nome}\neq'\mathrm{Horror}'}
+      \left(
+        \mathrm{categoria}
+      \right)
+  \right)$
+
+```text
+-- 7. Elenca le categorie diverse da 'Horror'
+π nome (σ nome≠'Horror' (categoria))
+```
+
+## 8. Titolo e descrizione dei film  'Horror'
+
+$\pi_\mathrm{titolo,descrizione}
+  \left(
+    \sigma_{\mathrm{nome}='\mathrm{Horror}'}
+      \left(
+        \mathrm{film} \bowtie \mathrm{film\_categoria} \bowtie {categoria}
+      \right)
+ \right)$
+
+```text
+-- 8. Elenca i titoli e la descrizione dei film della categoria 'Horror'
+π titolo,descrizione (σ nome='Horror' (film ⨝ film_categoria ⨝ categoria))
+```
+
+## 9. Nome attori che hanno recitato in film 'Horror'
+
+$\pi_\mathrm{attore.nome}
+  \left(
+    \sigma_{\mathrm{categoria.nome}='\mathrm{Horror}'}
+      \left(
+        \left(
+          \mathrm{attore} \bowtie \mathrm{film\_attore} \bowtie {film} \bowtie {film\_categoria} 
+        \right) \bowtie_{film\_categoria.categoria\_id=categoria.categoria\_id} \mathrm{categoria}
+      \right)
+ \right)
+$
+
+```text
+-- 9. Elenca il nome degli attori che hanno recitato in almeno un film della categoria 'Horror'
+π attore.nome (
+	σ categoria.nome='Horror' (
+		(attore ⨝ film_attore ⨝ film ⨝ film_categoria) ⨝ film_categoria.categoria_id=categoria.categoria_id (categoria)
+  )
+)
+```
+
