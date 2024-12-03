@@ -72,11 +72,12 @@ Oppure, con assegnamenti
 
 ```text
 -- 6. Elenca il titolo dei film della categoria 'Comedy'
-film_con_id_categoria=(film) ⨝ film.film_id=film_categoria.film_id (film_categoria)
-film_con_categoria=(film_con_id_categoria) ⨝ film_categoria.categoria_id=categoria.categoria_id (categoria)
-commedie=σ nome='Comedy' (film_con_categoria)
+film_con_id_categoria = (film) ⨝ film.film_id = film_categoria.film_id (film_categoria)
+film_con_nome_categoria = (film_con_id_categoria) ⨝ film_categoria.categoria_id=categoria.categoria_id (categoria)
+commedie=σ nome='Comedy' (film_con_nome_categoria)
 π titolo (commedie)
 ```
+
 ## 7. Categorie diverse da 'Horror'
 
 $\pi_\mathrm{nome}
@@ -90,6 +91,14 @@ $\pi_\mathrm{nome}
 ```text
 -- 7. Elenca le categorie diverse da 'Horror'
 π nome (σ nome≠'Horror' (categoria))
+```
+Oppure, con la differenza
+
+```text
+-- 7. Elenca le categorie diverse da 'Horror'
+(π nome (categoria)) - {nome:string
+	'Horror'
+}
 ```
 
 ## 8. Titolo e descrizione dei film  'Horror'
