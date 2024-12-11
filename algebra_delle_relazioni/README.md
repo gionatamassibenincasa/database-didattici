@@ -133,13 +133,14 @@ addHTMLTable(`|Iscrizione|
 
 **Figura 1.2: Una variabile che rappresenta suo valore corrente**
 
+{{1}}
 Abbiamo aggiunto un *nome*, `Iscrizione`, sopra la tabella, ed una riga aggiuntiva.
 
-`Iscrizione` è una variabile.
- Forse la tabella in fig. 1.1 era un suo valore precedente.
- Se così fosse, la variabile è stata aggionata con l'aggiunta della riga per S4.
+`Iscrizione` è una **variabile**.
+ Forse la tabella in fig. 1.1 era un suo **valore** precedente.
+ Se così fosse, la variabile è stata *aggionata* con l'aggiunta della riga per S4.
  
-La nostra interpretazione della fig, 1.1 deve essere rivista alla luce della nuova riga:
+La nostra interpretazione della fig. 1.1 deve essere rivista alla luce della nuova riga:
 
 * La studentessa S1, di nome Anne, è iscritta al corso C1.
 * La studentessa S1, di nome Anne, è iscritta al corso C2.
@@ -147,15 +148,24 @@ La nostra interpretazione della fig, 1.1 deve essere rivista alla luce della nuo
 * La studentessa S3, di nome Cindy, è iscritta al corso C3.
 * Lo studente  S4, di nome Devinder, è iscritto al corso C1.
 
+{{2}}
+
+Conosci la [logica delle proposizioni](https://it.wikipedia.org/wiki/Logica_proposizionale)?
+
+{{2}}
 Nota che in italiano possiamo unire tutte queste frasi per formare una frase singola, usando congiunzioni come "e", "o", "ma", "perché" e così via.
-Se le uniamo usando in particolare con "e", otteniamo una frase singola che è logicamente equivalente all'insieme di frasi sopra scritte, nel senso che la nuova proposizione è vera se delle proposizioni che la compone è vera (e falsa se una qualsiasi di esse è falsa). Un database, quindi, può essere pensato come una rappresentazione di un resoconto dell'organizzazione espresso come una frase singola, ma è più comune pensare in termini di una raccolta di singole frasi.
+Se le uniamo usando in particolare con "e", che per noi è anche un **connettivo logico**, otteniamo una frase singola che è logicamente equivalente all'insieme di frasi sopra scritte, nel senso che la nuova proposizione è vera se delle proposizioni che la compone è vera (e falsa se una qualsiasi di esse è falsa). Un database, quindi, può essere pensato come una rappresentazione di un resoconto dell'organizzazione espresso come una frase singola, ma è più comune pensare in termini di una raccolta di singole frasi.
+
+{{3}}
 
 Potremmo anche essere in grado di concludere che le seguenti frasi (ad esempio) sono false:
 
 * Lo studente S2, di nome Boris, è iscritto al corso C2.
 * Lo studente S2, di nome Beth, è iscritto al corso C1.
 
-Ogni volta che la variabile viene aggiornata, il set di frasi vere rappresentato dal suo valore cambia in qualche modo.
+{{4}}
+
+Ogni volta che la variabile viene *aggiornata*, l'insieme di frasi (proposizioni) vere rappresentato dal suo valore cambia in qualche modo.
 
 Gli aggiornamenti di solito riflettono i cambiamenti che osserviamo nell'organizzazione, influenzando le nostre convinzioni su di essa e quindi il nostro resoconto su di essa.
 
@@ -270,7 +280,9 @@ Un DBMS risponde a _comandi impartiti da *programmi applicativi*, personalizzati
 
 Per supportare più utenti simultanei, un DBMS normalmente funziona come un server. I suoi utenti immediati sono quindi quei programmi applicativi, eseguiti come client di questo server, in genere (anche se non necessariamente) per conto di *utenti finali*. Pertanto, è necessario un qualche tipo di protocollo di comunicazione per la trasmissione di comandi e risposte tra client e server. Prima di inviare comandi al server, un programma applicativo client deve prima stabilire una connessione con esso, avviando così una sessione, che in genere dura finché il client non ne chiede esplicitamente la terminazione. Questo è tutto ciò che devi sapere sull'architettura client-server per quanto riguarda questo libro.
 
-<!--Questo libro riguarda in particolare i DBMS relazionali e i database relazionali, e presto esamineremo i componenti che ci aspettiamo di trovare in un DBMS relazionale. Prima di ciò, dobbiamo rivedere brevemente cosa ci si aspetta da un DBMS in generale.-->
+<script>
+// Questo documento riguarda in particolare i DBMS relazionali e i database relazionali, e presto esamineremo i componenti che ci aspettiamo di trovare in un DBMS relazionale. Prima di ciò, dobbiamo rivedere brevemente cosa ci si aspetta da un DBMS in generale.
+</script>
 
 ### Cos'è un linguaggio di database?
 
@@ -284,7 +296,7 @@ In risposta alle richieste dei programmi applicativi, ci aspettiamo che un DBMS 
 
 - creare e distruggere variabili nel database
 - prendere nota delle regole di integrità (vincoli)
-- prendere atto delle autorizzazioni (chi è autorizzato a fare cosa, a quale cosa)
+- prendere nota delle autorizzazioni (chi è autorizzato a fare cosa, a quale cosa)
 - aggiornare le variabili (rispettando vincoli e autorizzazioni)
 - fornire risultati di query
 
@@ -309,31 +321,74 @@ Nel senso che i vincoli sono per l'**integrità**, le autorizzazioni sono per la
 
 Nota le tre parti di un'autorizzazione: **chi**, **cosa** e **a cosa**. "Chi" è un utente del database; "cosa" è una delle operazioni disponibili per operare sulle variabili nel database; "a cosa" è una di queste variabili.
 
+### Con RelaX
+
 #### Creazione di variabili
 
-Example 1.1 shows a command to create the variable shown in Figure 1.2:
+L'esempio 1.1 mostra i comandi per creare la variabile mostrata in Figura 1.2:
 
-**Example 1.1: Creating a database variable.**
+```text
+Iscrizione={StudentId:string,Name:string,CourseId:string
+'S1','Anne','C1'
+'S1','Anne','C2'
+'S2','Boris','C1'
+'S3','Cindy','C3'
+'S4','Devinder','C1'
+}
 ```
-    VAR ENROLMENT BASE RELATION
-            { StudentId SID,
-             Name  CHAR,
-             CourseId CID }
-          KEY { StudentId, CourseId } ;
+**Esempio 1.1. Creazione di una variabile temporanea con RelaX**
 
+{{1}}
+
+Funziona?
+
+{{2}}
+
+```text
+Iscrizione={StudentId:string,Name:string,CourseId:string
+'S1','Anne','C1'
+'S1','Anne','C2'
+'S2','Boris','C1'
+'S3','Cindy','C3'
+'S4','Devinder','C1'
+}
+Interrogazione
+```
+**Esempio 1.2. Creazione di una variabile temporanea con RelaX e interrogazione**
+
+{{3}}
+
+Funziona?
+
+{{4}}
+
+- Compare nello schema della base di dati?
+- È una variabile globale?
+- È persistente?
+
+{{5}}
+
+In RelaX bisogna usare l'editor di gruppo.
+
+### SQL
+
+https://it.khanacademy.org/computer-programming/new/sql
+
+E nel mondo reale? Esiste il linguaggio SQL che approssima il modello relazionale.
+
+```sql
+CREATE TABLE Iscrizione (
+  StudentId TEXT,
+  Name TEXT,
+  CourseId TEXT,
+  PRIMARY KEY(StudentId, CourseId)
+)
 ```
 
-**Explanation 1.1:**
-```
-    VAR is a key word, indicating that a variable is to be created.
-    ENROLMENT is the variable’s name.
+https://www.sqlite.org/lang_createtable.html
 
-```
+<script>
+//The text from RELATION to the closing brace specifies the declared type of the variable, meaning that every value ever assigned to ENROLMENT must be a value of that type.
 
-`BASE` is a key word indicating that the variable is to be part of the database, thus both persistent
-and global. If BASE were omitted, then the command would result in creation of a local variable.
-
-The text from RELATION to the closing brace specifies the declared type of the variable, meaning that every value ever assigned to ENROLMENT must be a value of that type.
-
-The declared type of ENROLMENT is a relation type, indicated by the key word RELATION and a heading specification. Thus, every value ever assigned to ENROLMENT must be a relation of that type. A heading specification consists of a list of attribute names, each followed by a type name, the entire list being enclosed in braces. Thus, each attribute of the heading also has a declared type. The type names SID and CID (for student ids and course ids) refer to user _defined types. User-defined types have to be defined by some user of the DBMS before they_ can be referred to. The type name CHAR (character strings), by contrast, is a built-in type: it is provided by the DBMS itself, is available to all users, and cannot be destroyed.
-
+//The declared type of ENROLMENT is a relation type, indicated by the key word RELATION and a heading specification. Thus, every value ever assigned to ENROLMENT must be a relation of that type. A heading specification consists of a list of attribute names, each followed by a type name, the entire list being enclosed in braces. Thus, each attribute of the heading also has a declared type. The type names SID and CID (for student ids and course ids) refer to user _defined types. User-defined types have to be defined by some user of the DBMS before they_ can be referred to. The type name CHAR (character strings), by contrast, is a built-in type: it is provided by the DBMS itself, is available to all users, and cannot be destroyed.
+</script>
