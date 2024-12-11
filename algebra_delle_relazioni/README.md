@@ -13,7 +13,7 @@ comment:  Un corso in 10 incontri per scoprire, in modo pratico, la teoria delle
           di dati relazionali.
 
 script:   https://cdnjs.cloudflare.com/ajax/libs/railroad-diagrams/1.0.0/railroad-diagrams.min.js
-script:   ./js/relations.js
+script:   https://cdn.jsdelivr.net/gh/gionatamassibenincasa/database-didattici/algebra_delle_relazioni/js/relations.js
 
 link:     https://cdnjs.cloudflare.com/ajax/libs/railroad-diagrams/1.0.0/railroad-diagrams.min.css
 
