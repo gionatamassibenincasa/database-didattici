@@ -600,7 +600,7 @@ Serve a limitare i valori consentiti per uno scopo. Ad esempio, limitando:
 - i valori che possono apparire per un dato attributo di una relazione
 - Il tipo dichiarato (della variabile, parametro, operatore o attributo) limita i suoi possibili valori a essere di quel tipo.
 
-# Qual è il tipo di questo?
+### Qual è il tipo di questo?
 
 <script>
 addHTMLTable(`||
@@ -622,7 +622,7 @@ NOTA: SQLite non supporta la creazione di domini.
 - Useremo i tipi predefiniti (INTEGER, REAL, TEXT, BLOB) ed i vincoli CHECK.
 - SQLite usa la tipizzazione flessibile.
 
-# Come scrivere questo come letterale?
+### Come scrivere questo come letterale?
 
 <script>
 addHTMLTable(`||
@@ -637,7 +637,7 @@ addHTMLTable(`||
 </script>
 
 <!-- Numero diapositiva: 10 -->
-# Un letterale in SQL
+### Un letterale in SQL
 
 ```sql
 SELECT 'S1' as StudentId, 'C1' AS CourseId, 'Anne' AS Name
@@ -653,7 +653,7 @@ SELECT 'S4' as StudentId, 'C1' AS CourseId, 'Devinder' AS Name
 
 Una strana sintassi!
 
-# Che cos'è una variabile?
+### Che cos'è una variabile?
 
 - un nome (identificatore)
 - un tipo (composto, con nome dell'attributo e dominio)
@@ -662,13 +662,13 @@ Una strana sintassi!
 Quindi una variabile ha un nome, un tipo dichiarato e un valore.
 Il valore può cambiare di volta in volta. Il nome e il tipo no.
 
-# Aggiornamento di una variabile
+### Aggiornamento di una variabile
 
 - Inserimento di nuovi valori
 - Aggiornamento di valori pre-esistenti
 - Cancellazione di valori pre-esistenti
 
-# Distinzioni importanti che emergono
+### Distinzioni importanti che emergono
 
 - valori e variabili
 - valori e rappresentazioni di valori
@@ -676,3 +676,134 @@ Il valore può cambiare di volta in volta. Il nome e il tipo no.
 - operatori di sola lettura e operatori di aggiornamento
 - parametri e argomenti
 - operatori e invocazioni
+
+
+## Proposizioni e Predicati
+
+Un po' di logica
+
+### Che cos'è un predicato?
+
+In senso stretto, il significato di un certo tipo di frase, ma spesso usato (opportunamente) per riferirsi alla frase stessa.
+
+Esempio: "Lo studente S1 è iscritto al corso C1".
+
+- Nota che il significato è indipendente dalla lingua; la frase no!
+- Nota anche che otteniamo una frase molto simile, con un significato molto simile, se cambiamo semplicemente uno dei designatori, S1 e C1 (ad esempio, sostituiamo C1 con C2).
+
+### Che tipo di frase?
+
+Una frase che ha la forma grammaticale di un'affermazione, qualcosa a cui si può credere o non credere.
+
+In italiano, se "È vero che x?" è una domanda, allora x è un'affermazione (che ha la forma di una frase dichiarativa).
+
+Potrebbe essere necessario parafrasare x. Ad esempio (da Shakespeare):
+
+"Il problema è se essere o non essere" $gets$ "Essere o non essere, questo è il problema" 
+
+### Alcuni controesempi
+
+Frasi non dichiarative:
+
+- "Vuoi sposarmi?"
+- "Per favore, passami il sale."
+- "Se la musica è il cibo dell'amore, continua a suonare."
+
+### Alcuni esempi
+
+Frasi dichiarative (e quindi denotano predicati):
+
+- "Lo studente S1 è iscritto al corso C1."
+- "Ti sposerò."
+- "Il re di Francia è calvo"
+- "2 + 2 = 5"
+- "$x < y$"
+- "$a + b = c$"
+- "Lo studente $s$ è iscritto al corso $c$."
+- “$P(x)$” (notazione per la forma generale)
+
+### Derivazione di predicati da predicati (1)
+
+- Sostituzione: di un designatore per un parametro
+  - Dato un predicato n-adico, produce un predicato (n-1)-adico.
+
+- Ad esempio, in “$a < b$” sostituisci 10 per $b$ per ottenere “$a < 10$”.
+  - Ora sostituisci 5 per a e otteniamo “5 < 10”, una proposizione.
+- Istanziazione: sostituzione di tutti i parametri, che produce una proposizione.
+
+### Intensione ed estensione
+
+Di un predicato:
+- Intensione: il suo significato (in senso lato).
+- Estensione: tutte le istanziazioni che sono (si ritiene siano) vere.
+
+Il concetto di estensione è di fondamentale importanza nella teoria relazionale.
+
+Nota che è un insieme di proposizioni.
+
+In alternativa, è una singola proposizione formata collegando tutti i membri di quell'insieme usando "e".
+
+L'estensione di un predicato niladico è o se stesso (se è vero) o l'insieme vuoto (se è falso).
+
+### Derivazione di predicati da predicati (2)
+
+I familiari operatori logici:
+
+- congiunzione ("e", "and", $\land$) : "Lo studente s è iscritto al corso c e s si chiama nome".
+- disgiunzione ("o", "or", $\lor$): "a < b o c < d"
+negazione ("non", "not", "$\lnot$"): "Non è il caso che ti sposerò".
+
+
+### Derivazione di predicati da predicati (3)
+
+Condizionali:
+implicazione: "Se me lo chiedi gentilmente, allora ti sposerò".
+solo se: "Ti sposerò solo se me lo chiedi gentilmente". bicondizionale: "Ti sposerò solo se me lo chiederai gentilmente". (equivalenza)
+
+### Derivazione di predicati da predicati (4)
+
+Quantificatori:
+esistenziale: "Esiste s tale che s è uno studente e s è iscritto al corso c". (≡ "Almeno uno studente è iscritto al corso c").
+universale: "Per tutti gli s, se s è uno studente allora s è iscritto al corso c". (≡ "Tutti gli studenti sono iscritti al corso c").
+La ​​quantificazione, come la sostituzione, lega un parametro.
+
+### Insiemi
+Sia P(x) un predicato. Se l'oggetto a è tale che P(a) è vero, allora si dice che a soddisfa P. E P(x) è chiamato un predicato di appartenenza per l'insieme costituito da tutti questi oggetti a. Esempio: "x è un intero tale che 1 < x < 4"
+"x è un intero tale che 1 < x < 4" è un predicato di appartenenza per l'insieme costituito dagli elementi 2 e 3, denotato dall'espressione { 2, 3 } (un'enumerazione).
+Questo insieme è anche denotato da { x : x  Z e 1 < x e x < 4 }.
+
+
+<!-- Numero diapositiva: 13 -->
+### Il linguaggio degli insiemi (1)
+Sia A e B insiemi con predicati di appartenenza PA(x) e PB(x), rispettivamente. Sia a un elemento. Quindi abbiamo i seguenti confronti:
+appartenenza: a  A (a è un membro di A)
+contenimento: B  A (B è un sottoinsieme di A)
+A  B (A è un superinsieme di B)
+B  A (B è un sottoinsieme proprio di A)
+A  B (A è un superinsieme proprio di B)
+uguaglianza: A = B (A  B e B  A)
+disgiunzione: A e B sono disgiunti (non hanno membri in comune)
+13
+
+<!-- Numero diapositiva: 14 -->
+### Il linguaggio degli insiemi (2)
+E le seguenti operazioni sugli insiemi che producono insiemi:
+unione: A  B = {x : x  A o x  B} (disgiunzione)
+intersezione: A  B = {x : x  A e x  B} (congiunzione)
+complemento: (di A) = {x : non x  A} (negazione)
+differenza: A - B = {x : x  A e non x  B}
+14
+
+<!-- Numero diapositiva: 15 -->
+### ESERCIZI
+
+| StudentId | Nome | CourseId |
+| --- | --- | --- |
+| S1 | Anne | C1 |
+| S1 | Anne | C2 |
+| S2 | Boris | C1 |
+| S3 | Cindy | C3 |
+| S4 | Devinder | C1 |
+Supponiamo che il predicato di appartenenza per la seguente relazione sia "Studente StudentId, denominato Nome, è iscritto al corso CourseId".
+(Gli esercizi sono nelle Note)
+15
