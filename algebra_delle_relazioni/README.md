@@ -538,60 +538,141 @@ FROM Iscrizione
 WHERE CourseId = 'C1';
 ```
 
-Note carefully that Example 1.11 is not a command. It is just an expression, denoting a value—in this case, a relation. In a relational database language the result of a query is always another relation! Figure 1.7 shows the result of Example 1.11 in the usual tabular form.
 
-StudentId Name
+## Valori, tipi, variabili, operatori
 
-S1 Anne
+Valori, tipi, variabili, operatori
 
-S2 Boris
+### Anatomia di un'istruzione
+Esempio: $Y \gets X + 1$
 
-S4 Devinder
+- $Y$ Indica una variabile
+- $X$ Indica il valore corrente di una variabile
+- Indica un valore
+- $+$ Un operatore di sola lettura
+- $=$ Un operatore di assegnamento (aggiornamento)
+- $X$ e 1 sono argomenti per l'invocazione di $+$
+- $Y$ e $X+1$ sono argomenti per l'invocazione di $\gets$
 
-**Figure 1.7: Result of query in Example 1.11**
+### Distinzioni importanti
 
-**Explanation 1.11:**
+- Valore vs variabile
+- Variabile vs riferimento a variabile
+- Operatore di assegnamento (aggiornamento) vs operatore di sola lettura
+- Operatore vs invocazione
+- Parametro vs argomento
+- Parametro soggetto ad aggiornamento vs parametro non soggetto ad aggiornamento
 
-    - `WHERE is the key word identifying the Tutorial D operator of that name. This operator`
+### Uno sguardo più da vicino a un operatore (+)
 
-operates on a given relation and yields a relation. Certain operators, including this one, that
-operate on relations and yield relations together constitute the relational algebra, covered in
-detail in Chapter 4.
+<script>
+addHTMLTable(`||
+| a | b | c |
+| --- | --- | --- |
+| 1 | 2 | 3 |
+| 2 | 3 | 5 |
+| 2 | 1 | 3 |
+`);
+</script>
 
-    - `CourseId = CID('C1') qualifies WHERE, specifying that just the tuples for course C1`
+e così via (all'infinito)
 
-are required.
+- Guarda, è una relazione!
+- Il predicato: $a + b = c$
+- Gli attributi $a$ e $b$ possono essere considerati come parametri di $+$.
+- È anche una funzione: dati $a$ e $b$, conosciamo $c$.
 
-    - `{ StudentId, Name } specifies that from the result of the previous operation`
+### Che cos'è un tipo? Esempi:
 
-(WHERE) just the StudentId and Name attributes are required.
+- WEEKDAY: { Monday, Tuesday, Wednesday, Thursday, Friday, Saturday, Sunday }
+- INTEGER: { …, -7, -6, -5, -4, -3, -2, -1, 0, 1, 2, 3, 4, 5, 6, 7, … }
+- Un tipo (= "dominio") è un insieme di valori denominati.
+- Monday ecc. e -7 ecc. sono letterali. Ogni valore di ogni tipo dovrebbe poter essere denotato da un qualche letterale.
 
-The overall result is a relation formed from the current value of `ENROLMENT by discarding certain`
+<!-- Numero diapositiva: 7 -->
+### A cosa serve un tipo?
 
-tuples and a certain attribute.
+Serve a limitare i valori consentiti per uno scopo. Ad esempio, limitando:
 
-**31**
+- i valori che possono essere assegnati a una variabile
+- i valori che possono essere sostituiti per un parametro
+- i valori che un operatore può produrre quando viene invocato
+- i valori che possono apparire per un dato attributo di una relazione
+- Il tipo dichiarato (della variabile, parametro, operatore o attributo) limita i suoi possibili valori a essere di quel tipo.
 
-|StudentId|Name|
-|---|---|
-|S1|Anne|
-|S2|Boris|
-|S4|Devinder|
+# Qual è il tipo di questo?
 
+<script>
+addHTMLTable(`||
+| StudentId | Name | CourseId |
+| --- | --- | --- |
+| S1 | Anne | C1 |
+| S1 | Anne | C2 |
+| S2 | Boris | C1 |
+| S3 | Cindy | C3 |
+| S4 | Devinder | C1 |
+`);
+</script>
 
+Forse è una **relazione** definita sugli attributi { StudentId: SID, Name: NAME, CourseId: CID }
+dove SID è il tipo dichiarato di StudentId, NAME quello di Name e CID quello di CourseId.
 
-### EXERCISE
+NOTA: SQLite non supporta la creazione di domini.
 
-Consider the table shown in Figure 1.5, repeated here for convenience:
+- Useremo i tipi predefiniti (INTEGER, REAL, TEXT, BLOB) ed i vincoli CHECK.
+- SQLite usa la tipizzazione flessibile.
 
+# Come scrivere questo come letterale?
 
-|A|B|A|
-|---|---|---|
-|1|2|3|
-|4||5|
-|6|7|8|
-|9|9|?|
-|1|2|3|
+<script>
+addHTMLTable(`||
+| StudentId | Nome | CourseId |
+| --- | --- | --- |
+| S1 | Anne | C1 |
+| S1 | Anne | C2 |
+| S2 | Boris | C1 |
+| S3 | Cindy | C3 |
+| S4 | Devinder | C1 |
+`);
+</script>
 
+<!-- Numero diapositiva: 10 -->
+# Un letterale in SQL
 
-Give three reasons why it cannot possibly represent a relation. By the way, this table is supported by SQL, and the three reasons represent some of SQL’s serious and far-reaching deviations from relational theory.
+```sql
+SELECT 'S1' as StudentId, 'C1' AS CourseId, 'Anne' AS Name
+UNION
+SELECT 'S1' as StudentId, 'C2' AS CourseId, 'Anne' AS Name
+UNION
+SELECT 'S2' as StudentId, 'C1' AS CourseId, 'Boris' AS Name
+UNION
+SELECT 'S3' as StudentId, 'C3' AS CourseId, 'Cindy' AS Name
+UNION
+SELECT 'S4' as StudentId, 'C1' AS CourseId, 'Devinder' AS Name
+```
+
+Una strana sintassi!
+
+# Che cos'è una variabile?
+
+- un nome (identificatore)
+- un tipo (composto, con nome dell'attributo e dominio)
+- un valore
+
+Quindi una variabile ha un nome, un tipo dichiarato e un valore.
+Il valore può cambiare di volta in volta. Il nome e il tipo no.
+
+# Aggiornamento di una variabile
+
+- Inserimento di nuovi valori
+- Aggiornamento di valori pre-esistenti
+- Cancellazione di valori pre-esistenti
+
+# Distinzioni importanti che emergono
+
+- valori e variabili
+- valori e rappresentazioni di valori
+- tipi e rappresentazioni
+- operatori di sola lettura e operatori di aggiornamento
+- parametri e argomenti
+- operatori e invocazioni
