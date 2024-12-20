@@ -12,8 +12,8 @@ narrator: IT Italian Male
 comment:  Un corso in 10 incontri per scoprire, in modo pratico, la teoria delle basi
           di dati relazionali.
 
-script:   https://cdn.jsdelivr.net/gh/tabatkins/railroad-diagrams/railroad.js
 script:   https://cdn.jsdelivr.net/gh/gionatamassibenincasa/database-didattici/algebra_delle_relazioni/js/relations.js
+script:   https://cdn.jsdelivr.net/gh/gionatamassibenincasa/database-didattici/algebra_delle_relazioni/js/railroad.js
 
 link:     https://cdn.jsdelivr.net/gh/tabatkins/railroad-diagrams/railroad.css
 
@@ -68,8 +68,7 @@ Uno sguardo su
 Un esempio di raccolta *organizzata* di *simboli*
 
 <script>
-addHTMLTable(`||
-|StudentId|Name|CourseId|
+addTable(`|StudentId|Name|CourseId|
 |---------|----|--------|
 |S1|Anne|C1|
 |S1|Anne|C2|
@@ -96,8 +95,7 @@ Ricorda quelle caratteristiche. In modo informale, costituiscono il fondamento d
 Per esempio
 
 <script>
-addHTMLTable(`||
-|StudenteId|Nome|CorsoId|
+addTable(`|StudenteId|Nome|CorsoId|
 |---------|----|--------|
 |S1|Anne|C1|`);
 </script>
@@ -131,7 +129,7 @@ Se è davvero così che la tabella deve essere interpretata, allora possiamo con
 Guarda questa nuova tabella con una piccola modifica
 
 <script>
-addHTMLTable(`|Iscrizione|
+addRelVar(`|Iscrizione|
 |StudentId|Name|CourseId|
 |S1|Anne|C1|
 |S1|Anne|C2|
@@ -186,8 +184,7 @@ Un database relazionale è un database i cui simboli sono organizzati in una rac
 La Figura 1.3 conferma che gli esempi che abbiamo già visto sono in effetti relazioni, rappresentate in forma tabellare. Infatti, secondo la Figura 1.2, la relazione rappresentata nella Figura 1.3 è il valore corrente della variabile `Iscrizione`.
 
 <script>
-  addHTMLTable(`||
-|StudentId|Name|CourseId|
+  addTable(`|StudentId|Name|CourseId|
 |---|---|---|
 |S1|Anne|C1|
 |S1|Anne|C2|
@@ -228,8 +225,7 @@ non sono sinonimi. Per prima cosa, sebbene ogni relazione possa essere rappresen
 che non sono una rappresentazione di una relazione. Diremo che tali tabelle non **denotano** una relazione. Inoltre, diverse tabelle possono tutte rappresentare la stessa relazione. Si consideri la Figura 1.4, per esempio.
 
 <script>
-addHTMLTable(`||
-|Name|StudentId|CourseId|
+addTable(`|Name|StudentId|CourseId|
 |---|---|---|
 |Devinder|S4|C1|
 |Cindy|S3|C3|
@@ -256,8 +252,7 @@ Possiamo anche osservare che non tutte le tabelle rappresentano una relazione. T
 La Figura 1.5 mostra un'altra tabella che non rappresenta alcuna relazione.
 
 <script>
-addHTMLTable(`||
-|A|B|A|
+addTable(`|A|B|A|
 |---|---|---|
 |1|2|3|
 |4||5|
@@ -548,25 +543,35 @@ WHERE CourseId = 'C1';
 ### Sintassi per la creazione di una variabile in SQL
 
 <script>
-Diagram(
-  Stack(
-  Sequence(
+function draw () {
+  const svg  = new Diagram(
+  new Stack(
+  new Sequence(
     'CREATE',
     'TABLE',
-    NonTerminal('nome-variabile'),
+    new NonTerminal('nome-variabile'),
     '(',
   ),
-  Group(
-    OneOrMore(NonTerminal('def-attributo'), ','), 'Elenco attributi'
+  new Group(
+    new OneOrMore(new NonTerminal('def-attributo'), ','), 'Elenco attributi'
   ),
-  Optional(
-    Group(
-      OneOrMore(
-         Sequence(',', NonTerminal('vincolo-relazione'))), 'Elenco vincoli'
+  new Optional(
+    new Group(
+      new OneOrMore(
+         new Sequence(',', new NonTerminal('vincolo-relazione'))), 'Elenco vincoli'
     ), 
   ),
   ')'
-))
+)).toString();
+    send.lia("HTML: "+svg);
+    send.lia("LIA: stop")
+};
+
+draw()
+"LIA: wait"
+</script>
+
+<script style="display: block; background: white" run-once="true" modify="false">
 </script>
 
 ## Valori, tipi, variabili, operatori
