@@ -12,14 +12,14 @@ narrator: IT Italian Male
 comment:  Un corso in 10 incontri per scoprire, in modo pratico, la teoria delle basi
           di dati relazionali.
 
-script:   https://cdnjs.cloudflare.com/ajax/libs/railroad-diagrams/1.0.0/railroad-diagrams.min.js
+script:   https://cdn.jsdelivr.net/gh/tabatkins/railroad-diagrams/railroad.js
 script:   https://cdn.jsdelivr.net/gh/gionatamassibenincasa/database-didattici/algebra_delle_relazioni/js/relations.js
 
-link:     https://cdnjs.cloudflare.com/ajax/libs/railroad-diagrams/1.0.0/railroad-diagrams.min.css
+link:     https://cdn.jsdelivr.net/gh/tabatkins/railroad-diagrams/railroad.css
 
 -->
 
-# Algebra delle relazioni <br> Un approccio pratico<!-- style="color: blue" --> alla teoria<!-- style="color: red" --> delle basi di dati
+# Algebra <!-- style="color: green" --> delle relazioni <!-- style="color: green" --> <br> Un approccio pratico<!-- style="color: blue" --> alla teoria<!-- style="color: red" --> delle basi di dati
 
 Un corso in 10 incontri per scoprire, in modo pratico, la teoria delle basi di dati relazionali.
 
@@ -468,18 +468,21 @@ Dopo l'esecuzione del comando, la variabile smetterà di esistere e ogni tentati
 - `GRANT`
 - `REVOKE`
 
+NOTA: non con SQLite
+
 ### Aggiornare le variabili
 
 Il modo usuale di aggiornare una variabile nei linguaggi informatici è tramite assegnazione.
-Ad esempio, se X è una variabile intera, l'assegnazione X := X + 1 aggiorna X in modo che il suo valore immediatamente dopo l'esecuzione dell'assegnazione sia uno in più rispetto al suo valore immediatamente precedente.
-L'espressione a destra di := indica la sorgente per l'assegnazione e il nome della variabile a sinistra indica la destinazione.
-Quando la destinazione è una variabile di relazione, come sempre quando fa parte di un database relazionale, la
-sorgente deve essere una 
-L'assegnazione, sebbene dovrebbe essere disponibile (non lo è in SQL), non è il modo usuale di applicare aggiornamenti a un database relazionale.
-Questo perché molto spesso c'è solo una piccola quantità di differenza, per così dire, tra il valore "vecchio" e il valore "nuovo" ed è solitamente molto
-più comodo poter esprimere l'aggiornamento in termini di quella piccola differenza.
+Ad esempio, se X è una variabile intera, l'assegnazione $X \gets X + 1$ aggiorna $X$ in modo che il suo valore immediatamente dopo l'esecuzione dell'assegnazione sia uno in più rispetto al suo valore immediatamente precedente.
 
-Gli operatori di aggiornamento differenziale previsti in un DBMS relazionale sono solitamente chiamati `INSERT`, `DELETE` e `UPDATE`, e sono questi i nomi utilizzati in SQL.
+L'espressione a destra di $\gets$ indica la sorgente per l'assegnazione e il nome della variabile a sinistra indica la destinazione.
+
+Quando la destinazione è una variabile di relazione, come sempre quando fa parte di un database relazionale, la sorgente deve essere una relazione.
+
+L'assegnazione, sebbene dovrebbe essere disponibile (non lo è in SQL), non è il modo usuale di applicare aggiornamenti a un database relazionale.
+Questo perché molto spesso c'è solo una piccola quantità di differenza, per così dire, tra il valore "vecchio" e il valore "nuovo" ed è solitamente molto più comodo poter esprimere l'aggiornamento in termini di quella piccola differenza.
+
+Gli operatori di aggiornamento *differenziale* previsti in un DBMS relazionale sono solitamente chiamati `INSERT`, `DELETE` e `UPDATE`, e sono questi i nomi utilizzati in SQL.
 
 
 Dai un'occhiata prima a DELETE
@@ -487,43 +490,46 @@ Dai un'occhiata prima a DELETE
 (Esempio 1.8).
 
 **Esempio 1.8: Aggiornamento tramite eliminazione**
-```
+
+```sql
 DELETE FROM Iscrizioni WHERE StudentId = 'S4' ;
 ```
 
-- Informalmente, l'esempio 1.8 elimina tutte le tuple per lo studente S4 e può essere interpretato come "lo studente S4 non è più iscritto a nessun corso". Più formalmente, assegna alla variabile Iscrizione la relazione il cui corpo è costituito da quelle tuple nel valore corrente di Iscrizione che non soddisfano la condizione data nella clausola WHERE, quindi ogni tupla in cui il valore dell'attributo StudentId non è l'identificativo dello studente S4.
+- Informalmente, l'esempio 1.8 elimina tutte le tuple per lo studente S4 e può essere interpretato come "lo studente S4 non è più iscritto a nessun corso". Più formalmente, assegna alla variabile Iscrizione la relazione il cui corpo è costituito da quelle tuple nel valore corrente di Iscrizione che non soddisfano la condizione data nella clausola `WHERE`, quindi ogni tupla in cui il valore dell'attributo StudentId non è l'identificativo dello studente S4.
 
-- `StudentId = 'S4'  è un'espressione condizionale. Poiché segue la parola chiave WHERE qui, è in effetti una condizione WHERE, nota anche come condizione di restrizione (o selezione).
-Successivamente, nell'Esempio 1.9, esaminiamo UPDATE.
+- `StudentId = 'S4'`  è un'espressione condizionale. Poiché segue la parola chiave `WHERE` qui, è in effetti una condizione `WHERE`, nota anche come condizione di restrizione (o selezione).
+Successivamente, nell'Esempio 1.9, esaminiamo `UPDATE`.
 
 **Esempio 1.9: Aggiornamento tramite sostituzione**
-```
+
+```sql
 UPDATE Iscrizione SET Name = 'Ann' WHERE StudentId = 'S1' :
 
 ```
 
-Nota che `UPDATE` usa una clausola `WHERE`, proprio come `DELETE`. La clausola ``WHERE` è preceduta da un elenco di assegnazioni, nell'Esempio 1.9 solo un'assegnazione, ma queste sono assegnazioni ad attributi, non assegnazioni a variabili.
+Nota che `UPDATE` usa una clausola `WHERE`, proprio come `DELETE`.
+La clausola `WHERE` è preceduta da un elenco di assegnazioni, nell'Esempio 1.9 solo un'assegnazione, ma queste sono assegnazioni ad attributi, non assegnazioni a variabili.
 
 **Spiegazione 1.9:**
 
-- Informalmente, l'Esempio 1.9 aggiorna ogni tupla Iscrizione per lo studente S1, modificandone il valore Name in 'Ann'. Più formalmente, assegna alla variabile Iscrizione la relazione che è identica al valore corrente sotto tutti gli aspetti, eccetto che il valore per l'attributo Name, nelle tuple il cui valore StudentId è l'identificativo studente S1, diventa la stringa 'Ann' in ogni caso. (Avrei scritto "tranne forse" se non avessi saputo che il valore Name esistente in quelle tuple è 'Anne' in ogni caso. In alcune circostanze non si verifica alcuna modifica come risultato dell'esecuzione di un UPDATE e lo stesso vale per DELETE e INSERT.)
+- Informalmente, l'Esempio 1.9 aggiorna ogni tupla Iscrizione per lo studente S1, modificandone il valore Name in 'Ann'. Più formalmente, assegna alla variabile Iscrizione la relazione che è identica al valore corrente sotto tutti gli aspetti, eccetto che il valore per l'attributo Name, nelle tuple il cui valore StudentId è l'identificativo studente S1, diventa la stringa 'Ann' in ogni caso. (Avrei scritto "tranne forse" se non avessi saputo che il valore Name esistente in quelle tuple è 'Anne' in ogni caso. In alcune circostanze non si verifica alcuna modifica come risultato dell'esecuzione di un UPDATE e lo stesso vale per `DELETE` e `INSERT`.)
 
 - `SET Name = 'Ann'` è un'assegnazione di attributo. Un'assegnazione di attributo imposta il valore dell'attributo di destinazione sul valore specificato, in ogni tupla che soddisfa la condizione WHERE.
 
-Infine, l'Esempio 1.10 illustra l'uso di INSERT.
+Infine, l'Esempio 1.10 illustra l'uso di `INSERT`.
 
 **Esempio 1.10: Aggiornamento tramite inserimento**
 
-```
+```sql
 INSERT INTO Iscrizione (StudentId, Name, CourseId) VALUES ( 'S4' , 'Devinder',  'C1' );
 
 ```
 
 **Spiegazione 1.10:**
 
-- Informalmente, l'Esempio 1.10 aggiunge una tupla a Iscrizione indicando che lo studente S4, ancora chiamato Devinder, è ora iscritto al corso C1. Più formalmente, assegna alla variabile ENROLMENT la relazione costituita da ogni tupla nel valore corrente di Iscrizione e ogni tupla (ce n'è solo una in questo particolare esempio) nella relazione indicata dall'espressione che segue la parola Iscrizione.
+- Informalmente, l'Esempio 1.10 aggiunge una tupla a Iscrizione indicando che lo studente S4, ancora chiamato Devinder, è ora iscritto al corso C1. Più formalmente, assegna alla variabile Iscrizione la relazione costituita da ogni tupla nel valore corrente di Iscrizione e ogni tupla (ce n'è solo una in questo particolare esempio) nella relazione indicata dall'espressione che segue la parola Iscrizione.
 
-- L'espressione che inizia con la parola chiave VALUES e termina con l'ultima parentesi tonda di chiusura indica la tupla composta dai tre valori di attributo indicati: 'S4' per l'attributo StudentId, 'Devinder' per l'attributo Name, e 'C1' per l'attributo CourseId.
+- L'espressione che inizia con la parola chiave `VALUES` e termina con l'ultima parentesi tonda di chiusura indica la tupla composta dai tre valori di attributo indicati: 'S4' per l'attributo StudentId, 'Devinder' per l'attributo Name, e 'C1' per l'attributo CourseId.
 
 L'esempio 1.10 non ha alcun effetto sul database nel caso in cui il valore corrente di Iscrizione contenga già la tupla che rappresenta l'iscrizione dello studente S4, di nome Devinder, al corso C1.
 
@@ -532,12 +538,36 @@ L'esempio 1.10 non ha alcun effetto sul database nel caso in cui il valore corre
 Chi è iscritto al corso C1?
 
 **Esempio 1.11: Una query**
-```
+
+```sql
 SELECT StudentId, Name
 FROM Iscrizione
 WHERE CourseId = 'C1';
 ```
 
+### Sintassi per la creazione di una variabile in SQL
+
+<script>
+Diagram(
+  Stack(
+  Sequence(
+    'CREATE',
+    'TABLE',
+    NonTerminal('nome-variabile'),
+    '(',
+  ),
+  Group(
+    OneOrMore(NonTerminal('def-attributo'), ','), 'Elenco attributi'
+  ),
+  Optional(
+    Group(
+      OneOrMore(
+         Sequence(',', NonTerminal('vincolo-relazione'))), 'Elenco vincoli'
+    ), 
+  ),
+  ')'
+))
+</script>
 
 ## Valori, tipi, variabili, operatori
 
@@ -589,7 +619,6 @@ e così via (all'infinito)
 - Un tipo (= "dominio") è un insieme di valori denominati.
 - Monday ecc. e -7 ecc. sono letterali. Ogni valore di ogni tipo dovrebbe poter essere denotato da un qualche letterale.
 
-<!-- Numero diapositiva: 7 -->
 ### A cosa serve un tipo?
 
 Serve a limitare i valori consentiti per uno scopo. Ad esempio, limitando:
@@ -680,7 +709,11 @@ Il valore può cambiare di volta in volta. Il nome e il tipo no.
 
 ## Proposizioni e Predicati
 
-Un po' di logica
+Un po' di logica.
+
+Niente paura!!!
+
+Potresti aver visto questi concetti nel primo anno, oppure nel corso di Informatica.
 
 ### Che cos'è un predicato?
 
@@ -695,11 +728,11 @@ Esempio: "Lo studente S1 è iscritto al corso C1".
 
 Una frase che ha la forma grammaticale di un'affermazione, qualcosa a cui si può credere o non credere.
 
-In italiano, se "È vero che x?" è una domanda, allora x è un'affermazione (che ha la forma di una frase dichiarativa).
+In italiano, se "È vero che $x$?" è una domanda, allora $x$ è un'affermazione (che ha la forma di una frase dichiarativa).
 
-Potrebbe essere necessario parafrasare x. Ad esempio (da Shakespeare):
+Potrebbe essere necessario parafrasare $x$. Ad esempio (da Shakespeare):
 
-"Il problema è se essere o non essere" $gets$ "Essere o non essere, questo è il problema" 
+"Essere o non essere, questo è il problema"  $\mapsto$ "Il problema è se essere o non essere"
 
 ### Alcuni controesempi
 
@@ -715,7 +748,7 @@ Frasi dichiarative (e quindi denotano predicati):
 
 - "Lo studente S1 è iscritto al corso C1."
 - "Ti sposerò."
-- "Il re di Francia è calvo"
+- "Il re di Francia è calvo."
 - "2 + 2 = 5"
 - "$x < y$"
 - "$a + b = c$"
@@ -724,24 +757,25 @@ Frasi dichiarative (e quindi denotano predicati):
 
 ### Derivazione di predicati da predicati (1)
 
-- Sostituzione: di un designatore per un parametro
-  - Dato un predicato n-adico, produce un predicato (n-1)-adico.
+- **Sostituzione** di un designatore per un parametro
 
-- Ad esempio, in “$a < b$” sostituisci 10 per $b$ per ottenere “$a < 10$”.
+  - Dato un predicato n-adico, produce un predicato (n-1)-adico.
+  - Ad esempio, in “$a < b$” sostituisci 10 per $b$ per ottenere “$a < 10$”.
   - Ora sostituisci 5 per a e otteniamo “5 < 10”, una proposizione.
-- Istanziazione: sostituzione di tutti i parametri, che produce una proposizione.
+
+- **Istanziazione**: sostituzione di tutti i parametri
+
+   - produce una proposizione.
 
 ### Intensione ed estensione
 
 Di un predicato:
-- Intensione: il suo significato (in senso lato).
-- Estensione: tutte le istanziazioni che sono (si ritiene siano) vere.
 
-Il concetto di estensione è di fondamentale importanza nella teoria relazionale.
+- **Intensione**: il suo significato (in senso lato).
+- **Estensione**: tutte le *istanziazioni* che sono (si ritiene siano) vere.
 
-Nota che è un insieme di proposizioni.
-
-In alternativa, è una singola proposizione formata collegando tutti i membri di quell'insieme usando "e".
+NOTA: il concetto di estensione è di fondamentale importanza nella teoria relazionale.
+In effetti una base di dati è un *insieme* di proposizioni. In alternativa, un database è una singola proposizione formata collegando tutti i membri di quell'insieme usando "e".
 
 L'estensione di un predicato niladico è o se stesso (se è vero) o l'insieme vuoto (se è falso).
 
@@ -749,16 +783,18 @@ L'estensione di un predicato niladico è o se stesso (se è vero) o l'insieme vu
 
 I familiari operatori logici:
 
-- congiunzione ("e", "and", $\land$) : "Lo studente s è iscritto al corso c e s si chiama nome".
-- disgiunzione ("o", "or", $\lor$): "a < b o c < d"
-negazione ("non", "not", "$\lnot$"): "Non è il caso che ti sposerò".
+- congiunzione ("e", "and", $\land$) : "Lo studente $s$ è iscritto al corso $c$ e $s$ si chiama $n$".
+- disgiunzione ("o", "or", $\lor$): "$a < b$ o $c < d$"
+- negazione ("non", "not", "$\lnot$"): "Non è vero che lo studente $s$ è iscritto al corso $c$".
 
 
 ### Derivazione di predicati da predicati (3)
 
 Condizionali:
-implicazione: "Se me lo chiedi gentilmente, allora ti sposerò".
-solo se: "Ti sposerò solo se me lo chiedi gentilmente". bicondizionale: "Ti sposerò solo se me lo chiederai gentilmente". (equivalenza)
+
+- implicazione: "**Se** me lo chiedi gentilmente, **allora** ti sposerò".
+- solo se: "Ti sposerò **solo se** me lo chiedi gentilmente".
+- bicondizionale: "Ti sposerò **se e solo se** me lo chiederai gentilmente".
 
 ### Derivazione di predicati da predicati (4)
 
