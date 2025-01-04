@@ -12,7 +12,7 @@ narrator: IT Italian Male
 comment:  Un corso in 10 incontri per scoprire, in modo pratico, la teoria delle basi
           di dati relazionali.
 
-script:   https://cdn.jsdelivr.net/gh/gionatamassibenincasa/database-didattici/algebra_delle_relazioni/js/relations.js
+script:   ./js/relations.js
 script:   https://cdn.jsdelivr.net/gh/gionatamassibenincasa/database-didattici/algebra_delle_relazioni/js/railroad.js
 
 link:     https://cdn.jsdelivr.net/gh/tabatkins/railroad-diagrams/railroad.css
@@ -415,7 +415,7 @@ Funziona?
 
 In RelaX bisogna usare l'editor di gruppo. Non è un DBMS! Meglio cambiare strumento.
 
-### Linguaggio SQL
+#### (Un sotto-insieme del) Linguaggio SQL
 
 Per sperimentare un sistema quasi _relazionale_, possiamo usare anche noi [SQLite](https://sqlite.org), il motore di database SQL [più usato al mondo](https://sqlite.org/mostdeployed.html). Non si tratta di un DBMS ma di un componente software (libreria) così importante da essere tra quelli con maggiori istallazioni e maggiore utilizzo.
 
@@ -423,6 +423,8 @@ Un'interfaccia molto amichivole ci viene fornita da [Khan Academy](Khan Academy)
 
 
 [qr-code](https://it.khanacademy.org/computer-programming/new/sql)
+
+##### Creazione di varibile
 
 La relazione si genera con:
 
@@ -436,18 +438,74 @@ CREATE TABLE Iscrizione (
 ```
 **Costruzione di una variabile**
 
+##### Sintassi
+
+<script style="display: block; background: white" run-once="true" modify="false">
+let draw = () => {
+  const svg  = new Diagram(
+  new Stack(
+  new Sequence(
+    'CREATE',
+    'TABLE',
+    new NonTerminal('nome-variabile'),
+    '(',
+  ),
+  new Group(
+    new OneOrMore(new NonTerminal('def-attributo'), ','), 'Elenco attributi'
+  ),
+  new Optional(
+    new Group(
+      new OneOrMore(
+         new Sequence(',', new NonTerminal('vincolo-relazione'))), 'Elenco vincoli'
+    ), 
+  ),
+  ')'
+)).toString();
+    send.lia("HTML: "+svg);
+    send.lia("LIA: stop")
+};
+
+draw()
+"LIA: wait"
+</script>
+
+
 Si può vedere qualche dettaglio sulla [sintassi CREATE TABLE](https://www.sqlite.org/lang_createtable.html)
+
+
+##### Una colonna
 
 `TEXT` si riferisce ad un tipo, `PRIMARY KEY` è un tipo di vincolo e specifica che non ci posso essere due tuple nella relazione `Iscrizione` con la stessa configurazione di valori di attributi per StudentId e CourseId (non possiamo iscrivere lo stesso studente allo stesso corso più di una volta)
 
+#### Eliminazione di colonne
+
 La relazione si elimina con:
 
-```
+```sql
 DROP TABLE Iscrizione;
 ```
 **Eliminazione di una relazione**
 
 Dopo l'esecuzione del comando, la variabile smetterà di esistere e ogni tentativo di riferirsi alla variabile genera un errore.
+
+##### Sintassi
+
+<script style="display: block; background: white" run-once="true" modify="false">
+let draw = () => {
+  const svg  = new Diagram(
+  new Sequence(
+    'DROP',
+    'TABLE',
+    new NonTerminal('nome-variabile')
+  )).toString();
+  send.lia("HTML: "+svg);
+  send.lia("LIA: stop")
+};
+
+draw()
+"LIA: wait"
+</script>
+
 
 ### Tenere nota delle regole d'integrità
 
@@ -540,40 +598,6 @@ FROM Iscrizione
 WHERE CourseId = 'C1';
 ```
 
-### Sintassi per la creazione di una variabile in SQL
-
-<script>
-function draw () {
-  const svg  = new Diagram(
-  new Stack(
-  new Sequence(
-    'CREATE',
-    'TABLE',
-    new NonTerminal('nome-variabile'),
-    '(',
-  ),
-  new Group(
-    new OneOrMore(new NonTerminal('def-attributo'), ','), 'Elenco attributi'
-  ),
-  new Optional(
-    new Group(
-      new OneOrMore(
-         new Sequence(',', new NonTerminal('vincolo-relazione'))), 'Elenco vincoli'
-    ), 
-  ),
-  ')'
-)).toString();
-    send.lia("HTML: "+svg);
-    send.lia("LIA: stop")
-};
-
-draw()
-"LIA: wait"
-</script>
-
-<script style="display: block; background: white" run-once="true" modify="false">
-</script>
-
 ## Valori, tipi, variabili, operatori
 
 Valori, tipi, variabili, operatori
@@ -601,8 +625,7 @@ Esempio: $Y \gets X + 1$
 ### Uno sguardo più da vicino a un operatore (+)
 
 <script>
-addHTMLTable(`||
-| a | b | c |
+addTable(`| a | b | c |
 | --- | --- | --- |
 | 1 | 2 | 3 |
 | 2 | 3 | 5 |
@@ -619,10 +642,10 @@ e così via (all'infinito)
 
 ### Che cos'è un tipo? Esempi:
 
-- WEEKDAY: { Monday, Tuesday, Wednesday, Thursday, Friday, Saturday, Sunday }
-- INTEGER: { …, -7, -6, -5, -4, -3, -2, -1, 0, 1, 2, 3, 4, 5, 6, 7, … }
+- `WEEKDAY: { Monday, Tuesday, Wednesday, Thursday, Friday, Saturday, Sunday }`
+- `INTEGER: { …, -7, -6, -5, -4, -3, -2, -1, 0, 1, 2, 3, 4, 5, 6, 7, … }`
 - Un tipo (= "dominio") è un insieme di valori denominati.
-- Monday ecc. e -7 ecc. sono letterali. Ogni valore di ogni tipo dovrebbe poter essere denotato da un qualche letterale.
+- `Monday` ecc. e -7 ecc. sono letterali. Ogni valore di ogni tipo dovrebbe poter essere denotato da un qualche letterale.
 
 ### A cosa serve un tipo?
 
@@ -637,8 +660,7 @@ Serve a limitare i valori consentiti per uno scopo. Ad esempio, limitando:
 ### Qual è il tipo di questo?
 
 <script>
-addHTMLTable(`||
-| StudentId | Name | CourseId |
+addTable(`| StudentId | Name | CourseId |
 | --- | --- | --- |
 | S1 | Anne | C1 |
 | S1 | Anne | C2 |
@@ -648,19 +670,18 @@ addHTMLTable(`||
 `);
 </script>
 
-Forse è una **relazione** definita sugli attributi { StudentId: SID, Name: NAME, CourseId: CID }
+Forse è una **relazione** definita sugli attributi `{ StudentId: SID, Name: NAME, CourseId: CID }`
 dove SID è il tipo dichiarato di StudentId, NAME quello di Name e CID quello di CourseId.
 
 NOTA: SQLite non supporta la creazione di domini.
 
-- Useremo i tipi predefiniti (INTEGER, REAL, TEXT, BLOB) ed i vincoli CHECK.
-- SQLite usa la tipizzazione flessibile.
+- Useremo i tipi predefiniti (`INTEGER`, `REAL`, `TEXT`, `BLOB`) ed i vincoli `CHECK`.
+- SQLite usa in modo predefinito la tipizzazione flessibile, che è molto utile in vari casi applicativi, ma permette di rispettare in modo rigido i tipi (`STRICT Table`).
 
 ### Come scrivere questo come letterale?
 
 <script>
-addHTMLTable(`||
-| StudentId | Nome | CourseId |
+addTable(`| StudentId | Nome | CourseId |
 | --- | --- | --- |
 | S1 | Anne | C1 |
 | S1 | Anne | C2 |
@@ -792,59 +813,511 @@ I familiari operatori logici:
 - disgiunzione ("o", "or", $\lor$): "$a < b$ o $c < d$"
 - negazione ("non", "not", "$\lnot$"): "Non è vero che lo studente $s$ è iscritto al corso $c$".
 
+#### Congiunzione
+
+- e, and, $\land$
+
+|$p$|$q$|$p \land q$|
+|---|---|-----------|
+| F | F |     F     |
+| F | T |     F     |
+| T | F |     F     |
+| T | T |     T     |
+
+- Se interpreto F come 0 e T come 1, allora $p \land q \equiv \min \{p, q\}$.
+- Se interpreto F come 0 e T come 1, allora $p \land q \equiv p \cdot q$.
+
+|$p$|$q$|$p \land q$|
+|---|---|-----------|
+| 0 | 0 |     0     |
+| 0 | 1 |     0     |
+| 1 | 0 |     0     |
+| 1 | 1 |     1     |
+
+#### Disgiunzione
+
+- o, or, $\lor$
+
+|$p$|$q$|$p \lor q$|
+|---|---|-----------|
+| F | F |     F     |
+| F | T |     T     |
+| T | F |     T     |
+| T | T |     T     |
+
+- Se interpreto F come 0 e T come 1, allora $p \lor q \equiv \max \{p, q\}$.
+
+|$p$|$q$|$p \lor q$|
+|---|---|-----------|
+| 0 | 0 |     0     |
+| 0 | 1 |     1     |
+| 1 | 0 |     1     |
+| 1 | 1 |     1     |
+
+#### Negazione
+
+- non, not, $\lnot$
+
+|$p$|$\land p$|
+|---|---------|
+| F |    T    |
+| T |    F    |
+
+Se interpreto F come 0 e T come 1, allora $\land p \equiv 1 - p$.
+
+|$p$|$\land p$|
+|---|---------|
+| 0 |    1    |
+| 1 |    0    |
+
+#### Sono tutti necessari?
+
+- Se posso definire un operatore logico usando gli altri due, no!
+- $p \land q \equiv \lnot \left( \lnot p \lor \lnot q \right)$
+- $p \lor q \equiv \lnot \left( \lnot p \land \lnot q \right)$
+- Esercizio: dimostrare con le tabelle di verità
 
 ### Derivazione di predicati da predicati (3)
 
 Condizionali:
 
-- implicazione: "**Se** me lo chiedi gentilmente, **allora** ti sposerò".
+- implicazione logica: "**Se** me lo chiedi gentilmente, **allora** ti sposerò".
 - solo se: "Ti sposerò **solo se** me lo chiedi gentilmente".
 - bicondizionale: "Ti sposerò **se e solo se** me lo chiederai gentilmente".
+
+#### Implicazione logica
+
+- Se $p$ allora $q$
+- $p \implies q$
+
+|$p$|$q$|$p \implies q$|
+|---|---|--------------|
+| F | F |       T      |
+| F | T |       T      |
+| T | F |       F      |
+| T | T |       T      |
+
+- $p \implies q \equiv \lnot p \lor q$
+
+#### Se
+
+- $q$ se $p$.
+- $q \Longleftarrow p$
+- $p \implies q$
+
+|$p$|$q$|$q \Longleftarrow p$|
+|---|---|--------------|
+| F | F |       T      |
+| F | T |       T      |
+| T | F |       F      |
+| T | T |       T      |
+
+- $q \Longleftarrow p \equiv p \implies q \equiv \lnot p \lor q$
+
+#### Bicondizionale (equivalenza, se e solo se)
+
+- $p$ se e solo se $p$.
+- $p$ equivale a $q$.
+- $p \iff q$
+- $(p \implies q) \land (q \implies p)$
+
+|$p$|$q$|$p \implies q$| $q \implies q$ | $p \iff q$ |
+|---|---|--------------|----------------|------------|
+| F | F |       T      |        T       |      T     |
+| F | T |       T      |        F       |      F     |
+| T | F |       F      |        T       |      F     |
+| T | T |       T      |        T       |      T     |
 
 ### Derivazione di predicati da predicati (4)
 
 Quantificatori:
-esistenziale: "Esiste s tale che s è uno studente e s è iscritto al corso c". (≡ "Almeno uno studente è iscritto al corso c").
-universale: "Per tutti gli s, se s è uno studente allora s è iscritto al corso c". (≡ "Tutti gli studenti sono iscritti al corso c").
-La ​​quantificazione, come la sostituzione, lega un parametro.
+
+- esistenziale: "Esiste $s$ tale che $s$ è uno studente e $s$ è iscritto al corso $c$". (≡ "Almeno uno studente è iscritto al corso $c$").
+- universale: "Per tutti gli $s$, se $s$ è uno studente allora $s$ è iscritto al corso $c$". (≡ "Tutti gli studenti sono iscritti al corso $c$").
+- La ​​quantificazione, come la sostituzione, lega un parametro.
+
+#### Quantificatore esistenziale
+
+- $\exists s : I(s, c)$
+- Riduce di uno l'arità di un predicato
+- È vera se esiste almeno un'istanziazione del predicato (una proposizione) vera
+
+#### Quantificatore universale
+
+- $\forall s : I(s, c)$
+- Riduce di uno l'arità di un predicato
+- È vera se tutte le istanziazioni del predicato (tutte le proposizione) sono vere
 
 ### Insiemi
-Sia P(x) un predicato. Se l'oggetto a è tale che P(a) è vero, allora si dice che a soddisfa P. E P(x) è chiamato un predicato di appartenenza per l'insieme costituito da tutti questi oggetti a. Esempio: "x è un intero tale che 1 < x < 4"
-"x è un intero tale che 1 < x < 4" è un predicato di appartenenza per l'insieme costituito dagli elementi 2 e 3, denotato dall'espressione { 2, 3 } (un'enumerazione).
-Questo insieme è anche denotato da { x : x  Z e 1 < x e x < 4 }.
 
+Sia $P(x)$ un predicato. Se l'oggetto $a$ è tale che $P(a)$ è vero, allora si dice che $a$ soddisfa $P$. E $P(x)$ è chiamato un predicato di appartenenza per l'insieme costituito da tutti questi oggetti $a$.
 
-<!-- Numero diapositiva: 13 -->
+Esempio: "$x$ è un intero tale che $1 < x < 4$"
+
+"$x$ è un intero tale che $1 < x < 4$" è un predicato di appartenenza per l'insieme costituito dagli elementi 2 e 3, denotato dall'espressione $\{ 2, 3 \}$ (un'enumerazione).
+
+Questo insieme è anche denotato da $\{ x : x \in Z \land 1 < x \land x < 4 \}$.
+
 ### Il linguaggio degli insiemi (1)
-Sia A e B insiemi con predicati di appartenenza PA(x) e PB(x), rispettivamente. Sia a un elemento. Quindi abbiamo i seguenti confronti:
-appartenenza: a  A (a è un membro di A)
-contenimento: B  A (B è un sottoinsieme di A)
-A  B (A è un superinsieme di B)
-B  A (B è un sottoinsieme proprio di A)
-A  B (A è un superinsieme proprio di B)
-uguaglianza: A = B (A  B e B  A)
-disgiunzione: A e B sono disgiunti (non hanno membri in comune)
-13
+
+Siano $A$ e $B$ insiemi con predicati di appartenenza $PA(x)$ e $PB(x)$, rispettivamente.
+Sia $a$ un elemento. Definiamo:
+
+- **appartenenza**:
+
+  - $a \in A$ ($a$ è un membro di $A$)
+
+- **contenimento**:
+
+  - $B \subseteq A$ ($B$ è un sottoinsieme di $A$)
+  - $A \supseteq B$ ($A$ è un superinsieme di $B$)
+  - $B \subset A$ ($B$ è un sottoinsieme proprio di $A$)
+  - $A \supset B$ ($A$ è un superinsieme proprio di $B$)
+
+- **uguaglianza**:
+
+  - $A = B$ ($A \subseteq B \land B \subseteq A$)
+
+- **disgiunzione**:
+
+  - $A$ e $B$ sono disgiunti $\equiv$ non hanno membri in comune
 
 <!-- Numero diapositiva: 14 -->
 ### Il linguaggio degli insiemi (2)
+
 E le seguenti operazioni sugli insiemi che producono insiemi:
-unione: A  B = {x : x  A o x  B} (disgiunzione)
-intersezione: A  B = {x : x  A e x  B} (congiunzione)
-complemento: (di A) = {x : non x  A} (negazione)
-differenza: A - B = {x : x  A e non x  B}
-14
 
-<!-- Numero diapositiva: 15 -->
-### ESERCIZI
+- **unione**:
 
-| StudentId | Nome | CourseId |
+    - $A \cup B = \{x : x \in A \lor x \in B\}$ (disgiunzione)
+- **intersezione**:
+
+    - $A \cap B = \{x : x \in A \land x \in B\}$ (congiunzione)
+
+- **complemento** (di $A$):
+
+    - $\bar{A} = \{x : \lnot x \in A\}$ (negazione)
+- **differenza**:
+
+    - $A \setminus B = \{x : x \in A \land \lnot x \in B\}$
+
+
+Nota: $A$ e $B$ sono disgiunti se $\forall a : a \in A \implies a \in \bar{B}$. 
+
+## Principi di Algebra delle relazioni
+
+### Anatomia di una relazione
+
+![Anatomia di una relazione](./1/anatomia.svg "Figura 1.6. Anatomia di una relazione")
+
+- nome dell'attributo
+- valore dell'attributo
+- n-uple, o tuple
+- intestazione
+- corpo
+- grado
+- cardinalità Questo è un triplo
+
+### Esempio: Iscrizione
+
+<script>
+addRelVar(`|Iscrizione|
+|StudentId|Name|CourseId|
+|---------|----|--------|
+|S1|Anne|C1|
+|S1|Anne|C2|
+|S2|Boris|C1|
+|S3|Cindy|C3|`);
+</script>
+
+**Predicato**: studente *StudentId* si chiama *Name* ed è iscritto a *CourseId*.
+
+**Nota**: **ridondanza** S1 si chiama sempre Anne!
+
+### Dividere Iscrizione
+
+<div style="width:50%; float:left">
+<script>
+addRelVar(`|si_chiama|
+|StudentId|Name|
+|S1|Anne|
+|S2|Boris|
+|S3|Cindy|
+|S4|Devinder|
+|S5|Boris|`)
+</script>
+<p>Lo studente *StudentId* **si chiama** *Name*</p>
+</div>
+
+<div style="width:50%; float:right">
+<script>
+addRelVar(`|è_iscritto_a|
+|StudentId|Course|
+|S1|C1|
+|S1|C2|
+|S2|C1|
+|S3|C3|
+|S4|C1|`)
+</script>
+<p>Lo studente *StudentId* **è iscritto a**l corso *CourseId*</p>
+</div>
+
+### Relazioni e Predicati (1)
+
+Considerate la situazione: *StudentId* si chiama *Name*
+
+... **si chiama** ... è l'intensione del predicato.
+
+I nomi dei parametri sono arbitrari. "S si chiama chiama N" significa la stessa cosa (ha la stessa intensione).
+
+L'estensione del predicato è l'insieme di proposizioni vere che ne sono istanziazioni:
+{ S1 si chiama Anne, S2 si chiama Boris, S3 si chiama Cindy, S4 si chiama Devinder, S5 si chiama Boris }.
+
+Ogni tupla nel corpo (estensione) della relazione fornisce i valori per sostituire i parametri in una tale istanziazione.
+
+### Relazioni e predicati (2)
+
+Inoltre, ogni proposizione nell'estensione ha esattamente una tupla corrispondente nella relazione.
+Questa corrispondenza 1 a 1 riflette l'**ipotesi del mondo chiuso**:
+
+* Una tupla che rappresenta un'istanza vera è nella relazione.
+* Una tupla che rappresenta un'istanza falsa è fuori.
+
+L'ipotesi del mondo chiuso è alla base degli operatori che stiamo per incontrare.
+
+### Algebra relazionale
+
+Operatori che operano su relazioni e restituiscono relazioni.
+In altre parole, operatori che sono chiusi sulle relazioni. Proprio come gli operatori aritmetici sono chiusi sui numeri.
+
+Chiusura significa che ogni invocazione può essere un operando, consentendo di scrivere espressioni di complessità arbitraria. Proprio come, in aritmetica, ad esempio, l'invocazione $b-c$ è un operando di a+(b-c).
+
+Gli operatori dell'algebra relazionale sono controparti relazionali degli operatori logici: AND, OR, NOT, EXISTS.
+
+Ognuno, quando invocato, produce una relazione, che può essere interpretata come l'estensione di un predicato.
+
+### Operatori logici
+
+Poiché le relazioni vengono utilizzate per rappresentare i predicati, ha senso che gli operatori relazionali siano controparti degli operatori sui predicati. Incontreremo esempi come questi:
+
+* Lo studente *StudentId* **si chiama** *Name* **E** *StudentId* **è iscritto a**l corso *CourseId*.
+* Lo studente *StudentId* **è iscritto a** un corso.
+* Lo studente *StudentId* **è iscritto a**l corso *CourseId* **E** StudentId **NON** **si chiama** Devinder.
+* Lo studente *StudentId* **NON** **è iscritto** a nessun corso **O** StudentId **si chiama** Boris.
+
+### Incontra gli operatori
+
+|Operatore logico|Operatore relazionale|
+|----------------|---------------------|
+| AND | join ($\bowtie$, $\bowtie_\theta$, $\ldots$)|
+|     |restrizione ($\sigma$) |
+|     |raggruppamento ($\gamma$) |
+|     |e altro ancora |
+| EXISTS | proiezione ($\pi$) |
+| OR | unione ($\cup$)  |
+| (AND) NOT |differenza ($\setminus$) |
+| | Ridenominazione  ($\rho$)|
+
+### JOIN naturale (= AND)
+
+*StudentId* **si chiama** *Name* **E** *StudentId* **è iscritto a** *CourseId*.
+
+si\_chiama E e\_iscritto\_a
+
+si\_chiama ⨝ e\_iscritto\_a
+
+<script>
+addTable(`|StudentId|Name|CourseId|
+|S1|Anne|C1|
+|S1|Anne|C2|
+|S2|Boris|C1|
+|S3|Cindy|C3|
+|S4|Devinder|C1|`);
+</script>
+
+```text
+group: An introduction to Relational Algebra (Hugh Darwen)
+
+si_chiama = {
+StudentId, Name
+'S1', 'Anne'
+'S2', 'Boris'
+'S3', 'Cindy'
+'S4', 'Devinder'
+'S5', 'Boris'
+}
+
+e_iscritto_a = {
+StudentId, CourseId
+'S1', 'C1'
+'S1', 'C2'
+'S2', 'C1'
+'S3', 'C3'
+'S4', 'C1'
+}
+```
+
+```text
+si_chiama ⨝ e_iscritto_a
+```
+
+### SI_CHIAMA **JOIN** È_ISCRITTO_A
+
+È la relazione `Iscritto`
+
+<script>
+addRelVar(`|si_chiama ⨝ e_iscritto_a|
+| StudentId | Name | CourseId |
 | --- | --- | --- |
 | S1 | Anne | C1 |
 | S1 | Anne | C2 |
 | S2 | Boris | C1 |
 | S3 | Cindy | C3 |
 | S4 | Devinder | C1 |
-Supponiamo che il predicato di appartenenza per la seguente relazione sia "Studente StudentId, denominato Nome, è iscritto al corso CourseId".
-(Gli esercizi sono nelle Note)
-15
+`)
+</script>
+
+Il JOIN ha "perso" il secondo Boris che non è iscritto ad alcun corso!
+
+### Definizione di JOIN naturale $\bowtie$
+
+Sia $s = r_1 \bowtie r_2$.
+
+Lo schema (intestazione) $H_s$ di $s$ è l'unione delle intestazioni di $r_1$ e $r_2$.
+
+Il corpo di $s$ è costituito da quelle tuple con intestazione $H_s$ che possono essere formate prendendo l'unione di $t_1$ e $t_2$, dove $t_1$ è una tupla di $r_1$ e $t_2$ è una tupla di $r_2$.
+
+Se $c$ è un attributo comune, allora deve avere lo stesso tipo dichiarato sia in $r_1$ che in $r_2$. Se non lo ha, allora $r_1 \bowtie r_2$ perde di significato.
+
+Nota: JOIN, come AND, è sia commutativo che associativo.
+
+### RENAME $\rho$
+
+<div style="width:50%; float:left">
+<script>
+addTable(`| StudentId | Nome |
+| --- | --- |
+| S1 | Anne |
+| S2 | Boris |
+| S3 | Cindy |
+| S4 | Devinder |
+| S5 | Boris |`);
+</script>
+<p>Relazione originale</p>
+</div>
+
+<div style="width:50%; float:right">
+<script>
+addTable(`| Sid1 | Nome |
+| --- | --- |
+| S1 | Anne |
+| S2 | Boris |
+| S3 | Cindy |
+| S4 | Devinder |
+| S5 | Boris |`);
+</script>
+<p>ρ Sid1 ← StudentId (si_chiama)</p>
+
+</div>
+
+### Definizione di RENAME $\rho$
+
+Sia $s = \rho{}_{b_1 \gets a_1, \ldots, b_n \gets a_n} r$
+
+L'intestazione di $s$ è l'intestazione di $r$, tranne per il fatto che l'attributo $a_1$ è rinominato in $b_1$ e così via.
+
+Il corpo di $s$ è costituito dalle tuple di $r$, tranne per il fatto che in ogni tupla l'attributo $a_1$ è rinominato in $b_1$ e così via.
+
+### RENAME e JOIN
+
+ρ Sid1 ← StudentId si\_chiama ⨝ ρ Sid2 ← StudentId si\_chiama
+
+<script>
+addTable(`| Sid1 | Name | Sid2 |
+| --- | --- | --- |
+| S1 | Anne | S1 |
+| S2 | Boris | S2 |
+| S2 | Boris | S5 |
+| S3 | Cindy | S3 |
+| S4 | Devinder | S4 |
+| S5 | Boris | S2 |
+| S5 | Boris | S5 |`);
+</script>
+
+### Casi speciali di JOIN
+
+- Qual è il risultato di $R \bowtie R$?
+
+  - $R$
+- E se tutti gli attributi sono comuni a entrambi gli operandi?
+  
+  - Intersezione
+- E se nessun attributo è comune a entrambi gli operandi?
+  
+  - Prodotto cartesiano
+
+### Proprietà interessanti di JOIN
+
+- È commutativo: $r_1 \bowtie r_2 \equiv r_2 \bowtie r_1$
+- È associativo: $(r_1 \bowtie r_2) \bowtie r_3 \equiv r_1 \bowtie (r_2 \bowtie r_3)$
+
+Ovviamente non è una coincidenza che anche AND logico sia commutativo e associativo.
+
+### Proiezione $\pi$  (= ESISTE) 
+
+Studente StudentId è iscritto a un corso.
+
+<div style="width: 50%; float:left">
+Dato
+
+<script>
+addRelVar(`|e_iscritto_a|
+| StudentId | CourseId |
+| --- | --- |
+| S1 | C1 |
+| S1 | C2 |
+| S2 | C1 |
+| S3 | C3 |
+| S4 | C1 |`);
+</script>
+</div>
+<div style="width: 50%; float:right">
+<p>$\pi_{StudentId} \textrm{e\_iscritto\_a}$</p>
+<script>
+addTable(`| StudentId |
+| --- |
+| S1 |
+| S2 |
+| S3 |
+| S4 |`);
+</script>
+</div>
+
+### Definizione di proiezione
+
+Sia $s = \pi_{a_1,\ldots,a_n} r$
+
+L'intestazione di $s$ è il sottoinsieme dell'intestazione di $r$ dato da $\{a_1,\ldots, a_n\}$.
+
+Il corpo di $s$ è costituito da ogni tupla che può essere formata da una tupla di $r$ rimuovendo da essa gli attributi $H_s \setminus \{a_1,\ldots, a_n\}$.
+
+Si noti che la cardinalità di $s$ può essere minore di quella di $r$ ma non può essere maggiore di quella di $r$.
+
+### Come è stato suddiviso Iscrizione
+
+ρ si\_chiama π StudentId, Name iscrizione 
+
+ρ e\_iscritto\_a π StudentId, CourseId iscrizione
+
+NOTA: Ci sono proposizioni vere sugli studenti non espresse da iscrizione. Non viene rispettata l'ipotesi del mondo chiuso... Ci sarà da parlare di *normalizzazione*-
+
+### Casi speciali di proiezione
+
+Sia $H_r$ lo schema di $r$.
+
+- Qual è il risultato di $\pi_{H_r} r$?
+
+  - $r$
+- Qual è il risultato di $\pi_\emptyset r$?
+  
+  - Una relazione senza attributi! Ci sono due relazioni di questo tipo, di cardinalità 1 e 0.
