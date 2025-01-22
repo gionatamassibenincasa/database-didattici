@@ -858,14 +858,14 @@ I familiari operatori logici:
 
 - non, not, $\lnot$
 
-|$p$|$\land p$|
+|$p$|$\lnot p$|
 |---|---------|
 | F |    T    |
 | T |    F    |
 
 Se interpreto F come 0 e T come 1, allora $\land p \equiv 1 - p$.
 
-|$p$|$\land p$|
+|$p$|$\lnot p$|
 |---|---------|
 | 0 |    1    |
 | 1 |    0    |
@@ -1046,9 +1046,8 @@ addRelVar(`|si_chiama|
 |S4|Devinder|
 |S5|Boris|`)
 </script>
-<p>Lo studente *StudentId* **si chiama** *Name*</p>
+Lo studente *StudentId* **si chiama** *Name*
 </div>
-
 <div style="width:50%; float:right">
 <script>
 addRelVar(`|è_iscritto_a|
@@ -1059,7 +1058,7 @@ addRelVar(`|è_iscritto_a|
 |S3|C3|
 |S4|C1|`)
 </script>
-<p>Lo studente *StudentId* **è iscritto a**l corso *CourseId*</p>
+Lo studente *StudentId* **è iscritto a**l corso *CourseId*
 </div>
 
 ### Relazioni e Predicati (1)
@@ -1109,14 +1108,14 @@ Poiché le relazioni vengono utilizzate per rappresentare i predicati, ha senso 
 
 |Operatore logico|Operatore relazionale|
 |----------------|---------------------|
-| AND | join ($\bowtie$, $\bowtie_\theta$, $\ldots$)|
+| AND ($\land$)|join ($\bowtie$, $\bowtie_\theta$, $\ldots$)|
 |     |restrizione ($\sigma$) |
 |     |raggruppamento ($\gamma$) |
 |     |e altro ancora |
-| EXISTS | proiezione ($\pi$) |
-| OR | unione ($\cup$)  |
+| EXISTS ($\exists$)| proiezione ($\pi$) |
+| OR ($\lor$)| unione ($\cup$)  |
 | (AND) NOT |differenza ($\setminus$) |
-| | Ridenominazione  ($\rho$)|
+| (non esiste op. logico)| Ridenominazione  ($\rho$)|
 
 ### JOIN naturale (= AND)
 
@@ -1135,33 +1134,13 @@ addTable(`|StudentId|Name|CourseId|
 |S4|Devinder|C1|`);
 </script>
 
-```text
-group: An introduction to Relational Algebra (Hugh Darwen)
-
-si_chiama = {
-StudentId, Name
-'S1', 'Anne'
-'S2', 'Boris'
-'S3', 'Cindy'
-'S4', 'Devinder'
-'S5', 'Boris'
-}
-
-e_iscritto_a = {
-StudentId, CourseId
-'S1', 'C1'
-'S1', 'C2'
-'S2', 'C1'
-'S3', 'C3'
-'S4', 'C1'
-}
-```
+In RelaX:
 
 ```text
 si_chiama ⨝ e_iscritto_a
 ```
 
-### SI_CHIAMA **JOIN** È_ISCRITTO_A
+### SI\_CHIAMA **JOIN** È\_ISCRITTO_A
 
 È la relazione `Iscritto`
 
@@ -1216,7 +1195,7 @@ addTable(`| Sid1 | Nome |
 | S4 | Devinder |
 | S5 | Boris |`);
 </script>
-<p>ρ Sid1 ← StudentId (si_chiama)</p>
+<p>ρ Sid1 ← StudentId (si\_chiama)</p>
 
 </div>
 
@@ -1309,7 +1288,7 @@ Si noti che la cardinalità di $s$ può essere minore di quella di $r$ ma non pu
 
 ρ e\_iscritto\_a π StudentId, CourseId iscrizione
 
-NOTA: Ci sono proposizioni vere sugli studenti non espresse da iscrizione. Non viene rispettata l'ipotesi del mondo chiuso... Ci sarà da parlare di *normalizzazione*-
+NOTA: Ci sono proposizioni vere sugli studenti non espresse da iscrizione. Non viene rispettata l'ipotesi del mondo chiuso... Ci sarà da parlare di *normalizzazione*.
 
 ### Casi speciali di proiezione
 
@@ -1320,4 +1299,605 @@ Sia $H_r$ lo schema di $r$.
   - $r$
 - Qual è il risultato di $\pi_\emptyset r$?
   
-  - Una relazione senza attributi! Ci sono due relazioni di questo tipo, di cardinalità 1 e 0.
+  - Una relazione senza attributi! Ci sono due relazioni di questo tipo, una di cardinalità 1 e un'altra di cardinalità 0.
+  
+
+### Esempio
+
+<div style="width: 50%; float:left">
+<script>
+addRelVar(`|si_chiama|
+| StudentId | Name |
+| --- | --- |
+| S1 | Anne |
+| S2 | Boris |
+| S3 | Cindy |
+| S4 | Devinder |
+| S5 | Boris |`);
+</script>
+_StudentId_ **si chiama** _Name_
+</div>
+<div style="width: 50%; float:right">
+<script>
+addRelVar(`|e_iscritto_a|
+| StudentId | CourseId |
+| --- | --- |
+| S1 | C1 |
+| S1 | C2 |
+| S2 | C1 |
+| S3 | C3 |
+| S4 | C1 |`);
+</script>
+$\pi_{StudentId} \textrm{e\_iscritto\_a}$<br />
+_StudentId_ **è iscritto a** _CourseId_
+</div>
+
+### Caso speciale di AND (1)
+
+_StudentId_ si chiama `Boris`
+
+Le proposizioni possono essere il risultato di JOIN e proiezione, in questo modo (con RelaX):
+
+```text
+si_chiama ⨝ { Name
+'Boris'
+}
+```
+Possiamo definire un operatore che rende più facile esprimere queste interrogazioni: la restrizione $\sigma$ (e di nuovo proiezione)
+
+```text
+σ Name='Boris' si_chiama
+```
+<script>
+addTable(`| StudentId |
+| --- |
+| S2 |
+| S5 |`);
+</script>
+
+Si hanno tutti i codici degli studenti che soddisfano:
+
+"**ESISTE** un nome tale che `StudentId` **si chiama** `Name` **AND** `Name` è Boris"
+
+# Una restrizione più utile
+
+`Sid1` ha lo stesso nome di `Sid2` (AND `Sid2` ≠ `Sid1`).
+
+π Sid1, Sid2 σ Sid1 < Sid2 (ρ StudentId → Sid1 si\_chiama ⨝ ρ StudentId → Sid2 si\_chiama)
+
+Risultato:
+<script>
+addTable(`| Sid1 | Sid2 |
+| --- | --- |
+| S2 | S5 |`);
+</script>
+
+Esercizio: esprimere la stessa interrogazione con il solo JOIN, senza far uso della restrizione?
+È facile?
+La restrizione, che di certo è utile, è anche necessaria oppure può essere espressa con il JOIN?
+
+### Definizione di restrizione
+
+Sia $s = \sigma_c r$, dove $c$ è un'espressione condizionale sugli attributi di $r$.
+
+L'intestazione di $s$ è l'intestazione di $r$.
+
+Il corpo di $s$ è costituito da quelle tuple di $r$ per cui la condizione $c$ è valutata come TRUE.
+Quindi il corpo di $s$ è un sottoinsieme di quello di $r$.
+
+### Casi speciali di restrizione
+
+- Qual è il risultato di $\sigma_{\mathrm{true}} R$?
+
+  - $R$
+- Qual è il risultato di $\sigma_{\mathrm{false}} R$?
+
+  - La relazione vuota con l'intestazione di $R$.
+
+### Caso speciale di AND (2)
+`StudentId` si chiama `Name` AND `Name` inizia con la lettera `Initial`.
+
+Data la relazione di sinistra si vuole ottenere quella di destra
+
+<div style="width: 50%; float:left">
+<script>
+addTable(`| StudentId | Name |
+| --- | --- |
+| S1 | Anne |
+| S2 | Boris |
+| S3 | Cindy |
+| S4 | Devinder |
+| S5 | Boris |`);
+</script>
+</div>
+<div style="width: 50%; float:right">
+<script>
+addTable(`| StudentId | Name | Initial |
+| --- | --- | --- |
+| S1 | Anne | A |
+| S2 | Boris | B |
+| S3 | Cindy | C |
+| S4 | Devinder | D |
+| S5 | Boris | B |`);
+</script>
+</div>
+
+- Come farlo con JOIN?
+
+
+### Estensione
+
+`StudentId` è chiamato `Name` E `Name` è si scrive con `NoChars` caratteri.
+
+π studentId, name, length(name)→NoChars si_chiama
+
+| StudentId | Nome | NoChars |
+| --- | --- | --- |
+| S1 | Anne | 4 |
+| S2 | Boris | 5 |
+| S3 | Cindy | 5 |
+| S4 | Devinder | 8 |
+| S5 | Boris | 5 |
+
+<!--
+### Definizione di Estensione
+
+Sia s = EXTEND r ADD ( formula-1 AS A1, … formula-n AS An )
+
+L'intestazione di s è composta dagli attributi dell'intestazione di r più gli attributi A1 … An. Il tipo dichiarato di attributo Ak è quello di formula-k. Il corpo di s è costituito da tuple formate da ogni tupla di r aggiungendo n attributi aggiuntivi A1 ad An. Il valore dell'attributo Ak è il risultato della valutazione della formula-k sulla tupla corrispondente di r.
+-->
+
+### Altre due variabili relazionali
+
+| CourseId | Title |
+| --- | --- |
+| C1 | Database |
+| C2 | HCI |
+| C3 | Op Systems |
+| C4 | Programming |
+
+| StudentId | CourseId | Mark |
+| --- | --- | --- |
+| S1 | C1 | 85 |
+| S1 | C2 | 49 |
+| S2 | C1 | 49 |
+| S3 | C3 | 66 |
+| S4 | C1 | 93 |
+
+CourseId è intitolato Title
+
+StudentId ha ottenuto Mark nell'esame per il corso CourseId
+
+<!-- Numero diapositiva: 13 -->
+### Un operatore di aggregazione
+Un operatore di aggregazione è definito per operare su una relazione e restituire un valore ottenuto tramite aggregazione su tutte le tuple dell'operando. Ad esempio, per contare semplicemente le tuple:
+
+COUNT ( IS_ENROLLED_ON ) = 5
+COUNT ( IS_ENROLLED_ON DOVE CourseId = CID ( ‘C1’ ) ) = 3
+COUNT è un operatore di aggregazione.
+
+<!-- Numero diapositiva: 14 -->
+### Altri operatori di aggregazione
+SUM ( EXAM_MARK, Mark ) = 342
+AVG ( EXAM_MARK, Mark ) = 68,4
+MAX ( EXAM_MARK, Mark ) = 93
+MIN ( EXAM_MARK, Mark ) = 49
+MAX ( EXAM_MARK CourseId = CID ( ‘C2’ ), Mark ) = 49
+
+<!-- Numero diapositiva: 15 -->
+### Relazioni nidificate e operazioni di aggregazione
+Il punteggio più alto nell'esame sul corso CourseId è stato TopScore
+
+| CourseId | | Punteggio migliore |
+| --- | --- |
+| C1 | 93 |
+| C2 | 49 |
+| C3 | 66 |
+
+ESTENDI C_ER DOVE COUNT ( Risultato_esame ) > 0 AGGIUNGI (MAX ( Risultato_esame, Punteggio ) COME Punteggio migliore ) { Id_corso, Punteggio migliore }
+15
+
+<!-- Numero diapositiva: 16 -->
+### RAGGRUPPAMENTO PER
+
+Una forma abbreviata per l'aggregazione su relazioni nidificate. Ad esempio, i punteggi migliori in ogni esame possono essere ottenuti direttamente da EXAM_MARK tramite:
+gamma EXAM_MARK PER { Id_corso } AGGIUNGI ( MAX ( Punteggio ) COME Punteggio migliore )
+Il solito primo operando di "agg op" è ora omesso perché è implicito dalla combinazione dell'operando SUMMARIZE (EXAM_MARK) e dell'operando BY ({Id_corso }). 16
+
+<!-- Numero diapositiva: 17 -->
+### RAGGRUPPAMENTO PER
+Takers è il numero di persone che hanno sostenuto l'esame nel corso CourseId
+SUMMARIZE EXAM_MARK PER COURSE { CourseId } ADD ( COUNT() AS Takers )
+Nota che EXAM_MARK BY { CourseId } è l'abbreviazione di EXAM_MARK PER EXAM_MARK { CourseId }.
+
+| CourseId | Takers |
+| --- | --- |
+| C1 | 3 |
+| C2 | 1 |
+| C3 | 1 |
+| C4 | 0 |
+
+<!-- Numero diapositiva: 18 -->
+### OPPURE
+StudentId è chiamato Name OPPURE StudentId è iscritto a CourseId.
+NON SUPPORTATO!
+
+| StudentId | Name | CourseId |
+| --- | --- | --- |
+| S1 | Anne | C1 |
+| S1 | Boris | C1 |
+| S1 | Zorba | C1 |
+| S1 | Anne | C4 |
+| S1 | Anne | C943 |
+e così via all'infinito (quasi!)
+18
+
+<!-- Numero diapositiva: 19 -->
+### UNION (OR limitato)
+StudentId è chiamato Devinder O StudentId è iscritto a C1.
+
+| StudentId |
+| --- |
+| S1 |
+| S2 |
+| S4 |
+(IS_CALLED WHERE Name = NAME (‘Devinder’)) { StudentId } UNION (IS_ENROLLED_ON WHERE CourseId = CID (‘C1’)) { StudentId }
+19
+
+<!-- Numero diapositiva: 20 -->
+### Definizione di UNION
+Sia s = r1 UNION r2. Quindi:
+L'intestazione di s è l'intestazione comune di r1 e r2.
+Il corpo di s è costituito da ogni tupla che è una tupla di r1 o una tupla di r2.
+r1 e r2 devono avere la stessa intestazione.
+UNION è commutativa? È associativa?
+20
+
+<!-- Numero diapositiva: 21 -->
+### NOT
+StudentId NON si chiama Name
+
+| StudentId | Name |
+| --- | --- |
+| S1 | Boris |
+| S1 | Quentin |
+| S1 | Zorba |
+| S1 | Cindy |
+| S1 | Hugh |
+e così via all'infinito (quasi!)
+NON SUPPORTATO!
+21
+
+<!-- Numero diapositiva: 22 -->
+### NOT limitato
+StudentId si chiama Name E NON è iscritto a nessun corso.
+IS_CALLED NON CORRISPONDENTE IS_ENROLLED_ON
+
+| StudentId | Name |
+| --- | --- |
+| S5 | Boris |
+22
+
+<!-- Numero diapositiva: 23 -->
+### Definizione di NOT MATCHING
+Sia s = r1 NON CORRISPONDENTE r2. Quindi:
+L'intestazione di s è l'intestazione di r1.
+Il corpo di s è costituito da ogni tupla di r1 che non corrisponde a nessuna tupla di r2 sui loro attributi comuni.
+Ne consegue che nel caso in cui non ci siano attributi comuni, s è uguale a r1 se r2 è vuoto, altrimenti è vuoto.
+23
+
+<!-- Numero diapositiva: 24 -->
+### MINUS
+Codd ha definito r1 MINUS r2 invece di r1 NOT MATCHING r2.
+MINUS è la differenza di set e richiede che r1 e r2 abbiano la stessa intestazione (come in r1 UNION r2).
+La ​​maggior parte dei libri di testo segue Codd e non definisce nemmeno NOT MATCHING, nonostante la sua maggiore generalità.
+Ognuno può essere definito in termini dell'altro.
+Il tutorial D supporta entrambi, solo per ragioni storiche.
+24
+
+<!-- Numero diapositiva: 2 -->
+### Esempio in esecuzione …
+
+| StudentId | Nome |
+| --- | --- |
+| S1 | Anne |
+| S2 | Boris |
+| S3 | Cindy |
+| S4 | Devinder |
+| S5 | Boris |
+
+| StudentId | CourseId |
+| --- | --- |
+| S1 | C1 |
+| S1 | C2 |
+| S2 | C1 |
+| S3 | C3 |
+| S4 | C1 |
+IS_CALLED
+IS_ENROLLED_ON
+StudentId è chiamato Name
+StudentId è iscritto a CourseId
+2
+
+<!-- Numero diapositiva: 3 -->
+### … e questi
+
+| CourseId | Titolo |
+| --- | --- |
+| C1 | Database |
+| C2 | HCI |
+| C3 | Op Systems |
+| C4 | Programmazione |
+
+| StudentId | CourseId | Mark | | --- | --- | --- |
+| S1 | C1 | 85 |
+| S1 | C2 | 49 |
+| S2 | C1 | 49 |
+| S3 | C3 | 66 |
+| S4 | C1 | 93 |
+CORSO
+EXAM_MARK
+CourseId è intitolato Title
+StudentId ha ottenuto Mark nell'esame per il corso CourseId
+3
+
+<!-- Numero diapositiva: 4 -->
+### Alcune abbreviazioni utili
+semijoin
+composition
+GROUP/UNGROUP
+UPDATE (non un operatore di aggiornamento!)
+Operatori relazionali:
+Altri operatori:
+confronti di relazioni
+estrazione di tuple (da una relazione)
+estrazione di valori di attributi (da una tupla)
+4
+
+<!-- Numero diapositiva: 5 -->
+### Semijoin
+StudentId è chiamato Name AND è iscritto a un corso.
+IS_CALLED MATCHING IS_ENROLLED_ON
+
+| StudentId | Name |
+| --- | --- |
+| S1 | Anne |
+| S2 | Boris |
+| S3 | Cindy |
+| S4 | Devinder |
+
+5
+
+<!-- Numero diapositiva: 6 -->
+### Definizione di MATCHING
+Quindi, sia s = r1 MATCHING r2. Quindi:
+L'intestazione di s è l'intestazione di r1.
+Il corpo di s è costituito da ogni tupla di r1 che corrisponde ad almeno una tupla di r2 sui loro attributi comuni.
+Ne consegue che nel caso in cui non ci siano attributi comuni, s è vuoto se r2 è vuoto, ed è altrimenti uguale a r1.
+r1 MATCHING r2  r1 JOIN ( r2 { common-attrs }) dove common-attrs sono gli attributi in comune a r1 e r2.
+6
+
+<!-- Numero diapositiva: 7 -->
+### Composizione
+StudentId è iscritto a un corso intitolato Title. IS_ENROLLED_ON COMPOSE COURSE
+
+| StudentId | Title |
+| --- | --- |
+| S1 | Database |
+| S1 | HCI |
+| S2 | Database |
+| S3 | Op Systems |
+| S4 | Database |
+7
+
+<!-- Numero diapositiva: 8 -->
+### Definizione di COMPOSE
+r1 COMPOSE r2  ( r1 JOIN r2 ) { ALL BUT common-attrs } dove common-attrs sono gli attributi in comune a r1 e r2.
+Esercizio (vedi Note):
+COMPOSE è commutativo?
+Cioè, r1 COMPOSE r2 è equivalente a r2 COMPOSE r1?
+COMPOSE è associativo?
+Cioè, (r1 COMPOSE r2) COMPOSE r3 e
+r1 COMPOSE (r2 COMPOSE r3 ) sono equivalenti? 8
+
+<!-- Numero diapositiva: 9 -->
+### Controparti di sola lettura degli operatori di aggiornamento
+Ad esempio UPDATE ( IS_CALLED WHERE StudentId = ‘S1’ ) ( Name := ‘Ann’ )
+E il “target” è una relazione, non una relvar
+Nota la mancanza di punto e virgola: questa è un'espressione, non un imperativo.
+INSERT rv1 r2? La controparte è r1 UNION r2.
+DELETE rv WHERE c? La controparte è r WHERE NOT(c).
+9
+
+<!-- Numero diapositiva: 10 -->
+### GROUP/UNGROUP
+
+| StudentId | Nome |
+| --- | --- |
+| S1 | Anne |
+| S2 | Boris |
+| S3 | Cindy |
+| S4 | Devinder |
+| S5 | Boris |
+
+| Nome | StudentIds |
+| --- | --- |
+| Anne | |
+| Boris | |
+| Cindy | |
+| Devinder | |
+
+| IDStudente |
+| --- |
+| S1 |
+
+| IDStudente |
+| --- |
+| S2 |
+| S5 |
+
+| IDStudente |
+| --- |
+| S3 |
+
+| IDStudente |
+| --- |
+| S4 |
+
+GROUP
+UNGROUP
+A
+B
+10
+
+<!-- Numero diapositiva: 11 -->
+### Da A a B e ritorno
+B = A GROUP ( { StudentId } AS StudentIds )
+A = B UNGROUP ( StudentIds )
+11
+
+<!-- Numero diapositiva: 12 -->
+### Altri operatori
+Operatori su relazioni che non producono relazioni:
+operatori di aggregazione (già visti)
+confronto di relazioni
+estrazione di tuple
+Operatori su relazioni che non producono relazioni:
+operatori di aggregazione (già visti)
+confronto di relazioni
+estrazione di tuple
+Operatori su tuple che non producono tuple:
+"selezione" di relazione (già visti)
+estrazione di valore di attributo
+Operatori che producono tuple:
+"selezione" di tuple (già visti)
+controparti di tuple di operatori relazionali
+12
+
+<!-- Numero diapositiva: 13 -->
+### Caso di studio sul confronto di relazioni
+
+| Nome | N\_StudentId |
+| --- | --- |
+| Anne | |
+| Boris | |
+| Cindy | |
+| Devinder | |
+
+| StudentId |
+| --- |
+| S1 |
+
+| StudentId |
+| --- |
+| S2 |
+| S5 |
+
+| StudentId |
+| --- |
+| S3 |
+
+| StudentId |
+| --- |
+| S4 |
+
+| CourseId | C\_StudentId |
+| --- | --- |
+| C1 | |
+| C2 | |
+| C3 | |
+
+| StudentId |
+| --- |
+| S1 |
+
+| StudentId |
+| --- |
+| S1 |
+| S2 |
+| S4 |
+
+| StudentId |
+| --- |
+| S3 |
+B
+C
+13
+
+<!-- Numero diapositiva: 14 -->
+### Confronto relazioni (1)
+(( B JOIN C ) WHERE N_StudentIds  C_StudentIds) { Name, CourseId }
+Ogni studente iscritto a CourseId si chiama Name (e almeno uno studente è iscritto a CourseId).
+
+| CourseId | Name |
+| --- | --- |
+| C2 | Anne |
+| C3 | Cindy |
+14
+
+<!-- Numero diapositiva: 15 -->
+### Confronto relazioni (2)
+(( B JOIN C ) WHERE N_StudentIds  C_StudentIds) { Name, CourseId }
+Ogni studente chiamato Name è iscritto a CourseId (e almeno uno studente si chiama Name).
+
+| Name | CourseId |
+| --- | --- |
+| Anne | C1|
+| Anna | C2|
+| Cindy | C3|
+| Devinder | C1|
+15
+
+<!-- Numero diapositiva: 16 -->
+### Estrazione di tuple
+Data una relazione r di cardinalità 1 (né più né meno):
+TUPLE FROM r
+produce la singola tupla contenuta nel corpo di r.
+Ad esempio: TUPLE FROM ( IS_CALLED WHERE StudentId = ‘S1’)
+
+produce TUPLE { StudentId ‘S1’, Name ‘Anne’ }
+16
+
+<!-- Numero diapositiva: 17 -->
+### Estrazione del valore dell'attributo
+Data una tupla t con un attributo a:
+a FROM t
+produce il valore dell'attributo a in t. Ad esempio: Nome FROM TUPLE FROM ( IS_CALLED WHERE StudentId = ‘S1’)
+dà ‘Anne’
+17
+
+<!-- Numero diapositiva: 18 -->
+### Una visione relazionale dell'aritmetica
+Ricorda la relazione immaginata PIÙ:
+
+| a | b | c |
+| --- | --- | --- |
+| 1 | 2 | 3 |
+| 2 | 3 | 5 |
+| 2 | 1 | 3 |
+Ora, per calcolare, ad esempio, 2+3 …
+18
+
+<!-- Numero diapositiva: 19 -->
+### Somma di 2 e 3
+
+| a | b | c |
+| --- | --- | --- |
+| 1 | 2 | 3 |
+| 2 | 3 | 5 |
+| 2 | 1 | 3 |
+c FROM TUPLE FROM ( PLUS COMPOSE { RELATION { TUPLE { a 2, b 3 } } )
+PLUS
+(ok, 2+3 è forse un po' più facile!)
+19
+
+<!-- Numero diapositiva: 20 -->
+### Controparti tuple degli operatori relazionali
+Sia t1, t2, … delle tuple. Quindi abbiamo:
+proiezione tupla: t1 { [ALL BUT] elenco-nomi-attributo }
+join tupla: t1 JOIN t2 e JOIN{t1,t2,…}
+estensione tupla: EXTEND t1 ADD ( exp AS nome-attributo )
+rinomina tupla: t1 RENAME ( a AS b, … )
+“aggiornamento” tupla: UPDATE t1 ( nome-attributo := exp )
+composizione tupla: t1 COMPOSE t2
+20
