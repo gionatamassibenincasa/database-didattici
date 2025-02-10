@@ -12,7 +12,7 @@ narrator: IT Italian Male
 comment:  Un corso in 10 incontri per scoprire, in modo pratico, la teoria delle basi
           di dati relazionali.
 
-script:   ./js/relations.js
+script:   https://cdn.jsdelivr.net/gh/gionatamassibenincasa/database-didattici/algebra_delle_relazioni/js/relations.js
 script:   https://cdn.jsdelivr.net/gh/gionatamassibenincasa/database-didattici/algebra_delle_relazioni/js/railroad.js
 
 link:     https://cdn.jsdelivr.net/gh/tabatkins/railroad-diagrams/railroad.css
