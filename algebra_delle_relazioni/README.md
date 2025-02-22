@@ -19,9 +19,11 @@ link:     https://cdn.jsdelivr.net/gh/tabatkins/railroad-diagrams/railroad.css
 
 import: https://raw.githubusercontent.com/liascript-templates/plantUML/master/README.md
 
+import: https://raw.githubusercontent.com/liaTemplates/AlaSQL/master/README.md
+
 -->
 
-# Algebra <!-- style="color: green" --> delle relazioni <!-- style="color: green" --> <br> Un approccio pratico<!-- style="color: blue" --> alla teoria<!-- style="color: red" --> delle basi di dati
+# Algebra <!-- style="color: green" --> delle relazioni <!-- style="color: green" --> <br> Un approccio pratico<!-- style="color: blue" --> alla teoria<!-- style="color: red" --> delle **basi di dati**
 
 Un corso in 10 incontri per scoprire, in modo pratico, la teoria delle basi di dati relazionali.
 
@@ -61,7 +63,7 @@ Uno sguardo su
 
 ### Cos'è un database?
 
-> Un **database** è una raccolta *organizzata* di *simboli*  leggibile da una macchina, da _interpretare_ come un fedele resoconto di un'organizzazione. Un database è anche aggiornabile da una macchina, e quindi deve essere anche una raccolta di _variabili_. Un database è in genere disponibile per una comunità di utenti, con requisiti variabili nel tempo.
+> Un **database** è una raccolta *organizzata* di *simboli*  leggibile da una macchina, da _interpretare_ come un fedele resoconto di un'organizzazione. Un database è anche aggiornabile da una macchina, e quindi deve essere anche una raccolta di _variabili_. Un database è in genere disponibile per una comunità di utenti, dove ogni utente potrebbe avere requisiti diversi dagli altri.
 >
 > -- Hugh Darwen, An Introduction to Relational Database Theory. 2014
 
@@ -311,9 +313,6 @@ Un DBMS risponde a _comandi impartiti da *programmi applicativi*, personalizzati
 {{3}}
 Per supportare più utenti simultanei, un DBMS normalmente funziona come un server. I suoi utenti immediati sono quindi quei programmi applicativi, eseguiti come client di questo server, in genere (anche se non necessariamente) per conto di *utenti finali*. Pertanto, è necessario un qualche tipo di protocollo di comunicazione per la trasmissione di comandi e risposte tra client e server. Prima di inviare comandi al server, un programma applicativo client deve prima stabilire una connessione con esso, avviando così una sessione, che in genere dura finché il client non ne chiede esplicitamente la terminazione. Questo è tutto ciò che devi sapere sull'architettura client-server per quanto riguarda questo libro.
 
-<script>
-// Questo documento riguarda in particolare i DBMS relazionali e i database relazionali, e presto esamineremo i componenti che ci aspettiamo di trovare in un DBMS relazionale. Prima di ciò, dobbiamo rivedere brevemente cosa ci si aspetta da un DBMS in generale.
-</script>
 
 ### Cos'è un linguaggio di database?
 
@@ -438,6 +437,8 @@ CREATE TABLE Iscrizione (
   PRIMARY KEY(StudentId, CourseId)
 );
 ```
+@AlaSQL.eval
+
 **Costruzione di una variabile**
 
 ##### Sintassi
@@ -479,13 +480,15 @@ Si può vedere qualche dettaglio sulla [sintassi CREATE TABLE](https://www.sqlit
 
 `TEXT` si riferisce ad un tipo, `PRIMARY KEY` è un tipo di vincolo e specifica che non ci posso essere due tuple nella relazione `Iscrizione` con la stessa configurazione di valori di attributi per StudentId e CourseId (non possiamo iscrivere lo stesso studente allo stesso corso più di una volta)
 
-#### Eliminazione di colonne
+#### Eliminazione di variabili
 
 La relazione si elimina con:
 
 ```sql
 DROP TABLE Iscrizione;
 ```
+@AlaSQL.eval
+
 **Eliminazione di una relazione**
 
 Dopo l'esecuzione del comando, la variabile smetterà di esistere e ogni tentativo di riferirsi alla variabile genera un errore.
@@ -539,28 +542,59 @@ Questo perché molto spesso c'è solo una piccola quantità di differenza, per c
 
 Gli operatori di aggiornamento *differenziale* previsti in un DBMS relazionale sono solitamente chiamati `INSERT`, `DELETE` e `UPDATE`, e sono questi i nomi utilizzati in SQL.
 
+Inseriamo i dati e rimandiamo al prosieguo la descrizione:
 
-Dai un'occhiata prima a DELETE
+```sql
+CREATE TABLE IF NOT EXISTS Iscrizione (
+  StudentId TEXT,
+  Name TEXT,
+  CourseId TEXT,
+  PRIMARY KEY(StudentId, CourseId)
+);
+```
+@AlaSQL.eval
+
+```sql
+INSERT INTO Iscrizione VALUES
+  ('S1', 'Anne', 'C1')
+, ('S1', 'Anne', 'C2')
+, ('S2','Boris', 'C1')
+, ('S3', 'Cindy', 'C3')
+, ('S4', 'Devinder', 'C1');
+```
+@AlaSQL.eval
+
+```sql
+SELECT * FROM Iscrizione;
+```
+@AlaSQL.eval
+
+Dai un'occhiata prima a DELETE, che ora può essere impiegata senza generare errori.
 
 (Esempio 1.8).
 
 **Esempio 1.8: Aggiornamento tramite eliminazione**
 
 ```sql
-DELETE FROM Iscrizioni WHERE StudentId = 'S4' ;
+DELETE FROM Iscrizione WHERE StudentId = 'S4' ;
 ```
+@AlaSQL.eval
 
 - Informalmente, l'esempio 1.8 elimina tutte le tuple per lo studente S4 e può essere interpretato come "lo studente S4 non è più iscritto a nessun corso". Più formalmente, assegna alla variabile Iscrizione la relazione il cui corpo è costituito da quelle tuple nel valore corrente di Iscrizione che non soddisfano la condizione data nella clausola `WHERE`, quindi ogni tupla in cui il valore dell'attributo StudentId non è l'identificativo dello studente S4.
 
 - `StudentId = 'S4'`  è un'espressione condizionale. Poiché segue la parola chiave `WHERE` qui, è in effetti una condizione `WHERE`, nota anche come condizione di restrizione (o selezione).
+
+Che succede se eseguo nuovamente `delete`?
+
 Successivamente, nell'Esempio 1.9, esaminiamo `UPDATE`.
 
 **Esempio 1.9: Aggiornamento tramite sostituzione**
 
 ```sql
-UPDATE Iscrizione SET Name = 'Ann' WHERE StudentId = 'S1' :
-
+UPDATE Iscrizione SET Name = 'Ann' WHERE StudentId = 'S1';
 ```
+@AlaSQL.eval
+
 
 Nota che `UPDATE` usa una clausola `WHERE`, proprio come `DELETE`.
 La clausola `WHERE` è preceduta da un elenco di assegnazioni, nell'Esempio 1.9 solo un'assegnazione, ma queste sono assegnazioni ad attributi, non assegnazioni a variabili.
@@ -573,12 +607,20 @@ La clausola `WHERE` è preceduta da un elenco di assegnazioni, nell'Esempio 1.9 
 
 Infine, l'Esempio 1.10 illustra l'uso di `INSERT`.
 
+```sql
+SELECT * FROM Iscrizione;
+```
+@AlaSQL.eval
+
+
 **Esempio 1.10: Aggiornamento tramite inserimento**
 
 ```sql
 INSERT INTO Iscrizione (StudentId, Name, CourseId) VALUES ( 'S4' , 'Devinder',  'C1' );
 
 ```
+@AlaSQL.eval
+
 
 **Spiegazione 1.10:**
 
@@ -587,6 +629,11 @@ INSERT INTO Iscrizione (StudentId, Name, CourseId) VALUES ( 'S4' , 'Devinder',  
 - L'espressione che inizia con la parola chiave `VALUES` e termina con l'ultima parentesi tonda di chiusura indica la tupla composta dai tre valori di attributo indicati: 'S4' per l'attributo StudentId, 'Devinder' per l'attributo Name, e 'C1' per l'attributo CourseId.
 
 L'esempio 1.10 non ha alcun effetto sul database nel caso in cui il valore corrente di Iscrizione contenga già la tupla che rappresenta l'iscrizione dello studente S4, di nome Devinder, al corso C1.
+
+```sql
+SELECT * FROM Iscrizione;
+```
+@AlaSQL.eval
 
 ### Interrogazioni
 
@@ -599,6 +646,7 @@ SELECT StudentId, Name
 FROM Iscrizione
 WHERE CourseId = 'C1';
 ```
+@AlaSQL.eval
 
 ## Valori, tipi, variabili, operatori
 
@@ -707,6 +755,7 @@ SELECT 'S3' as StudentId, 'C3' AS CourseId, 'Cindy' AS Name
 UNION
 SELECT 'S4' as StudentId, 'C1' AS CourseId, 'Devinder' AS Name
 ```
+@AlaSQL.eval
 
 Una strana sintassi!
 
@@ -1142,6 +1191,28 @@ In RelaX:
 si_chiama ⨝ e_iscritto_a
 ```
 
+In SQL, con qualche dettaglio mancante:
+
+
+<script>
+    alasql("DROP TABLE IF EXISTS si_chiama;");
+    alasql("CREATE TABLE si_chiama (studentId TEXT PRIMARY KEY, name TEXT);");
+    alasql("INSERT INTO si_chiama VALUES ('S1', 'Anne'), ('S2', 'Boris'), ('S3', 'Cindy'), ('S4', 'Devinder'), ('S5', 'Boris');");
+    alasql("CREATE TABLE e_iscritto_a (studentId TEXT, courseId TEXT, PRIMARY KEY(studentId, courseId));");
+    alasql(`INSERT INTO e_iscritto_a VALUES
+  ('S1', 'C1')
+, ('S1', 'C2')
+, ('S2', 'C1')
+, ('S3', 'C3')
+, ('S4', 'C1')`);
+</script>
+
+```sql
+SELECT *
+FROM alasql.si_chiama NATURAL JOIN alasql.e_iscritto_a
+```
+@AlaSQL.eval
+
 ### SI\_CHIAMA **JOIN** È\_ISCRITTO_A
 
 È la relazione `Iscritto`
@@ -1201,6 +1272,25 @@ addTable(`| Sid1 | Nome |
 
 </div>
 
+In RelaX:
+
+```text
+ρ Sid1 ← StudentId (si\_chiama)
+```
+
+In SQL:
+<script>
+    alasql("DROP TABLE IF EXISTS si_chiama;");
+    alasql("CREATE TABLE si_chiama (studentId TEXT PRIMARY KEY, name TEXT);");
+    alasql("INSERT INTO si_chiama VALUES ('S1', 'Anne'), ('S2', 'Boris'), ('S3', 'Cindy'), ('S4', 'Devinder'), ('S5', 'Boris');");
+</script>
+
+```sql
+SELECT studentId AS Sid1
+FROM alasql.si_chiama
+```
+@AlaSQL.eval
+
 ### Definizione di RENAME $\rho$
 
 Sia $s = \rho{}_{b_1 \gets a_1, \ldots, b_n \gets a_n} r$
@@ -1224,6 +1314,9 @@ addTable(`| Sid1 | Name | Sid2 |
 | S5 | Boris | S2 |
 | S5 | Boris | S5 |`);
 </script>
+
+In SQL:
+
 
 ### Casi speciali di JOIN
 
@@ -1640,3 +1733,96 @@ Il corpo di $s$ è costituito da ogni tupla di $r_1$ che corrisponde ad almeno u
 Ne consegue che nel caso in cui non ci siano attributi comuni, $s$ è vuoto se $r_2$ è vuoto, ed è altrimenti uguale a $r_1$.
 
 $r_1 ⋉ r_2 \equiv r_1 \bowtie ( r^{\prime}_2 )$ dove $r^{\prime}_2$ è la proiezione di $r_2$ sugli attributi comuni ad $r_1$.
+
+## ESERCIZI
+
+Considera le seguenti relazioni
+
+```text @plantUML
+@startuml
+' left to right direction
+skinparam roundcorner 5
+skinparam linetype ortho
+skinparam shadowing false
+skinparam class {
+    BackgroundColor white
+    ArrowColor #2688d4
+    BorderColor #2688d4
+}
+!option handwritten true
+!define primary_key(x) <b><color:#b8861b><&key></color> x</b>
+!define foreign_key(x) <color:#aaaaaa><&key></color> x
+!define primary_and_foreign_key(x) <b><i><color:#b8861b><&key></color> x</i></b>
+!define column(x) <color:#efefef><&media-record></color> x
+!define table(x) entity x << (R, white) >>
+hide methods
+
+table( attore ) {
+   primary_key( attore_id )  :INTEGER
+   column( nome )  :TEXT
+   column( cognome )  :TEXT
+ }
+
+
+table( categoria ) {
+   primary_key( categoria_id )  :INTEGER
+   column( nome )  :TEXT
+ }
+
+
+table( film ) {
+   primary_key( film_id )  :INTEGER
+   column( titolo )  :TEXT
+   column( descrizione )  :TEXT
+   column( anno )  :TEXT
+ }
+
+
+table( film_attore ) {
+   primary_and_foreign_key( attore_id )  :INTEGER
+   primary_and_foreign_key( film_id )  :INTEGER
+ }
+
+
+table( film_categoria ) {
+   primary_and_foreign_key( film_id )  :INTEGER
+   primary_and_foreign_key( categoria_id )  :INTEGER
+ }
+
+
+ film_attore }o--|| film : film_id
+ film_attore }o--|| attore : attore_id
+ film_categoria }o--|| categoria : categoria_id
+ film_categoria }o--|| film : film_id
+
+@enduml
+
+```
+
+Formula le espressioni dell'algebra relazionale che rispondono a 10 delle seguenti interrogazioni sui fatti regitrati nel database, avvalendoti di [Relax](https://gionata.github.io/relax/calc/gist/ffeaa1bca8f4fd82c50b377d19f70e7d).
+
+1. Quali sono i nomi delle categorie
+2. Quali sono i titoli dei film
+3. In quale anno è uscito almeno un film
+4. Quali sono i titoli dei film usciti nel 2006
+5. Qual è il cognome degli attori che si chiamano 'JOHNNY'
+6. Quali sono i titoli dei film della categoria 'Comedy'
+7. Quali categorie ci sono diverse da 'Horror'
+8. Quali sono i titoli e le descrizioni dei film della categoria 'Horror'
+9. Quali sono i nomi degli attori che hanno recitato in almeno un film della categoria 'Horror'
+10. Quali sono i titoli dei film e a quale categoria appartengono
+11. Quali sono i nomi e i cognomi degli attori che hanno recitato in film della categoria 'Family'
+12. Quali sono i titoli dei film della categoria 'Family' e i nomi e i cognomi degli attori che vi hanno recitato
+13. Quali attori hanno recitato in film della categoria 'Family'
+14. A quali categorie non appartiene alcun film
+15. Quali sono il nome e il cognome degli attori che non hanno mai recitato in film di genere 'Horror'
+
+## SOLUZIONI
+
+### 1. Quali sono i nomi delle categorie
+
+$\pi_\mathrm{nome} (\mathrm{categoria})$
+
+```text
+π nome (categoria)
+```
