@@ -1198,6 +1198,7 @@ In SQL, con qualche dettaglio mancante:
     alasql("DROP TABLE IF EXISTS si_chiama;");
     alasql("CREATE TABLE si_chiama (studentId TEXT PRIMARY KEY, name TEXT);");
     alasql("INSERT INTO si_chiama VALUES ('S1', 'Anne'), ('S2', 'Boris'), ('S3', 'Cindy'), ('S4', 'Devinder'), ('S5', 'Boris');");
+    alasql("DROP TABLE IF EXISTS e_iscritto_a");
     alasql("CREATE TABLE e_iscritto_a (studentId TEXT, courseId TEXT, PRIMARY KEY(studentId, courseId));");
     alasql(`INSERT INTO e_iscritto_a VALUES
   ('S1', 'C1')
@@ -1209,7 +1210,7 @@ In SQL, con qualche dettaglio mancante:
 
 ```sql
 SELECT *
-FROM alasql.si_chiama NATURAL JOIN alasql.e_iscritto_a
+FROM si_chiama NATURAL JOIN e_iscritto_a
 ```
 @AlaSQL.eval
 
@@ -1275,7 +1276,7 @@ addTable(`| Sid1 | Nome |
 In RelaX:
 
 ```text
-ρ Sid1 ← StudentId (si\_chiama)
+ρ Sid1 ← studentId (si_chiama)
 ```
 
 In SQL:
@@ -1287,7 +1288,7 @@ In SQL:
 
 ```sql
 SELECT studentId AS Sid1
-FROM alasql.si_chiama
+FROM si_chiama
 ```
 @AlaSQL.eval
 
@@ -1315,8 +1316,44 @@ addTable(`| Sid1 | Name | Sid2 |
 | S5 | Boris | S5 |`);
 </script>
 
+Usando dei nomi temporanei, con un operatore di assegnazione (=), potremmo riscrivere l'esespressione con la segente espressione equivalente:
+
+```text
+T1 = ρ Sid1 ← studentId si_chiama
+T2 = ρ Sid2 ← studentId si_chiama
+T1 ⨝ T2
+```
+
 In SQL:
 
+<script>
+    alasql("DROP TABLE IF EXISTS si_chiama;");
+    alasql("CREATE TABLE si_chiama (studentId TEXT PRIMARY KEY, name TEXT);");
+    alasql("INSERT INTO si_chiama VALUES ('S1', 'Anne'), ('S2', 'Boris'), ('S3', 'Cindy'), ('S4', 'Devinder'), ('S5', 'Boris');");
+    alasql("DROP TABLE IF EXISTS e_iscritto_a");
+    alasql("CREATE TABLE e_iscritto_a (studentId TEXT, courseId TEXT, PRIMARY KEY(studentId, courseId));");
+    alasql(`INSERT INTO e_iscritto_a VALUES
+  ('S1', 'C1')
+, ('S1', 'C2')
+, ('S2', 'C1')
+, ('S3', 'C3')
+, ('S4', 'C1')`);
+</script>
+
+```sql
+WITH T1 AS
+(
+	SELECT studentId AS Sid1, name
+	FROM si_chiama
+), T2 AS
+(
+	SELECT studentId AS Sid2, name
+	FROM si_chiama
+)
+SELECT *
+FROM T1 NATURAL JOIN T2
+```
+@AlaSQL.eval
 
 ### Casi speciali di JOIN
 
@@ -1367,6 +1404,25 @@ addTable(`| StudentId |
 </script>
 </div>
 
+In SQL:
+
+<script>
+    alasql("DROP TABLE IF EXISTS e_iscritto_a");
+    alasql("CREATE TABLE e_iscritto_a (studentId TEXT, courseId TEXT, PRIMARY KEY(studentId, courseId));");
+    alasql(`INSERT INTO e_iscritto_a VALUES
+  ('S1', 'C1')
+, ('S1', 'C2')
+, ('S2', 'C1')
+, ('S3', 'C3')
+, ('S4', 'C1')`);
+</script>
+
+```sql
+SELECT DISTINCT studentId
+FROM e_iscritto_a
+```
+@AlaSQL.eval
+
 ### Definizione di proiezione
 
 Sia $s = \pi_{a_1,\ldots,a_n} r$
@@ -1383,7 +1439,7 @@ Si noti che la cardinalità di $s$ può essere minore di quella di $r$ ma non pu
 
 ρ e\_iscritto\_a π StudentId, CourseId iscrizione
 
-NOTA: Ci sono proposizioni vere sugli studenti non espresse da iscrizione. Non viene rispettata l'ipotesi del mondo chiuso... Ci sarà da parlare di *normalizzazione*.
+NOTA: Ci sono proposizioni vere sugli studenti non espresse da iscrizione. Non viene rispettata l'ipotesi del mondo chiuso... Ci sarà da parlare di *anomalie* di *aggiornamento*, *cancellazione* e *inserimento* e quindi di *normalizzazione*.
 
 ### Casi speciali di proiezione
 
@@ -1434,11 +1490,40 @@ _StudentId_ si chiama `Boris`
 Le proposizioni possono essere il risultato di JOIN e proiezione, in questo modo (con RelaX):
 
 ```text
-si_chiama ⨝ { Name
+si_chiama ⨝ { name
 'Boris'
 }
 ```
-Possiamo definire un operatore che rende più facile esprimere queste interrogazioni: la restrizione $\sigma$ (e di nuovo proiezione)
+
+Potremmo voler far uso di una variabile temporanea, introducendo un operatore di assegnazione (=), per esprimere la seconda tabella della giunzione:
+
+```text
+Condizione = { name
+'Boris'}
+si_chiama ⨝ Condizione
+```
+
+In SQL:
+
+<script>
+    alasql("DROP TABLE IF EXISTS si_chiama;");
+    alasql("CREATE TABLE si_chiama (studentId TEXT PRIMARY KEY, name TEXT);");
+    alasql("INSERT INTO si_chiama VALUES ('S1', 'Anne'), ('S2', 'Boris'), ('S3', 'Cindy'), ('S4', 'Devinder'), ('S5', 'Boris');");
+</script>
+
+```sql
+WITH Condizione AS
+(
+	SELECT 'Boris' AS name
+)
+SELECT *
+FROM si_chiama NATURAL JOIN Condizione
+```
+@AlaSQL.eval
+
+Questa tabella temporanea e con essa l'operatore di assegnazione non sono necessari.
+
+Possiamo definire un nuovo operatore che rende più facile esprimere queste interrogazioni: la restrizione $\sigma$ (e di nuovo proiezione):
 
 ```text
 σ Name='Boris' si_chiama
@@ -1454,7 +1539,16 @@ Si hanno tutti i codici degli studenti che soddisfano:
 
 "**ESISTE** un nome tale che `StudentId` **si chiama** `Name` **AND** `Name` è Boris"
 
-# Una restrizione più utile
+In SQL:
+
+```sql
+SELECT *
+FROM si_chiama
+WHERE name = 'Boris'
+```
+@AlaSQL.eval
+
+### Una restrizione più utile
 
 `Sid1` ha lo stesso nome di `Sid2` (AND `Sid2` ≠ `Sid1`).
 
@@ -1466,6 +1560,9 @@ addTable(`| Sid1 | Sid2 |
 | --- | --- |
 | S2 | S5 |`);
 </script>
+
+// TODO
+// SQL
 
 Esercizio: esprimere la stessa interrogazione con il solo JOIN, senza far uso della restrizione?
 È facile?
@@ -1826,3 +1923,144 @@ $\pi_\mathrm{nome} (\mathrm{categoria})$
 ```text
 π nome (categoria)
 ```
+
+```sql
+SELECT DISTINCT nome
+FROM categoria
+```
+
+### 2. Quali sono i titoli dei film
+
+$\pi_\mathrm{titolo} (\mathrm{film})$
+
+```text
+π titolo (film)
+```
+
+```sql
+SELECT DISTINCT titolo
+FROM film
+```
+
+### 3. In quale anno è uscito almeno un film
+
+$\pi_\mathrm{anno} (\mathrm{film})$
+
+```text
+π anno (film)
+```
+
+```sql
+SELECT DISTINCT anno
+FROM film
+```
+
+### 4. Quali sono i titoli dei film usciti nel 2006
+
+$\pi_\mathrm{titolo,anno} (\sigma_{\mathrm{anno}=2006}(\mathrm{film}))$
+
+```text
+π titolo,anno (σ anno='2006' (film))
+```
+
+Nota: anno è un attributo di tipo testo.
+
+### 5. Qual è il cognome degli attori che si chiamano 'JOHNNY'
+
+$\pi_\mathrm{cognome} (\sigma_{\mathrm{nome}=\mathrm{JOHNNY}}(\mathrm{attore}))$
+
+```text
+π cognome (σ nome='JOHNNY' (attore))
+```
+
+### 6. Quali sono i titoli dei film della categoria 'Comedy'
+
+$\pi_\mathrm{titolo}
+  \left(
+    \sigma_{\mathrm{nome}='\mathrm{Comedy}'}
+      \left(
+        \mathrm{film} \bowtie \mathrm{film\_categoria} \bowtie {categoria}
+      \right)
+ \right)$
+
+```text
+π titolo (σ nome='Comedy' (film ⨝ film_categoria ⨝ categoria))
+```
+
+Oppure, con $\theta$-join
+
+```text
+π titolo (σ nome='Comedy' (((film) ⨝ film.film_id=film_categoria.film_id (film_categoria)) ⨝ film_categoria.categoria_id=categoria.categoria_id (categoria)))
+```
+Oppure, con assegnamenti
+
+```text
+film_con_id_categoria = (film) ⨝ film.film_id = film_categoria.film_id (film_categoria)
+film_con_nome_categoria = (film_con_id_categoria) ⨝ film_categoria.categoria_id=categoria.categoria_id (categoria)
+commedie=σ nome='Comedy' (film_con_nome_categoria)
+π titolo (commedie)
+```
+
+### 7. Quali categorie ci sono diverse da 'Horror'
+
+$\pi_\mathrm{nome}
+  \left(
+    \sigma_{\mathrm{nome}\neq'\mathrm{Horror}'}
+      \left(
+        \mathrm{categoria}
+      \right)
+  \right)$
+
+```text
+π nome (σ nome≠'Horror' (categoria))
+```
+
+Oppure, con la differenza
+
+```text
+(π nome (categoria)) - {nome:string
+	'Horror'
+}
+```
+
+### 8. Quali sono i titoli e le descrizioni dei film della categoria 'Horror'
+
+$\pi_\mathrm{titolo,descrizione}
+  \left(
+    \sigma_{\mathrm{nome}='\mathrm{Horror}'}
+      \left(
+        \mathrm{film} \bowtie \mathrm{film\_categoria} \bowtie {categoria}
+      \right)
+ \right)$
+
+```text
+π titolo,descrizione (σ nome='Horror' (film ⨝ film_categoria ⨝ categoria))
+```
+
+### 9. Quali sono i nomi degli attori che hanno recitato in almeno un film della categoria 'Horror'
+
+$\pi_\mathrm{attore.nome}
+  \left(
+    \sigma_{\mathrm{categoria.nome}='\mathrm{Horror}'}
+      \left(
+        \left(
+          \mathrm{attore} \bowtie \mathrm{film\_attore} \bowtie {film} \bowtie {film\_categoria} 
+        \right) \bowtie_{film\_categoria.categoria\_id=categoria.categoria\_id} \mathrm{categoria}
+      \right)
+ \right)
+$
+
+```text
+π attore.nome (
+	σ categoria.nome='Horror' (
+		(attore ⨝ film_attore ⨝ film ⨝ film_categoria) ⨝ film_categoria.categoria_id=categoria.categoria_id (categoria)
+  )
+)
+```
+
+### 10. Quali sono i titoli dei film e a quale categoria appartengono
+### 11. Quali sono i nomi e i cognomi degli attori che hanno recitato in film della categoria 'Family'
+### 12. Quali sono i titoli dei film della categoria 'Family' e i nomi e i cognomi degli attori che vi hanno recitato
+### 13. Quali attori hanno recitato in film della categoria 'Family'
+### 14. A quali categorie non appartiene alcun film
+### 15. Quali sono il nome e il cognome degli attori che non hanno mai recitato in film di genere 'Horror'
