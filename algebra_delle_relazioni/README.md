@@ -1351,7 +1351,8 @@ WITH T1 AS
 	FROM si_chiama
 )
 SELECT *
-FROM T1 NATURAL JOIN T2
+-- FROM T1 NATURAL JOIN T2 -- ma in AlaSQL occorre
+FROM T1 INNER JOIN T2 ON T1.name = T2.name
 ```
 @AlaSQL.eval
 
@@ -1518,6 +1519,9 @@ WITH Condizione AS
 )
 SELECT *
 FROM si_chiama NATURAL JOIN Condizione
+-- Con AlaSQL siamo costretti a scrivere:
+-- si_chiama INNER JOIN Condizione
+--	ON si_chiama.name = Condizione.name
 ```
 @AlaSQL.eval
 
@@ -1528,6 +1532,7 @@ Possiamo definire un nuovo operatore che rende più facile esprimere queste inte
 ```text
 σ Name='Boris' si_chiama
 ```
+
 <script>
 addTable(`| StudentId |
 | --- |
@@ -1561,8 +1566,23 @@ addTable(`| Sid1 | Sid2 |
 | S2 | S5 |`);
 </script>
 
-// TODO
-// SQL
+<script>
+    alasql("DROP TABLE IF EXISTS si_chiama;");
+    alasql("CREATE TABLE si_chiama (studentId TEXT PRIMARY KEY, name TEXT);");
+    alasql("INSERT INTO si_chiama VALUES ('S1', 'Anne'), ('S2', 'Boris'), ('S3', 'Cindy'), ('S4', 'Devinder'), ('S5', 'Boris');");
+</script>
+
+```sql
+WITH
+ T1 AS
+  (SELECT studentId AS Sid1, name FROM si_chiama),
+ T2 AS
+  (SELECT studentId AS Sid2, name FROM si_chiama)
+SELECT T1.Sid1, T2.Sid2
+FROM T1 INNER JOIN T2 ON T1.name=T2.name
+WHERE T1.Sid1 < T2.Sid2
+```
+@AlaSQL.eval
 
 Esercizio: esprimere la stessa interrogazione con il solo JOIN, senza far uso della restrizione?
 È facile?
@@ -1631,6 +1651,17 @@ addTable(`| StudentId | Name | Proposizione |
 | S5 | Boris | S5 si chiama Boris |`);
 </script>
 
+<script>
+    alasql("DROP TABLE IF EXISTS si_chiama;");
+    alasql("CREATE TABLE si_chiama (studentId TEXT PRIMARY KEY, name TEXT);");
+    alasql("INSERT INTO si_chiama VALUES ('S1', 'Anne'), ('S2', 'Boris'), ('S3', 'Cindy'), ('S4', 'Devinder'), ('S5', 'Boris');");
+</script>
+
+```sql
+SELECT studentId, name, CONCAT(studentId, ' si chiama ', name) AS Proposizione
+FROM si_chiama
+```
+@AlaSQL.eval
 
 ### Altre due variabili relazionali
 
@@ -2003,13 +2034,8 @@ commedie=σ nome='Comedy' (film_con_nome_categoria)
 
 ### 7. Quali categorie ci sono diverse da 'Horror'
 
-$\pi_\mathrm{nome}
-  \left(
-    \sigma_{\mathrm{nome}\neq'\mathrm{Horror}'}
-      \left(
-        \mathrm{categoria}
-      \right)
-  \right)$
+$\pi_\mathrm{nome} \left( \sigma_{\mathrm{nome}\neq '\mathrm{Horror}'} \left( \mathrm{categoria} \right) \right)$
+
 
 ```text
 π nome (σ nome≠'Horror' (categoria))
