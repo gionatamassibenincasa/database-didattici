@@ -9,7 +9,17 @@
 \usepackage[autostyle,italian=guillemets]{csquotes}
 \usepackage[backend=biber,style=numeric,hyperref]{biblatex}
 \addbibresource{algebra-delle-relazioni-massi.bib}
+\usepackage[mode=buildnew]{standalone}% requires -shell-escape
+\usepackage{tikz}
+\usepackage{caption}
+\usepackage{subcaption}
+\usepackage{pygmentex}
+\usepackage{amsthm}
 \usepackage{doc}
+
+\theoremstyle{definition}
+\newtheorem{definition}{Definizione}
+
 
 %% Front Matter
 \pagestyle{empty}
@@ -40,7 +50,7 @@ Gionata Massi%\inst{1}\thanks{Ha svolto il ruolo di formatore esperto.}
 \selectlanguage{italian}
 
 \begin{abstract}
-Questo articolo presenta un approccio pratico all'insegnamento della teoria delle basi di dati relazionali agli studenti delle scuole superiori focalizzandosi sull'algebra delle relazioni. Il corso si rivolge alle classi quarte e quinte del Liceo Scientifico opzione Scienze Applicate, con l'obiettivo di potenziare le competenze STEM e fornire una comprensione approfondita dell'informatica come disciplina scientifica e ingegneristica.
+Questo articolo presenta un approccio pratico all'insegnamento della teoria delle basi di dati relazionali agli studenti delle scuole superiori focalizzandosi sull'algebra delle relazioni. Il corso si rivolge alle classi quarte e quinte del Liceo Scientifico opzione Scienze Applicate, con l'obiettivo di potenziare le competenze STEM e fornire una comprensione  dell'informatica come disciplina scientifica e ingegneristica.
 
 Il percorso didattico di dieci ore introduce i concetti fondamentali delle basi di dati, i Sistemi di Gestione delle Basi di Dati (DBMS) e il \emph{linguaggio SQL}, ponendo particolare enfasi sui principi dell'algebra relazionale e sul loro legame con la logica proposizionale e dei predicati. Il corso utilizza strumenti didattici come una ``calcolatrice'' relazionale online (\emph{RelaX}) e \emph{AlaSQL} per le esercitazioni pratiche in SQL, permettendo una immediata applicazione dei concetti teorici.
 
@@ -48,7 +58,7 @@ Vengono esplorati operatori chiave come \emph{join naturale}, \emph{proiezione},
 
 L'esperienza ha mostrato che, sebbene l'approccio pratico abbia reso accessibili concetti complessi, la durata  limitata del corso ha impedito l'approfondimento di temi cruciali come la \emph{normalizzazione}. Inoltre, il legame con la \emph{logica formale}, pur essendo intrinseco alla teoria, non è sempre stato pienamente recepito dagli studenti.
 
-Le conclusioni suggeriscono la necessità di rivedere la tempistica e il bilanciamento tra teoria e pratica, e di potenziare gli strumenti didattici per rendere la logica più intuitiva e coinvolgente.
+Le conclusioni suggeriscono la necessità di rivedere la tempistica e il bilanciamento tra teoria e pratica, e di potenziare gli strumenti didattici per rendere la logica e l'algebra relazionale più intuitive e coinvolgenti.
 \end{abstract}
 
 \section{Introduzione}\label{introduzione}
@@ -80,20 +90,63 @@ Il corso è articolato in moduli progressive, che guidano gli studenti dai conce
 
 \subsection{Concetti Fondamentali}\label{concetti-fondamentali}
 
-Il percorso inizia esplorando la natura di un database, definendolo come una raccolta \emph{organizzata} di \emph{simboli} interpretabile come un fedele resoconto di un'organizzazione e come una raccolta di \emph{variabili}. Questa sezione introduce anche il concetto di database relazionale, specificando che i suoi simboli sono organizzati in collezioni di relazioni e distinguendo chiaramente il concetto formale di \emph{relazione} dalla sua rappresentazione tabellare. Vengono poi illustrate le componenti strutturali di una relazione (n-tupla, attributo, grado, cardinalità, intestazione, corpo).
+Il percorso inizia esplorando la natura di un database, definendolo come una raccolta \emph{organizzata} di \emph{simboli} interpretabile come un fedele resoconto di un'organizzazione e come una raccolta di \emph{variabili}. Questa sezione introduce anche il concetto di database relazionale, specificando che i suoi simboli sono organizzati in collezioni di relazioni e distinguendo chiaramente il concetto formale di \emph{relazione} dalla sua rappresentazione tabellare (fig.~\ref{fig:variabile}). Vengono poi illustrate le componenti strutturali di una relazione (n-tupla, attributo, grado, cardinalità, intestazione, corpo).
+
+\begin{figure}
+    \centering
+    \includestandalone[width=.8\textwidth]{img/variabile_relazionale}
+    \caption{Variabile relazionale\label{fig:variabile}}
+\end{figure}
 
 \subsection{Sistemi di Gestione Database (DBMS) e Linguaggi}\label{sistemi-di-gestione-database-dbms-e-linguaggi}
 
-Si prosegue definendo il \emph{DBMS} come software per la gestione e l'accesso ai database. Viene introdotto il concetto di \emph{linguaggio di database} (o \emph{sottolinguaggio dei dati}), con particolare attenzione al \emph{linguaggio SQL} come strumento per \emph{interrogazioni (query)} e \emph{aggiornamenti delle variabili relazionali}. Il corso illustra le operazioni fondamentali di un DBMS: creazione (\texttt{CREATE\ TABLE}), eliminazione (\texttt{DROP\ TABLE}), gestione di \emph{regole di integrità} (\texttt{PRIMARY\ KEY}, \texttt{FOREIGN\ KEY}, \texttt{CHECK}) e gli \emph{operatori di aggiornamento differenziale} (\texttt{INSERT}, \texttt{DELETE}, \texttt{UPDATE}). L'uso di strumenti come \emph{RelaX} (per la creazione/eliminazione di variabili temporanee) e \href{https://sqlite.org/}{\emph{SQLite}} (tramite  \emph{AlaSQL} e \href{https://it.khanacademy.org/computer-programming/new/sql}{\emph{Khan Academy}}) è finalizzato all'applicazione pratica dei concetti.
+Si prosegue definendo il \emph{DBMS} come software per la gestione e l'accesso ai database. Viene introdotto il concetto di \emph{linguaggio di database} (o \emph{sottolinguaggio dei dati}), con particolare attenzione al \emph{linguaggio SQL} come strumento per \emph{interrogazioni (query)} e \emph{aggiornamenti delle variabili relazionali}. Il corso illustra le operazioni fondamentali di un DBMS: creazione (\texttt{CREATE\ TABLE}), eliminazione (\texttt{DROP\ TABLE}), gestione di \emph{regole di integrità} (\texttt{PRIMARY\ KEY}, \texttt{FOREIGN\ KEY}, \texttt{CHECK}) e gli \emph{operatori di aggiornamento differenziale} (\texttt{INSERT}, \texttt{DELETE}, \texttt{UPDATE}). L'uso di \href{https://sqlite.org/}{\emph{SQLite}} (tramite  \emph{AlaSQL} e \href{https://it.khanacademy.org/computer-programming/new/sql}{\emph{Khan Academy}}) per la creazione/eliminazione di variabili temporanee è finalizzato all'applicazione pratica dei concetti (fig.~\ref{fig:sql-create-instance}).
+
+
+\begin{figure}[ht]
+  \centering
+  \begin{pygmented}[lang=sql]
+-- Creazione di una variabile relazionale
+CREATE TABLE Iscrizione (
+  StudenteId TEXT,
+  Nome TEXT,
+  CorsoId TEXT,
+  PRIMARY KEY(StudenteId, CorsoId)
+);
+  \end{pygmented}
+  \caption{Creazione di una variabile relazionale in SQL}
+  \label{fig:sql-create-instance}
+\end{figure}
+
 
 \subsection{Valori, Tipi, Variabili e Operatori}\label{valori-tipi-variabili-e-operatori}
 
 Un modulo dedicato chiarisce le distinzioni essenziali tra \emph{valori} e \emph{variabili}, \emph{tipi} (o \emph{domini}) e \emph{rappresentazioni}
-(o \emph{codifiche}), e la natura degli \emph{operatori} (di sola lettura vs.~di aggiornamento, e le loro invocazioni con parametri e argomenti). Viene approfondito il concetto di \emph{tipo} come insieme di valori denominati, la sua funzione nel limitare i valori ammissibili e le specificità della gestione dei tipi (domini) nell'algebra delle relazioni e in \emph{SQLite}. La rappresentazione dei \emph{letterali in SQL} è trattata con esempi pratici. Vengono introdotti gli \emph{Alberi Sintattici Astratti} per la rappresentazione delle operazioni e i \emph{Diagrammi Sintattici} per il linguaggio SQL. Vengono forniti esempi di espressioni equivalenti e loro visualizzazione come operazione sull'\emph{albero sintattico}.
+(o \emph{codifiche}), e la natura degli \emph{operatori} (di sola lettura vs.~di aggiornamento, e le loro invocazioni con parametri e argomenti). Viene approfondito il concetto di \emph{tipo} come insieme di valori denominati, la sua funzione nel limitare i valori ammissibili e le specificità della gestione dei tipi (domini) nell'algebra delle relazioni e in \emph{SQLite}. La rappresentazione dei \emph{letterali in SQL} è trattata con esempi pratici. Vengono introdotti gli \emph{Alberi Sintattici Astratti} per la rappresentazione delle operazioni e i \emph{Diagrammi Sintattici} per il linguaggio SQL (fig.~\ref{fig:sql-syntax}). Vengono forniti esempi di espressioni equivalenti e loro visualizzazione come operazione sull'\emph{albero sintattico}.
+
+\begin{figure}[hbt]
+    \centering
+    \includestandalone[width=.8\textwidth]{img/create_table_syntax}
+    \caption{Diagramma sintattico per la creazione di una variabile relazionale in SQL}\label{fig:sql-syntax}
+\end{figure}
+
 
 \subsection{Logica, Proposizioni e Predicati}\label{logica-proposizioni-e-predicati}
 
-Il corso introduce concetti di \emph{logica proposizionale} essenziali per la teoria relazionale. Vengono definiti i \emph{predicati} e la loro relazione con le frasi e le proposizioni che descrivono lo stato del database. Si esplora la \emph{derivazione di predicati da predicati} attraverso l'applicazione di connettivi logici (congiunzione, disgiunzione, negazione, implicazione, bicondizionale) e i \emph{quantificatori} \emph{esistenziale} e \emph{universale}, fornendo le basi logiche per la costruzione delle query e dei vincoli. Vengono inoltre richiamati i concetti fondamentali di \emph{teoria degli insiemi} esprimendoli nei termini della logica dei predicati.
+Il corso introduce concetti di \emph{logica proposizionale} essenziali per la teoria relazionale. Vengono definiti i \emph{predicati} e la loro relazione con le frasi e le proposizioni che descrivono lo stato del database (fig.~\ref{fig:proposizioni}). Si esplora la \emph{derivazione di predicati da predicati} attraverso l'applicazione di connettivi logici (congiunzione, disgiunzione, negazione, implicazione, bicondizionale) e i \emph{quantificatori} \emph{esistenziale} e \emph{universale}, fornendo le basi logiche per la costruzione delle query e dei vincoli. Vengono inoltre richiamati i concetti fondamentali di \emph{teoria degli insiemi} esprimendoli nei termini della logica dei predicati.
+
+
+\begin{figure}[htb]
+\centering
+\begin{tabular}{lclcl}
+La studentessa avente matricola & 'S1' & si chiama & 'Anne' & e \\
+Lo studente avente matricola & 'S2' & si chiama & 	'Boris'& e \\
+La studentessa avente matricola & 'S3' & si chiama & 'Cindy'& e \\
+Lo studente avente matricola & 'S4' & si chiama & 'Devinder'& e \\
+Lo studente avente matricola & 'S5' & si chiama & 'Boris'&.
+\end{tabular}
+\caption{Interpretazione della variabile relazionale come congiunzione di proposizioni vere}\label{fig:proposizioni}
+\end{figure}
 
 \subsection{Principi di Algebra Relazionale}\label{principi-di-algebra-relazionale}
 
@@ -111,13 +164,64 @@ Questa parte costituisce il cuore teorico-operativo del corso. Si rivisita l'\em
   \item \textbf{DIFFERENZA INSIEMISTICA (\(\setminus\)):} corrisponde ad un \emph{AND NOT}.
 \end{itemize}
 
-Ogni operatore è introdotto con la sua definizione formale e esempi pratici, dimostrando come queste operazioni permettano di manipolare e interrogare le basi di dati relazionali.
+Ogni operatore è introdotto con la sua definizione formale e esempi pratici, dimostrando come queste operazioni permettano di manipolare e interrogare le basi di dati relazionali (fig.~\ref{fig:table-join}).
 
 Il corso è intervallato da lezioni teoriche e brevi sessioni dedicate agli esercizi. Quelli di logica e di algebra sono fondamentali per consolidare la comprensione dei concetti teorici, mentre quelli in \emph{linguaggio SQL} sono destinati a produrre una conoscenza pratica e applicativa.
 
+\begin{figure}[htp]
+	\centering	
+	\begin{subfigure}[t]{.75\textwidth}
+		\centering
+		\includegraphics[width=.4\textwidth]{img/inner_join}
+		\caption{Albero sintattico del join naturale}\label{fig:inner-join-syn-tree}
+	\end{subfigure}
+
+	\vspace{1cm}	
+		
+	\begin{subfigure}[t]{\textwidth}
+		\centering
+		\includestandalone[width=.8\textwidth]{img/table_join}
+      \caption{Illustrazione del join\label{fig:table-join}}
+	\end{subfigure}
+
+	\vspace{1cm}	
+	
+	\begin{subfigure}[t]{\textwidth}
+		\centering
+\begin{tabular}{lclclcl}
+La studentessa avente matricola & 'S1' & si chiama & 'Anne' & ed è iscritta al corso & 'C1' & e \\
+La studentessa avente matricola & 'S1' & si chiama & 'Anne' & ed è iscritta al corso & 'C2' & e \\
+Lo studente avente matricola & 'S2' & si chiama & 	'Boris'& ed è iscritto al corso & 'C1' & e \\
+La studentessa avente matricola & 'S3' & si chiama & 'Cindy'& ed è iscritta al corso & 'C3' &  e \\
+Lo studente avente matricola & 'S4' & si chiama & 'Devinder'& ed è iscritto al corso & 'C1' & . \\
+\end{tabular}
+\caption{Interpretazione della variabile relazionale come congiunzione di proposizioni vere}\label{fig:proposizioni}
+	\end{subfigure}
+		
+	\vspace{1cm}	
+
+	\begin{subfigure}[t]{\textwidth}
+		\centering
+		\begin{definition}
+		Sia $s = r_1 \bowtie r_2$.
+
+Lo schema (intestazione) $H_s$ di $s$ è l'unione delle intestazioni di $r_1$ e $r_2$: $H_s = r_1 \cup r_2$.
+
+Il corpo di $s$ è costituito da quelle tuple con intestazione $H_s$ che possono essere formate prendendo l'unione di $t_1$ e $t_2$, dove $t_1$ è una tupla di $r_1$ e $t_2$ è una tupla di $r_2$.
+
+Se $c$ è un attributo comune, allora deve avere lo stesso tipo dichiarato sia in $r_1$ che in $r_2$. Se non lo ha, allora $r_1 \bowtie r_2$ perde di significato.
+
+Nota: JOIN, come AND, è sia commutativo che associativo.
+		\end{definition}
+		\caption{Definizione dell'operatore di join\label{fig:table-join}}
+	\end{subfigure}
+
+      \caption{Materiale per illustrare l'operatore di join}\label{fig:table-join}
+\end{figure}
+
 \section{Conclusioni}\label{conclusioni}
 
-L'esperienza ha evidenziato diverse sfide e opportunità. Sebbene l'approccio pratico abbia contribuito a rendere accessibili concetti complessi, la limitata durata del corso (10 ore) si è rivelata insufficiente per approfondire tutti gli aspetti previsti. In particolare, un tema fondamentale che è rimasto escluso dal corso per limiti di tempo è stato quello della \emph{normalizzazione}. Tempi più distesi avrebbero permesso più attività \emph{hands-on} rispetto alla parte teorica. Inoltre, il \emph{legame con la logica formale}, pur essendo fondamentale per la teoria delle basi di dati e ben immerso nel contesto liceale, non è stato sempre pienamente apprezzato dagli studenti. Sarà necessario rivedere le tempistiche, il bilanciamento tra spiegazioni teoriche e applicazioni pratiche e potenziare gli strumenti per rendere la logica più intuitiva e coinvolgente. Il linguaggio della logica dei predicati, infine, sarebbe da implementare nel tool utilizzato per le esercitazioni: \emph{RelaX}.
+L'esperienza ha evidenziato diverse sfide e opportunità. Sebbene l'approccio pratico abbia contribuito a rendere accessibili concetti complessi, la limitata durata del corso (10 ore) si è rivelata insufficiente per approfondire tutti gli aspetti previsti. In particolare, un tema fondamentale che è rimasto escluso dal corso per limiti di tempo è stato quello della \emph{normalizzazione}. Tempi più distesi avrebbero permesso più attività \emph{hands-on} rispetto alla parte teorica. Inoltre, il \emph{legame con la logica formale}, pur essendo fondamentale per la teoria delle basi di dati e ben immerso nel contesto liceale, non è stato sempre pienamente apprezzato dagli studenti. Sarà necessario rivedere le tempistiche, il bilanciamento tra spiegazioni teoriche e applicazioni pratiche e potenziare gli strumenti per rendere la logica più intuitiva e per superare  limiti dei database estensionali, basati solo su proposizioni vere, a quelli intensionali, che aggiungono regole. Per questo fine si potrebbe aggiungerere in \emph{RelaX} una \emph{interprete} per il linguaggio Datalog, in modo analogo a ``Datalog Educational System\footnote{Un playground del Datalog Educational System è alla url: \url{https://desweb.fdi.ucm.es/}}''\~cite[Saenz-Perez:2011:DDD:1950986.1951133].
 
 \label{sect:bib}
 \printbibliography

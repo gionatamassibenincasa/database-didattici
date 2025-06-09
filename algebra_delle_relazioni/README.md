@@ -972,7 +972,7 @@ Condizionali:
 - $p \iff q$
 - $(p \implies q) \land (q \implies p)$
 
-|$p$|$q$|$p \implies q$| $q \implies q$ | $p \iff q$ |
+|$p$|$q$|$p \implies q$| $q \implies p$ | $p \iff q$ |
 |---|---|--------------|----------------|------------|
 | F | F |       T      |        T       |      T     |
 | F | T |       T      |        F       |      F     |
@@ -1337,7 +1337,7 @@ In SQL:
 , ('S1', 'C2')
 , ('S2', 'C1')
 , ('S3', 'C3')
-, ('S4', 'C1')`);
+, ('S4', 'C1');`);
 </script>
 
 ```sql

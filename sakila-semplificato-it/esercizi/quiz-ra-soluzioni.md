@@ -125,7 +125,7 @@ $\pi_\mathrm{attore.nome}
         \left(
           \mathrm{attore} \bowtie \mathrm{film\_attore} \bowtie {film} \bowtie {film\_categoria} 
         \right) \bowtie_{film\_categoria.categoria\_id=categoria.categoria\_id} \mathrm{categoria}
-      \right)
+      \right){}
  \right)
 $
 
