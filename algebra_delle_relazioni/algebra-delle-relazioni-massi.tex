@@ -79,7 +79,7 @@ e padroneggiare il linguaggio logico-formale.
 \end{itemize}
 
 Il corso ricalca in larga parte quello universitario \href{https://www.dcs.warwick.ac.uk/~hugh/#CS252}{CS252.HACD:
-\emph{Relational Database Theory}} di Hugh Darwen, e il  materiale didattico è stato progettato a partire da quello realizzato per quel corso: \cite{darwen2014introduction}, \cite{darwen2010exercises} e \cite{darwen2011sql}. Si differenzia da esso per il livello, per l'uso della ``calcolatrice'' relazionale online \emph{RelaX}\footnote{La calcolatrice è disponibile all'indirizzo
+\emph{Relational Database Theory}} di Hugh Darwen, e il  materiale didattico è stato progettato a partire da quello realizzato per quel corso: \cite{darwen2014introduction, darwen2010exercises,darwen2011sql}. Si differenzia da esso per il livello, per l'uso della ``calcolatrice'' relazionale online \emph{RelaX}\footnote{La calcolatrice è disponibile all'indirizzo
 \url{https://gionata.github.io/relax/calc/local/sb/local/0}). Il fork aggiunge una parziale traduzione in italiano e integra le funzionalità aggiuntive realizzate da Rodrigo Laiola Guimaraes per supportare relazioni di ordine e/o cardinalità zero e migliorare la visualizzazione degli alberi sintattici.} e del \emph{linguaggio SQL} al posto del linguaggio \emph{Tutorial D}.
 
 Gli esempi in linguaggio SQL sono stati realizzati con \href{https://alasql.org/}{\emph{AlaSQL}} e resi disponibili tramite un \href{http://liascript.github.io/course/?https://raw.githubusercontent.com/gionatamassibenincasa/database-didattici/main/algebra_delle_relazioni/README.md}{\emph{open educational resource}} realizzato in \href{https://liascript.github.io/}{\emph{LiaScript}}.
@@ -195,7 +195,7 @@ Lo studente avente matricola & 'S2' & si chiama & 	'Boris'& ed è iscritto al co
 La studentessa avente matricola & 'S3' & si chiama & 'Cindy'& ed è iscritta al corso & 'C3' &  e \\
 Lo studente avente matricola & 'S4' & si chiama & 'Devinder'& ed è iscritto al corso & 'C1' & . \\
 \end{tabular}
-\caption{Interpretazione della variabile relazionale come congiunzione di proposizioni vere}\label{fig:proposizioni}
+\caption{Interpretazione della variabile relazionale come congiunzione di proposizioni vere}\label{fig:proposizioni-join}
 	\end{subfigure}
 		
 	\vspace{1cm}	
@@ -213,7 +213,7 @@ Se $c$ è un attributo comune, allora deve avere lo stesso tipo dichiarato sia i
 
 Nota: JOIN, come AND, è sia commutativo che associativo.
 		\end{definition}
-		\caption{Definizione dell'operatore di join\label{fig:table-join}}
+		\caption{Definizione dell'operatore di join\label{fig:join-def}}
 	\end{subfigure}
 
       \caption{Materiale per illustrare l'operatore di join}\label{fig:table-join}
