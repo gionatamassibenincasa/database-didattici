@@ -89,20 +89,12 @@ CREATE TABLE Donazione (
     ) -- Non posso scrivere CHECK (importo >= (SELECT p.sogliaMinima FROM Progetto p WHERE p.idProgetto = idProgetto))
 );
 
-CREATE TRIGGER donazione_soglia_minima_check BEFORE
-INSERT
-    ON Donazione BEGIN
-SELECT
-    RAISE(
-        FAIL,
-        'Soglia inferiore al minimo consentito per il progetto'
-    )
-FROM
-    Progetto p
-WHERE
-    NEW.idProgetto = p.idProgetto
-    AND NEW.importo < p.sogliaMinima;
-
+CREATE TRIGGER donazione_soglia_minima_check
+BEFORE INSERT ON Donazione
+FOR EACH ROW
+WHEN NEW.importo < (SELECT sogliaMinima FROM Progetto WHERE idProgetto = NEW.idProgetto)
+BEGIN
+    SELECT RAISE(ABORT, 'Soglia inferiore al minimo consentito per il progetto');
 END;
 
 BEGIN TRANSACTION;
