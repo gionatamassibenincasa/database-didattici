@@ -95,7 +95,7 @@ INSERT
 SELECT
     RAISE(
         FAIL,
-        "Soglia inferiore al minimo consentito per il progetto"
+        'Soglia inferiore al minimo consentito per il progetto'
     )
 FROM
     Progetto p
